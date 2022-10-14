@@ -5,7 +5,11 @@ entities = []
 
 class Entity(Resource):
     def get(self, id):
-        entity = next(filter(lambda item: item['id'] == id, entities), None)
+        entity = None
+
+        for item in entities:
+            if item['id'] == id:
+                entity = item
 
         return {'entity': entity}, 200 if entity else 404
 
