@@ -1,3 +1,5 @@
+from Bio.Seq import Seq
+
 def create_set_of_gRNAs(data):
     set_of_gRNAs = []
 
@@ -12,8 +14,11 @@ class GuideRNA:
 
     def __init__(self, data) -> None :
         setattr(self, "id", data["id"])
-        setattr(self, "sequence", data["sequence"])
+        setattr(self, "sequence", Seq(data["sequence"]))
         setattr(self, "gene_name", data["gene_name"])
 
     def forward_sgRNA(self) -> str:
-        return self.FORWARD_PREFIX + getattr(self, "sequence")
+        return Seq(self.FORWARD_PREFIX + getattr(self, "sequence"))
+
+    def reverse_sgRNA(self) -> str:
+        return Seq(self.REVERSE_PREFIX + getattr(self, "sequence").reverse_complement())
