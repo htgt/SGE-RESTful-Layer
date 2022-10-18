@@ -6,7 +6,7 @@ from mock import patch
 from rest_calls.send_calls import Caller
 
 
-class TestSendRequests(unittest.TestCase):
+class TestCaller(unittest.TestCase):
     def setUp(self):
         return
 
