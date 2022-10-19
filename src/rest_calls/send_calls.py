@@ -1,8 +1,9 @@
 import requests
 
-class Caller:
-    def make_post(self, endpoint, json_data):
 
+class Caller:
+
+    def get_access_token(self):
         secret_key = open('config.cfg', 'r').read()
 
         # Ideally store access token in cache with correct ttd
@@ -15,7 +16,11 @@ class Caller:
         auth_res = requests.post('https://tol-sangertest.benchling.com/api/v2/token', data=auth_data)
         auth_json = auth_res.json()
 
-        access_token = auth_json['access_token']
+        return auth_json['access_token']
+
+    def make_post(self, endpoint, json_data):
+
+        access_token = self.get_access_token()
 
         print(access_token)
 
@@ -24,8 +29,10 @@ class Caller:
         res = requests.post(endpoint, json=json_data, headers=headers)
 
         if res.ok:
-            return res
+            print(f'Successful request. Status code: {res.status_code}.')
         else:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
-            return res
+            print(f'DEBUG: {res.text}')
+
+        return res
 
