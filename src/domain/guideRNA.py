@@ -17,8 +17,8 @@ class GuideRNA:
         setattr(self, "sequence", Seq(data["sequence"]))
         setattr(self, "gene_name", data["gene_name"])
 
-    def forward_sgRNA(self) -> str:
+    def forward_sgRNA(self) -> Seq:
         return Seq(self.FORWARD_PREFIX + getattr(self, "sequence"))
 
-    def reverse_sgRNA(self) -> str:
+    def reverse_sgRNA(self) -> Seq:
         return Seq(self.REVERSE_PREFIX + getattr(self, "sequence").reverse_complement())
