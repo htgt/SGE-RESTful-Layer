@@ -1,14 +1,13 @@
 import requests
-from benchling.auth_uitls import AuthUtils
 
 
 class Caller:
     def __init__(self, endpoint):
         self.__setattr__('endpoint', endpoint)
 
-    def make_post(self, json_data):
+    def make_post(self, auth_method, json_data):
 
-        access_token = AuthUtils.get_access_token()
+        access_token = auth_method()
 
         print(access_token)
 

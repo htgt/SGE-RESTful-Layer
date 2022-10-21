@@ -1,7 +1,7 @@
 import benchling.create_gRNA
 data = {
-    'id': '1067959134',
-    'sequence': 'ACATGGTATTGCAGTAGAC',
+    'id': '1059134679',
+    'sequence': 'CAGTAGACACATGGTATTG',
     'gene_name': 'A1CF'
 }
 

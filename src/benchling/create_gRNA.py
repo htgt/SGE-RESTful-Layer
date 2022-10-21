@@ -1,5 +1,6 @@
 import json
 
+from benchling.auth_uitls import AuthUtils
 from rest_calls.send_calls import Caller
 from domain.guideRNA import GuideRNA
 
@@ -56,9 +57,9 @@ def export_grna_to_benchling(data):
     fwd_sgrna = prepare_sgrna_json(gRNA, '+', benchling_ids)
     rev_sgrna = prepare_sgrna_json(gRNA, '-', benchling_ids)
 
-    fwd_sgrna_id = api_caller.make_post(fwd_sgrna).json()['id']
-    rev_sgrna_id = api_caller.make_post(rev_sgrna).json()['id']
+    fwd_sgrna_id = api_caller.make_post(AuthUtils.get_access_token, fwd_sgrna).json()['id']
+    rev_sgrna_id = api_caller.make_post(AuthUtils.get_access_token, rev_sgrna).json()['id']
 
     api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
 
-    api_caller.make_post(api_post_data)
+    api_caller.make_post(AuthUtils.get_access_token, api_post_data)
