@@ -13,3 +13,4 @@ six==1.16.0
 Werkzeug==2.2.2
 zipp==3.8.1
 mock==4.0.3
+requests==2.28
