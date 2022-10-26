@@ -10,9 +10,12 @@ def prepare_sgrna_json(gRNA, strand, ids):
         strand_id = ids['positive_strand']
         name = f"fwd_{str(getattr(gRNA, 'id'))}"
     else:
-        bases = str(gRNA.reverse_sgRNA())
-        strand_id = ids['negative_strand']
-        name = f"rev_{str(getattr(gRNA, 'id'))}"
+        if strand == '-':
+            bases = str(gRNA.reverse_sgRNA())
+            strand_id = ids['negative_strand']
+            name = f"rev_{str(getattr(gRNA, 'id'))}"
+        else:
+            return None
 
     return {
         "bases": bases,
