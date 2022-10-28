@@ -1,6 +1,6 @@
 import json
 
-from benchling.auth_uitls import AuthUtils
+from benchling.auth_utils import AuthUtils
 from rest_calls.send_calls import Caller
 from domain.guideRNA import GuideRNA
 
