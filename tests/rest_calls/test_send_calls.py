@@ -10,8 +10,13 @@ class TestCaller(unittest.TestCase):
     def setUp(self):
         return
 
+    @staticmethod
+    def auth_mock():
+        return 'mocked_token'
+
+    @patch('builtins.print')
     @patch('requests.post')
-    def test_make_post_success(self, request):
+    def test_make_post_success(self, request, mock_print):
         # arrange
         request.return_value = requests.Response
         request.return_value.status_code = 200
@@ -19,16 +24,17 @@ class TestCaller(unittest.TestCase):
 
         test_endpoint = 'endpoint'
         test_data = {'data_key': 'data_value'}
-        caller = Caller()
+        expected_header = {'Authorization': f"Bearer mocked_token"}
+        caller = Caller(test_endpoint)
         expected = requests.Response
 
         # act
-        actual = caller.make_post(test_endpoint, test_data)
+        actual = caller.make_post(self.auth_mock, test_data)
 
         # assert
         self.assertEqual(actual, expected)
         self.assertTrue(request.called)
-        self.assertEqual(f"{request.call_args}", f"call('{test_endpoint}', json={test_data})")
+        self.assertEqual(f"{request.call_args}", f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
 
     @patch('builtins.print')
     @patch('requests.post')
@@ -41,20 +47,18 @@ class TestCaller(unittest.TestCase):
 
         test_endpoint = 'end_point'
         test_data = {'data_key': 'data_value'}
-        caller = Caller()
+        expected_header = {'Authorization': f"Bearer mocked_token"}
+        caller = Caller(test_endpoint)
         expected = requests.Response
 
         # act
-        actual = caller.make_post(test_endpoint, test_data)
+        actual = caller.make_post(self.auth_mock, test_data)
 
         # assert
         self.assertEqual(actual, expected)
         self.assertTrue(mock_print.called)
         self.assertTrue(request.called)
-        self.assertEqual(f"{request.call_args}", f"call('{test_endpoint}', json={test_data})")
-        self.assertEqual(f"{mock_print.call_args}", f"call('Unsuccessful request. Status code: 404. "
-                                                    f"Reason: Not Found')")
-
+        self.assertEqual(f"{request.call_args}", f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
 
 if __name__ == '__main__':
     unittest.main()

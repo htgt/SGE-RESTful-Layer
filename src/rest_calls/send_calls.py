@@ -1,13 +1,25 @@
 import requests
 
-class Caller:
-    def make_post(self, endpoint, data_dict):
 
-        res = requests.post(endpoint, json=data_dict)
+class Caller:
+    def __init__(self, endpoint):
+        self.__setattr__('endpoint', endpoint)
+
+    def make_post(self, auth_method, json_data):
+
+        access_token = auth_method()
+
+        print(access_token)
+
+        headers = {'Authorization': f"Bearer {access_token}"}
+
+        res = requests.post(self.__getattribute__('endpoint'), json=json_data, headers=headers)
 
         if res.ok:
-            return res
+            print(f'Successful request. Status code: {res.status_code}.')
         else:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
-            return res
+            print(f'DEBUG: {res.text}')
+
+        return res
 
