@@ -10,8 +10,6 @@ class TestGuideRNA(unittest.TestCase):
         test_gRNA = GuideRNA(input_data)
 
         self.assertEqual(getattr(test_gRNA, "id"), "1168686327")
-        self.assertEqual(getattr(test_gRNA, "sequence"), Seq("GACTTCCAGCTACGGCGCG"))
-        self.assertEqual(getattr(test_gRNA, "gene_name"), "A1BG")
 
     def test_create_set_of_guide_RNAs(self):
         input_data = [{
@@ -50,7 +48,6 @@ class TestGuideRNA(unittest.TestCase):
         test_gRNA = GuideRNA(input_data)
 
         self.assertEqual(test_gRNA.reverse_sgRNA(), Seq("AAACCGCGCCGTAGCTGGAAGTC"))
-
 
 if __name__ == '__main__':
     unittest.main()
