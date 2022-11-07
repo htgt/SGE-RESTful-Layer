@@ -11,7 +11,7 @@ pip install -r requirements.txt
 ## Run Application
 ```
 . venv/bin/activate
-flask --app app run --host=0.0.0.0 --port=8080
+flask --app src/app run --host=0.0.0.0 --port=8080
 ```
 
 ## Run Unit Tests
