@@ -10,9 +10,9 @@ class TestCreategRNA(unittest.TestCase):
     def test_prepare_sgrna_json_positive_success(self):
         # arrange
         test_grna = GuideRNA({
-            'id': 'grna_name',
-            'sequence': 'CAGTAGACACATGGTATTG',
-            'gene_name': 'A1CF'
+            'wge_id': 'grna_name',
+            'seq': 'CAGTAGACACATGGTATTG',
+            'gene_symbol': 'A1CF'
         })
 
         test_strand = '+'
@@ -42,9 +42,9 @@ class TestCreategRNA(unittest.TestCase):
     def test_prepare_sgrna_json_negative_success(self):
         # arrange
         test_grna = GuideRNA({
-            'id': 'grna_name',
-            'sequence': 'CAGTAGACACATGGTATTG',
-            'gene_name': 'A1CF'
+            'wge_id': 'grna_name',
+            'seq': 'CAGTAGACACATGGTATTG',
+            'gene_symbol': 'A1CF'
         })
 
         test_strand = '-'
@@ -74,9 +74,9 @@ class TestCreategRNA(unittest.TestCase):
     def test_prepare_grna_json_valid_success(self):
         # arrange
         test_grna = GuideRNA({
-            'id': '1234',
-            'sequence': 'CAGTAGACACATGGTATTG',
-            'gene_name': 'A1CF'
+            'wge_id': '1234',
+            'seq': 'CAGTAGACACATGGTATTG',
+            'gene_symbol': 'A1CF'
         })
         test_fwd_sgrna_id = 'fwd_id'
         test_rev_sgrna_id = 'rev_id'

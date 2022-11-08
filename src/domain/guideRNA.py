@@ -13,9 +13,9 @@ class GuideRNA:
     REVERSE_PREFIX = "AAAC"
 
     def __init__(self, data) -> None :
-        setattr(self, "id", data["id"])
-        setattr(self, "sequence", Seq(data["sequence"]))
-        setattr(self, "gene_name", data["gene_name"])
+        setattr(self, "id", data["wge_id"])
+        setattr(self, "sequence", Seq(data["seq"]))
+        setattr(self, "gene_name", data["gene_symbol"])
 
     def forward_sgRNA(self) -> Seq:
         return Seq(self.FORWARD_PREFIX + getattr(self, "sequence"))

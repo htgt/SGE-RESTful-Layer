@@ -3,8 +3,8 @@ import sys
 sys.path.append("..")
 
 from . import benchling_connection
-from rest_calls.send_calls import Caller
-from domain.guideRNA import GuideRNA
+from src.rest_calls.send_calls import Caller
+from src.domain.guideRNA import GuideRNA
 
 def prepare_sgrna_json(gRNA, strand, ids):
     if strand == '+':
