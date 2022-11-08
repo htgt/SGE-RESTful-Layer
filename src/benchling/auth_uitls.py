@@ -1,6 +1,6 @@
 import requests
 
-class AuthUtils:
+class APIConnector:
     def __init__(self):
         self.token_url = 'https://tol-sangertest.benchling.com/api/v2/token'
         self.key = self.get_secret_key()

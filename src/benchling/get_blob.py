@@ -1,5 +1,5 @@
-from src.benchling.auth_uitls import AuthUtils
 from src.rest_calls.send_calls import Caller
+from src.benchling import benchling_connection
 
 import posixpath
 from urllib.parse import urljoin
@@ -12,8 +12,7 @@ def get_blob_url(id):
     url = urljoin(api_path, path)
 
     api_caller = Caller(url)
-    auth_object = AuthUtils()
-    token = auth_object.token
+    token = benchling_connection.token
 
     get_data = api_caller.make_request('get', token, url)
 

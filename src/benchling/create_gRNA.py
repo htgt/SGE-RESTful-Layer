@@ -2,7 +2,7 @@ import json
 import sys
 sys.path.append("..")
 
-from benchling.auth_uitls import AuthUtils
+from . import benchling_connection
 from rest_calls.send_calls import Caller
 from domain.guideRNA import GuideRNA
 
@@ -58,8 +58,7 @@ def export_grna_to_benchling(data):
 
     gRNA = GuideRNA(data)
     api_caller = Caller('https://tol-sangertest.benchling.com/api/v2/dna-oligos')
-    auth_object = AuthUtils()
-    token = auth_object.token
+    token = benchling_connection.token
 
     fwd_sgrna = prepare_sgrna_json(gRNA, '+', benchling_ids)
     rev_sgrna = prepare_sgrna_json(gRNA, '-', benchling_ids)
