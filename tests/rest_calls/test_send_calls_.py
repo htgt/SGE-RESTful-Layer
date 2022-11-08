@@ -1,18 +1,38 @@
 import unittest
 import requests
-
 from mock import patch
 
 from rest_calls.send_calls import Caller
 
 
 class TestCaller(unittest.TestCase):
+    auth_mock = 'mocked_token'
+    headers = {'Authorization': f"Bearer {auth_mock}"}
+
     def setUp(self):
         return
 
-    @staticmethod
-    def auth_mock():
-        return 'mocked_token'
+    @patch('requests.get')
+    def test_make_get_success(self, request):
+        # arrange
+        request.return_value = requests.Response
+        request.return_value.status_code = 404
+        request.return_value.ok = True
+
+        expected = requests.Response
+        expected_header = {'Authorization': f"Bearer mocked_token"}
+
+        test_endpoint = 'https://tol-sangertest.benchling.com/api/v2/'
+        test_path = 'blobs/51cc7076-633d-42fc-a216-982fdc63a3ce'
+        caller = Caller(test_endpoint)
+
+        # act
+        actual = caller.make_get(self.headers, test_path)
+
+        # assert
+        self.assertTrue(request.called)
+        self.assertEqual(f"{request.call_args}",
+                         f"call('https://tol-sangertest.benchling.com/api/v2/blobs/51cc7076-633d-42fc-a216-982fdc63a3ce', headers={expected_header})")
 
     @patch('builtins.print')
     @patch('requests.post')
@@ -29,7 +49,7 @@ class TestCaller(unittest.TestCase):
         expected = requests.Response
 
         # act
-        actual = caller.make_post(self.auth_mock, test_data)
+        actual = caller.make_post(self.headers, test_data)
 
         # assert
         self.assertEqual(actual, expected)
@@ -52,7 +72,7 @@ class TestCaller(unittest.TestCase):
         expected = requests.Response
 
         # act
-        actual = caller.make_post(self.auth_mock, test_data)
+        actual = caller.make_post(self.headers, test_data)
 
         # assert
         self.assertEqual(actual, expected)
