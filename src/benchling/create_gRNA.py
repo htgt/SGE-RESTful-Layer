@@ -53,10 +53,9 @@ def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
         "schemaId": ids['grna_schema_id']
     }
 
-def export_grna_to_benchling(data):
+def export_grna_to_benchling(gRNA):
     benchling_ids = json.load(open('benchling_ids.json'))
 
-    gRNA = GuideRNA(data)
     api_caller = Caller('https://tol-sangertest.benchling.com/api/v2/dna-oligos')
     token = benchling_connection.token
 
@@ -69,3 +68,5 @@ def export_grna_to_benchling(data):
     api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
 
     api_caller.make_request('post', token, api_post_data)
+
+    print('Entities created!!')

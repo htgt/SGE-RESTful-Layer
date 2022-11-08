@@ -16,7 +16,7 @@ class GrnasImportFromCSV():
     def import_grnas(self, url):
         grnas_list = self._get_lines_from_csv(url)
 
-        #self._post_to_benchling(grnas_list)
+        self._post_to_benchling(grnas_list)
 
         return grnas_list
 
