@@ -5,7 +5,7 @@ from src.domain.guideRNA import GuideRNA, create_set_of_gRNAs
 
 class TestGuideRNA(unittest.TestCase):
     def test_create_guide_RNA(self):
-        input_data = {'id': '1168686327', 'sequence': 'GACTTCCAGCTACGGCGCG','gene_name': 'A1BG'}
+        input_data = {'wge_id': '1168686327', 'seq': 'GACTTCCAGCTACGGCGCG','gene_symbol': 'A1BG'}
 
         test_gRNA = GuideRNA(input_data)
 
@@ -16,13 +16,13 @@ class TestGuideRNA(unittest.TestCase):
 
     def test_create_set_of_guide_RNAs(self):
         input_data = [{
-                'id': '1168686327',
-                'sequence': 'GACTTCCAGCTACGGCGCG',
-                'gene_name'   : 'A1BG'
+                'wge_id': '1168686327',
+                'seq': 'GACTTCCAGCTACGGCGCG',
+                'gene_symbol'   : 'A1BG'
             }, {
-                'id'   : '1067960606',
-                'sequence': 'AATATGGTGGCCCTCCACC',
-                'gene_name': 'A1CF'
+                'wge_id'   : '1067960606',
+                'seq': 'AATATGGTGGCCCTCCACC',
+                'gene_symbol': 'A1CF'
             }]
 
         test_array = create_set_of_gRNAs(input_data)
@@ -32,9 +32,9 @@ class TestGuideRNA(unittest.TestCase):
 
     def test_forward_single_gRNA(self):
         input_data = {
-                'id'   : '1067960606',
-                'sequence': 'AATATGGTGGCCCTCCACC',
-                'gene_name': 'A1CF'
+                'wge_id'   : '1067960606',
+                'seq': 'AATATGGTGGCCCTCCACC',
+                'gene_symbol': 'A1CF'
             }
 
         test_gRNA = GuideRNA(input_data)
@@ -43,9 +43,9 @@ class TestGuideRNA(unittest.TestCase):
 
     def test_reverse_single_gRNA(self):
         input_data = {
-            'id': '1168686327',
-            'sequence': 'GACTTCCAGCTACGGCGCG',
-            'gene_name'    : 'A1BG'
+            'wge_id': '1168686327',
+            'seq': 'GACTTCCAGCTACGGCGCG',
+            'gene_symbol'    : 'A1BG'
         }
 
         test_gRNA = GuideRNA(input_data)
