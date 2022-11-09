@@ -4,7 +4,6 @@ sys.path.append("..")
 
 from . import benchling_connection
 from src.rest_calls.send_calls import Caller
-from src.domain.guideRNA import GuideRNA
 
 def prepare_sgrna_json(gRNA, strand, ids):
     if strand == '+':
@@ -68,5 +67,3 @@ def export_grna_to_benchling(gRNA):
     api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
 
     api_caller.make_request('post', token, api_post_data)
-
-    print('Entities created!!')

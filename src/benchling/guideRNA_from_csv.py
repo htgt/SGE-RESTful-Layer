@@ -13,8 +13,8 @@ class GrnasImportFromCSV():
         for item in items:
             export_grna_to_benchling(item)
 
-    def import_grnas(self, url):
-        grnas_list = self._get_lines_from_csv(url)
+    def import_grnas(self, csv_url):
+        grnas_list = self._get_lines_from_csv(csv_url)
 
         self._post_to_benchling(grnas_list)
 
