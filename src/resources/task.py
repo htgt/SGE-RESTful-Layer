@@ -3,6 +3,8 @@ from flask_restful import Resource
 
 import json
 
+from src.domain.taskImportGrnas import TaskImport
+
 class TaskEndpoint(Resource):
     def get(self, id):
         return id, 201
@@ -46,16 +48,19 @@ class TaskEndpoint(Resource):
         }""")
 
         def transform_data(json_data):
-            result = {}
-            result["id"] = data["detail"]["workflowTask"]["id"]
-            result["file_id"] = data["detail"]["workflowTask"]["fields"]["gRNAs list CSV"]["value"]
-            result["status_id"] = data["detail"]["workflowTask"]["status"]["id"]
+            task_data = {}
+            task_data["id"] = data["detail"]["workflowTask"]["id"]
+            task_data["file_id"] = data["detail"]["workflowTask"]["fields"]["gRNAs list CSV"]["value"]
+            task_data["status_id"] = data["detail"]["workflowTask"]["status"]["id"]
 
-            return result
+            return task_data
 
         if data["detail-type"] == "v2.workflowTask.updated.status" and data["detail"]["workflowTask"]["schema"]["id"] == "prstsch_xlEsqy9T" :
             task_data = transform_data(data)
 
-            return task_data, 201
+            import_task = TaskImport(task_data)
+            import_status = import_task.execute()
+
+            return import_status
         else:
-            return 404
+            return "Incorrect input data", 404
