@@ -12,11 +12,11 @@ class TaskImport:
             file_url = get_blob_url(self.file_id)
 
             importer = GrnasImportFromCSV()
-            importer.import_grnas(file_url)
+            result = importer.import_grnas(file_url)
         except Exception as err:
             return "Could not import guide RNAs", 500
 
-        return "Guide RNAs created", 200
+        return result, 200
 
     def update_status(self, status):
         pass

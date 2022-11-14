@@ -9,14 +9,20 @@ class GrnasImportFromCSV:
 
         return grnas_list
 
+
     def _post_to_benchling(self, items):
+        sgrna_ids_list = []
         for item in items:
-            export_grna_to_benchling(item)
+            new_ids = export_grna_to_benchling(item)
+            sgrna_ids_list = [*sgrna_ids_list, *new_ids]
+
+        return sgrna_ids_list
+
 
     def import_grnas(self, csv_url):
         grnas_list = self._get_lines_from_csv(csv_url)
 
-        self._post_to_benchling(grnas_list)
+        created_sgrna_ids = self._post_to_benchling(grnas_list)
 
-        return grnas_list
+        return created_sgrna_ids
 

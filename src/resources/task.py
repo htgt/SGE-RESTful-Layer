@@ -59,8 +59,8 @@ class TaskEndpoint(Resource):
             task_data = transform_data(data)
 
             import_task = TaskImport(task_data)
-            import_status = import_task.execute()
+            execute_result = import_task.execute()
 
-            return import_status
+            return execute_result
         else:
             return "Incorrect input data", 404

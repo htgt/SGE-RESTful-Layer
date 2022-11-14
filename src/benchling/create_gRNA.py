@@ -65,4 +65,7 @@ def export_grna_to_benchling(gRNA):
 
     api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
 
-    api_caller.make_request('post', token, api_post_data)
+    grna_id = api_caller.make_request('post', token, api_post_data).json()['id']
+
+
+    return [fwd_sgrna_id, rev_sgrna_id]
