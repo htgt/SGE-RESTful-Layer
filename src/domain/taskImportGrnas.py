@@ -2,17 +2,21 @@ from src.benchling.get_blob import get_blob_url
 from src.benchling.guideRNA_from_csv import GrnasImportFromCSV
 
 class TaskImport:
-    def __init__(self, data):
+    def __init__(self, data, get_url_method=get_blob_url):
         self.id = data["id"]
-        self.file_id = data["file_id"]
         self.status_id = data["status_id"]
+        self.file_id = data["file_id"]
+
+        if self.file_id != None :
+            try:
+                self.file_url = get_url_method(self.file_id)
+            except Exception as err:
+                raise Exception("Could not get input file url")
 
     def execute(self):
         try:
-            file_url = get_blob_url(self.file_id)
-
             importer = GrnasImportFromCSV()
-            result = importer.import_grnas(file_url)
+            result = importer.import_grnas(self.file_url)
         except Exception as err:
             return "Could not import guide RNAs", 500
 
