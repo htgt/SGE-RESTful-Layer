@@ -60,12 +60,15 @@ def export_grna_to_benchling(gRNA):
     fwd_sgrna = prepare_sgrna_json(gRNA, '+', benchling_ids)
     rev_sgrna = prepare_sgrna_json(gRNA, '-', benchling_ids)
 
-    fwd_sgrna_id = api_caller.make_request('post', token, fwd_sgrna).json()['id']
-    rev_sgrna_id = api_caller.make_request('post',token, rev_sgrna).json()['id']
+    try:
+        fwd_sgrna_id = api_caller.make_request('post', token, fwd_sgrna).json()['id']
+        rev_sgrna_id = api_caller.make_request('post',token, rev_sgrna).json()['id']
 
-    api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
+        api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
 
-    grna_id = api_caller.make_request('post', token, api_post_data).json()['id']
+        grna_id = api_caller.make_request('post', token, api_post_data).json()['id']
 
+    except Exception as err:
+        raise Exception(err)
 
     return [fwd_sgrna_id, rev_sgrna_id]

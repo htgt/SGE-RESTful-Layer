@@ -3,7 +3,6 @@ from flask_restful import Resource
 
 import json
 
-from src.domain.taskImportGrnas import TaskImport
 from src.benchling.workflow_task import WorkflowTaskImport
 
 class TaskEndpoint(Resource):
@@ -57,17 +56,19 @@ class TaskEndpoint(Resource):
             return task_data
 
         if data["detail-type"] == "v2.workflowTask.updated.status" and data["detail"]["workflowTask"]["schema"]["id"] == "prstsch_xlEsqy9T" :
-            task_data = transform_data(data)
 
-            #import_task = TaskImport(task_data)
+            try:
+                task_data = transform_data(data)
+                import_task = WorkflowTaskImport(task_data)
 
+                created_grnas = import_task.execute()
+                print('Execute result::::::', created_grnas)
 
-            import_task = WorkflowTaskImport(task_data)
-            #result = import_task.update_status('jjj')
+                result = import_task.add_task_output(created_grnas)
 
-            created_grnas = import_task.execute()
-            result = import_task.add_task_output(created_grnas)
+                return result, 200
 
-            return result
+            except Exception as err:
+                return json.dumps(err), 500
         else:
             return "Incorrect input data", 404

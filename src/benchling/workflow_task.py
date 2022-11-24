@@ -1,5 +1,6 @@
 from src.domain.taskImportGrnas import TaskImport
 from src.rest_calls.send_calls import Caller
+from src.benchling.guideRNA_from_csv import GrnasImportFromCSV
 
 from src.benchling import benchling_connection
 
@@ -18,6 +19,15 @@ class WorkflowTaskImport(TaskImport):
 
     def _get_status_id(self, id):
         return statuses[id]
+
+    def execute(self):
+        try:
+            importer = GrnasImportFromCSV()
+            result = importer.import_grnas(self.file_url)
+        except Exception as err:
+            raise Exception("Could not import guide RNAs")
+
+        return result
 
     def update_status(self, status):
         url = self._get_task_update_url()
