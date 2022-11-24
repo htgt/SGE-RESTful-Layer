@@ -1,5 +1,11 @@
 from src.benchling.get_blob import get_blob_url
-from src.benchling.guideRNA_from_csv import GrnasImportFromCSV
+
+
+class AvailableTaskStatuses:
+    def __init__(self, pending_id, failed_id, completed_id):
+        self.pending = pending_id
+        self.failed = failed_id
+        self.completed = completed_id
 
 class TaskImport:
     def __init__(self, data, get_url_method=get_blob_url):
@@ -7,7 +13,7 @@ class TaskImport:
         self.status_id = data["status_id"]
         self.file_id = data["file_id"]
 
-        if self.file_id != None :
+        if self.file_id != None:
             try:
                 self.file_url = get_url_method(self.file_id)
             except Exception as err:
@@ -24,3 +30,5 @@ class TaskImport:
 
     def update_status(self, status):
         pass
+
+
