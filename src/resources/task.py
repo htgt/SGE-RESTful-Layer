@@ -60,10 +60,13 @@ class TaskEndpoint(Resource):
             task_data = transform_data(data)
 
             #import_task = TaskImport(task_data)
-            #execute_result = import_task.execute()
+
 
             import_task = WorkflowTaskImport(task_data)
-            result = import_task.update_status('jjj')
+            #result = import_task.update_status('jjj')
+
+            created_grnas = import_task.execute()
+            result = import_task.add_task_output(created_grnas)
 
             return result
         else:
