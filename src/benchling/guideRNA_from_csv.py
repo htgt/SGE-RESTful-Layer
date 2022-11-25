@@ -26,3 +26,12 @@ class GrnasImportFromCSV:
 
         return created_sgrna_ids
 
+    def get_grnas(self, csv_url):
+        grnas = self._get_grnas_from_csv(csv_url)
+        result = []
+
+        for item in grnas:
+            result.append(item.sequence.__str__())
+
+        return result
+

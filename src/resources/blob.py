@@ -8,6 +8,6 @@ class Blob(Resource):
     def get(self, id):
         csv_url = get_blob_url(id)
 
-        result = GrnasImportFromCSV().import_grnas(csv_url)
+        result = GrnasImportFromCSV().get_grnas(csv_url)
 
-        return 201
+        return result, 201
