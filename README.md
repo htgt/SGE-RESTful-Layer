@@ -14,6 +14,11 @@ pip install -r requirements.txt
 flask --app src/app run --host=0.0.0.0 --port=8080
 ```
 
+## Run with Gunicorn
+```
+gunicorn --bind 0.0.0.0:5000 src.app:app
+```
+
 ## Run Unit Tests
 First make sure you are running venv! 
 
@@ -37,8 +42,3 @@ or to run and show the error and description how to solve the error
 pycodestyle --show-source --show-pep8 src
 ```
 
-## Run with Gunicorn
-
-```
-gunicorn --bind 0.0.0.0:5000 src.app:app
-```
