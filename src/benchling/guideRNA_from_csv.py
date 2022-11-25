@@ -3,7 +3,7 @@ from src.domain.guideRNA import create_set_of_gRNAs
 from src.benchling.create_gRNA import export_grna_to_benchling
 
 class GrnasImportFromCSV:
-    def _get_lines_from_csv(self, url):
+    def _get_grnas_from_csv(self, url):
         lines = CSVReader().parse_lines(url)
         grnas_list = create_set_of_gRNAs(lines)
 
@@ -20,7 +20,7 @@ class GrnasImportFromCSV:
 
 
     def import_grnas(self, csv_url):
-        grnas_list = self._get_lines_from_csv(csv_url)
+        grnas_list = self._get_grnas_from_csv(csv_url)
 
         created_sgrna_ids = self._post_to_benchling(grnas_list)
 

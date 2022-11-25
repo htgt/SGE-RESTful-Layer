@@ -5,9 +5,9 @@ from src.benchling.guideRNA_from_csv import GrnasImportFromCSV
 from src.benchling import benchling_connection
 
 statuses = {
-    "pending": "ttt",
-    "failed_id": "ggg",
-    "completed_id": "hhh",
+    "in_progress": "wfts_EOjUQSei",
+    "invalid": "wfts_WL2D5doj",
+    "completed": "wfts_RqOXolrK",
 }
 TASKS_API_URL = 'https://tol-sangertest.benchling.com/api/v2/workflow-tasks/'
 TASKS_OUTPUT_API_URL = 'https://tol-sangertest.benchling.com/api/v2/workflow-outputs'
@@ -37,9 +37,16 @@ class WorkflowTaskImport(TaskImport):
         api_caller = Caller(url)
         token = benchling_connection.token
 
-        task_id = api_caller.make_request('patch', token, {"status": "wfts_DrqRAcOl"}).json()
+        task_data = {
+            "statusId": status
+        }
+
+        task_id = api_caller.make_request('patch', token, task_data).json()
 
         return task_id
+
+    def complete_task(self):
+        return self.update_status(statuses["completed"])
 
     def add_task_output(self, payload):
         url = TASKS_OUTPUT_API_URL
@@ -53,16 +60,14 @@ class WorkflowTaskImport(TaskImport):
 
         return result
 
-    def _prepare_task_output(self, task_id, grnas_list):
+    def _prepare_task_output(self, task_id, oligos_list):
         json = {
             "fields": {
                 "Oligos": {
-                    "value": grnas_list
+                    "value": oligos_list,
                 },
             },
             "workflowTaskId": task_id
         }
-
-        print("JSON ****", json)
 
         return json

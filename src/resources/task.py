@@ -102,7 +102,8 @@ class TaskEndpoint(Resource):
                 created_grnas = import_task.execute()
                 print('Execute result::::::', created_grnas)
 
-                result = import_task.add_task_output(created_grnas)
+                import_task.add_task_output(created_grnas)
+                result = import_task.complete_task()
 
                 return result, 200
 
