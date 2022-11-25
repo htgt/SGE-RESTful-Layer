@@ -37,3 +37,8 @@ or to run and show the error and description how to solve the error
 pycodestyle --show-source --show-pep8 src
 ```
 
+## Run with Gunicorn
+
+```
+gunicorn --bind 0.0.0.0:5000 src.app:app
+```
