@@ -56,7 +56,7 @@ class WorkflowTaskImport(TaskImport):
     def _prepare_task_output(self, task_id, grnas_list):
         json = {
             "fields": {
-                "gRNA": {
+                "Oligos": {
                     "value": grnas_list
                 },
             },

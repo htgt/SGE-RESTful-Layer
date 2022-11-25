@@ -5,6 +5,8 @@ import json
 
 from src.benchling.workflow_task import WorkflowTaskImport
 
+BENCHLING_WORKFLOW_TASK_SCHEMA_ID = "prstsch_bbPNDswA"
+
 class TaskEndpoint(Resource):
     def get(self, id):
         return id, 201
@@ -14,36 +16,72 @@ class TaskEndpoint(Resource):
        # data = request.json
 
         data = json.loads("""{
-            "id": "cda06ef4-eac1-9e84-8777-c8f9cad34605",
+            "version": "0",
+            "id": "70d32a26-20b2-81ae-fe94-5399384d269c",
             "detail-type": "v2.workflowTask.updated.status",
+            "source": "aws.partner/benchling.com/tol-sangertest/sge-test",
+            "account": "110091099050",
+            "time": "2022-11-25T11:37:19Z",
+            "region": "us-east-1",
+            "resources": [],
             "detail": {
-                "workflowTask": {
-                    "id": "wftask_dMvTXfUn",
-                    "fields": {
-                        "gRNAs list CSV": {
-                            "type": "blob_link",
-                            "value": "773b18f1-1658-4865-aee3-f512a8d0e869"
-                        }
-                    },
-                    "schema": {
-                        "id": "prstsch_xlEsqy9T",
-                        "name": "SGE Import gRNAs"
-                    },
-                    "status": {
-                        "id": "wfts_DrqRAcOl",
-                        "statusType": "PENDING",
-                        "displayName": "Pending"
-                    },
-                    "workflowOutputs": [],
-                    "workflowTaskGroup": {
-                        "id": "prs_W2ENmFcb",
-                        "name": "SGE Import gRNAs 9",
-                        "displayId": "sge-grna9"
+                "schema": {
+                "id": "prstsch_bbPNDswA",
+                "name": "SGE gRNA Auto Import"
+            },
+            "updates": [
+                "status"
+            ],
+            "deprecated": false,
+            "workflowTask": {
+                "id": "wftask_qOtMxQl3",
+                "fields": {
+                    "gRNAs list CSV": {
+                        "type": "blob_link",
+                        "value": "747881dc-85b6-477f-97d4-c0acdb56bcde",
+                        "isMulti": false,
+                        "textValue": "gRNA_example.csv",
+                        "displayValue": "gRNA_example.csv"
                     }
                 },
-                "id": "evt_JmYcUA0O29oq",
-                "createdAt": "2022-11-07T13:19:46.375574+00:00",
-                "eventType": "v2.workflowTask.updated.status"
+                "schema": {
+                    "id": "prstsch_bbPNDswA",
+                    "name": "SGE gRNA Auto Import"
+                },
+                "status": {
+                    "id": "wfts_EOjUQSei",
+                    "statusType": "IN_PROGRESS",
+                    "displayName": "In Progress"
+                },
+                "creator": {
+                    "id": "ent_wsSRluG6",
+                    "name": "Benchling Workflows",
+                    "handle": ""
+                },
+                "assignee": null,
+                "displayId": "sge-grna-auto2-T1",
+                "clonedFrom": null,
+                "scheduledOn": null,
+                "archiveRecord": null,
+                "executionType": "DIRECT",
+                "creationOrigin": {
+                    "originId": null,
+                    "originType": "PROCESSES_SCHEMA_FIELD_MAPPER",
+                    "application": "PROCESSES",
+                    "originModalUuid": null
+                },
+                "executionOrigin": null,
+                "workflowOutputs": [],
+                "workflowTaskGroup": {
+                    "id": "prs_97UJYcB0",
+                    "name": "SGE gRNA Auto Import 2",
+                    "displayId": "sge-grna-auto2"
+                }
+            },
+            "excludedProperties": [],
+            "id": "evt_aZriu5M5JM31",
+            "createdAt": "2022-11-25T11:37:19.157644+00:00",
+            "eventType": "v2.workflowTask.updated.status"
             }
         }""")
 
@@ -55,7 +93,7 @@ class TaskEndpoint(Resource):
 
             return task_data
 
-        if data["detail-type"] == "v2.workflowTask.updated.status" and data["detail"]["workflowTask"]["schema"]["id"] == "prstsch_xlEsqy9T" :
+        if data["detail-type"] == "v2.workflowTask.updated.status" and data["detail"]["workflowTask"]["schema"]["id"] == BENCHLING_WORKFLOW_TASK_SCHEMA_ID :
 
             try:
                 task_data = transform_data(data)

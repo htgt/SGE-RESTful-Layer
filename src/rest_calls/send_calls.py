@@ -9,7 +9,7 @@ class Caller:
         methods = {
             "get": self.make_get,
             "post": self.make_post,
-            "patch": self.make_patch
+            "patch": self.make_patch,
         }
 
         headers = {'Authorization': f"Bearer {access_token}"}
