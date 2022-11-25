@@ -12,6 +12,9 @@ class TaskImport:
             except Exception as err:
                 raise Exception("Could not get input file url")
 
+    def get_blob_url(self, get_url_method):
+        return get_url_method(self.id)
+
     def execute(self):
         pass
 
