@@ -14,6 +14,21 @@ pip install -r requirements.txt
 flask --app src/app run --host=0.0.0.0 --port=8080
 ```
 
+## Run with Gunicorn locally
+```
+gunicorn --bind 0.0.0.0:5000 src.app:app
+```
+
+## Controlling the Gunicorn service
+```
+sudo systemctl stop sge
+sudo systemctl status sge
+sudo systemctl start sge
+
+Service config can be found here:
+/etc/systemd/system/sge.service
+``
+
 ## Run Unit Tests
 First make sure you are running venv! 
 
