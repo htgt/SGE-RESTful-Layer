@@ -1,10 +1,11 @@
 from src.domain.taskImportGrnas import TaskImport
 from src.rest_calls.send_calls import Caller
 from src.benchling.guideRNA_from_csv import GrnasImportFromCSV
+import json
 
 from src.benchling import benchling_connection
 
-statuses = {
+WORKFLOW_TASK_STATUSES = {
     "in_progress": "wfts_EOjUQSei",
     "invalid": "wfts_WL2D5doj",
     "completed": "wfts_RqOXolrK",
@@ -32,31 +33,38 @@ class WorkflowTaskImport(TaskImport):
     def update_status(self, status):
         url = self._get_task_update_url()
 
-        print('URL:::::::::', url)
+        try:
+            api_caller = Caller(url)
+            token = benchling_connection.token
 
-        api_caller = Caller(url)
-        token = benchling_connection.token
+            task_data = {
+               "statusId": status
+            }
 
-        task_data = {
-            "statusId": status
-        }
-
-        task_id = api_caller.make_request('patch', token, task_data).json()
+            task_id = api_caller.make_request('patch', token, task_data).json()
+        except Exception as err:
+            raise Exception("Could not update task status")
+            return err
 
         return task_id
 
     def complete_task(self):
-        return self.update_status(statuses["completed"])
+        return self.update_status(WORKFLOW_TASK_STATUSES["completed"])
 
     def add_task_output(self, payload):
         url = TASKS_OUTPUT_API_URL
 
-        api_caller = Caller(url)
-        token = benchling_connection.token
+        try:
+            api_caller = Caller(url)
+            token = benchling_connection.token
 
-        output = self._prepare_task_output(self.id, payload)
+            output = self._prepare_task_output(self.id, payload)
 
-        result = api_caller.make_request('post', token, output).json()
+            result = api_caller.make_request('post', token, output).json()
+
+        except Exception as err:
+            raise Exception("Could not add task output")
+            return err
 
         return result
 
