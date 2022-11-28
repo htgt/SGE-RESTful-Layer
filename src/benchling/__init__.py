@@ -1,4 +1,4 @@
-from .auth_uitls import APIConnector
+from .auth_utils import APIConnector
 
 class BenchlingConnection:
     def __init__(self):

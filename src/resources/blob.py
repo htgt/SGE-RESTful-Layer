@@ -6,9 +6,8 @@ from src.benchling.guideRNA_from_csv import GrnasImportFromCSV
 
 class Blob(Resource):
     def get(self, id):
-        blob = get_blob_url(id)
-        csv_url = json.loads(blob)["downloadURL"]
+        csv_url = get_blob_url(id)
 
-        result = GrnasImportFromCSV().import_grnas(csv_url)
+        result = GrnasImportFromCSV().get_grnas(csv_url)
 
-        return 201
+        return result, 201

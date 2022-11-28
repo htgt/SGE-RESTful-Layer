@@ -1,6 +1,7 @@
 from src.rest_calls.send_calls import Caller
 from src.benchling import benchling_connection
 
+import json
 import posixpath
 from urllib.parse import urljoin
 
@@ -16,4 +17,4 @@ def get_blob_url(id):
 
     get_data = api_caller.make_request('get', token, url)
 
-    return get_data
+    return json.loads(get_data)["downloadURL"]

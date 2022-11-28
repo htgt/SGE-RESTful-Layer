@@ -1,3 +1,4 @@
+import curl
 import requests
 from urllib.parse import urljoin
 
@@ -8,10 +9,15 @@ class Caller:
     def make_request(self, method, access_token, data):
         methods = {
             "get": self.make_get,
-            "post": self.make_post
+            "post": self.make_post,
+            "patch": self.make_patch,
         }
 
-        headers = {'Authorization': f"Bearer {access_token}"}
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f"Bearer {access_token}"
+        }
 
         return methods[method]( headers, data)
 
@@ -41,3 +47,14 @@ class Caller:
 
         return res
 
+    def make_patch(self, headers, data):
+        res = requests.patch(self.__getattribute__('endpoint'), json=data, headers=headers)
+
+        if res.ok:
+            print(f'Successful request. Status code: {res.status_code}.')
+        else:
+            print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
+            print(f'DEBUG: {res.text}')
+            print(curl.parse(res))
+
+        return res
