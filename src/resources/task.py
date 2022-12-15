@@ -25,6 +25,9 @@ class TaskEndpoint(Resource):
 
     def post(self):
         data = request.json
+        
+        print("Task data received:")
+        print(data)
 
         if data["detail-type"] == BENCHLING_UPDATED_STATUS_EVENT and data["detail"]["workflowTask"]["schema"]["id"] == BENCHLING_WORKFLOW_TASK_SCHEMA_ID :
             try:
