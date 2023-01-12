@@ -1,5 +1,6 @@
 from src.benchling.get_blob import get_blob_url
 
+
 class TaskImport:
     def __init__(self, data, get_url_method=get_blob_url):
         self.id = data["id"]
@@ -20,5 +21,3 @@ class TaskImport:
 
     def update_status(self, status):
         pass
-
-

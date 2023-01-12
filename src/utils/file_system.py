@@ -1,6 +1,7 @@
 import csv
 import requests
 
+
 class CSVReader():
 
     def parse_lines(self, url):
@@ -23,4 +24,3 @@ class CSVReader():
         s = requests.get(url).content.decode('utf-8')
 
         return s
-
