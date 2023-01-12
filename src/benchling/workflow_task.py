@@ -38,7 +38,7 @@ class WorkflowTaskImport(TaskImport):
             token = benchling_connection.token
 
             task_data = {
-                "statusId": status
+               "statusId": status
             }
 
             task_id = api_caller.make_request('patch', token, task_data).json()

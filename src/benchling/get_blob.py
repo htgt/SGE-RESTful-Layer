@@ -7,7 +7,6 @@ from urllib.parse import urljoin
 
 api_path = 'https://tol-sangertest.benchling.com/api/v2/blobs/'
 
-
 def get_blob_url(id):
     path = posixpath.join(id, 'download-url')
 

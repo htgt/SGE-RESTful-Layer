@@ -8,13 +8,13 @@ from src.benchling.workflow_task import WorkflowTaskImport
 BENCHLING_WORKFLOW_TASK_SCHEMA_ID = "prstsch_bbPNDswA"
 BENCHLING_UPDATED_STATUS_EVENT = "v2.workflowTask.updated.status"
 
-
 class TaskEndpoint(Resource):
     def __transform_event_input_data(data):
         task_data = {}
 
         task_data["id"] = data["detail"]["workflowTask"]["id"]
-        task_data["file_id"] = data["detail"]["workflowTask"]["fields"]["gRNAs list CSV"]["value"]
+        task_data["file_id"] = \
+        data["detail"]["workflowTask"]["fields"]["gRNAs list CSV"]["value"]
         task_data["status_id"] = data["detail"]["workflowTask"]["status"]["id"]
 
         return task_data

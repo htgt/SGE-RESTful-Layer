@@ -1,6 +1,5 @@
 from Bio.Seq import Seq
 
-
 def create_set_of_gRNAs(data):
     set_of_gRNAs = []
 
@@ -8,7 +7,6 @@ def create_set_of_gRNAs(data):
         set_of_gRNAs.append(GuideRNA(line))
 
     return set_of_gRNAs
-
 
 class GuideRNA:
     FORWARD_PREFIX = "CACC"

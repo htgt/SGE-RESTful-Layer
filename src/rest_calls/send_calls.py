@@ -2,7 +2,6 @@ import curl
 import requests
 from urllib.parse import urljoin
 
-
 class Caller:
     def __init__(self, endpoint):
         self.__setattr__('endpoint', endpoint)
@@ -20,7 +19,7 @@ class Caller:
             'Authorization': f"Bearer {access_token}"
         }
 
-        return methods[method](headers, data)
+        return methods[method]( headers, data)
 
     def make_get(self, headers, get_path):
         url = urljoin(self.__getattribute__('endpoint'), get_path)
