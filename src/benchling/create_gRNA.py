@@ -1,9 +1,9 @@
+from src.rest_calls.send_calls import Caller
+from . import benchling_connection
 import json
 import sys
 sys.path.append("..")
 
-from . import benchling_connection
-from src.rest_calls.send_calls import Caller
 
 def prepare_sgrna_json(gRNA, strand, ids):
     if strand == '+':
@@ -29,6 +29,7 @@ def prepare_sgrna_json(gRNA, strand, ids):
         "schemaId": ids['sgrna_schema_id']
     }
 
+
 def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
     return {
         "bases": str(getattr(gRNA, 'sequence')),
@@ -51,6 +52,7 @@ def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
         "schemaId": ids['grna_schema_id']
     }
 
+
 def export_grna_to_benchling(gRNA):
     benchling_ids = json.load(open('benchling_ids.json'))
 
@@ -62,7 +64,7 @@ def export_grna_to_benchling(gRNA):
 
     try:
         fwd_sgrna_id = api_caller.make_request('post', token, fwd_sgrna).json()['id']
-        rev_sgrna_id = api_caller.make_request('post',token, rev_sgrna).json()['id']
+        rev_sgrna_id = api_caller.make_request('post', token, rev_sgrna).json()['id']
 
         api_post_data = prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, benchling_ids)
 
