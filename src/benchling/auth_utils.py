@@ -19,12 +19,12 @@ class APIConnector:
     def get_secret_key(self):
         SECRET_KEY_URL = 'src/benchling/config.cfg'
 
-        return open(SECRET_KEY_URL, 'r').read()
+        return open(SECRET_KEY_URL, 'r').read().strip('\n')
 
     def get_access_token(self):
         # Ideally store access token in cache with correct ttd
         # Only regenerate when cached token expires
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
-
+        
         return auth_json['access_token']
