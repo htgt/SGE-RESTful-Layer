@@ -29,6 +29,17 @@ Service config can be found here:
 /etc/systemd/system/sge.service
 ```
 
+## Run in Docker
+
+Build image
+
+```docker build -t sge-restful-layer . ```
+
+
+Run container
+
+```docker run -d -p 8081:8081 sge-restful-layer ```
+
 ## Run Unit Tests
 First make sure you are running venv! 
 
