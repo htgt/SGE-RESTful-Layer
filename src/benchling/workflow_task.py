@@ -10,8 +10,8 @@ WORKFLOW_TASK_STATUSES = {
     "invalid": "wfts_WL2D5doj",
     "completed": "wfts_RqOXolrK",
 }
-TASKS_API_URL = 'https://tol-sangertest.benchling.com/api/v2/workflow-tasks/'
-TASKS_OUTPUT_API_URL = 'https://tol-sangertest.benchling.com/api/v2/workflow-outputs'
+TASKS_API_URL = benchling_connection.tasks_url
+TASKS_OUTPUT_API_URL = benchling_connection.tasks_output_url
 
 
 class WorkflowTaskImport(TaskImport):

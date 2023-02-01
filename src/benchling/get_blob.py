@@ -5,7 +5,7 @@ import json
 import posixpath
 from urllib.parse import urljoin
 
-api_path = 'https://tol-sangertest.benchling.com/api/v2/blobs/'
+api_path = benchling_connection.blobs_url
 
 
 def get_blob_url(id):
