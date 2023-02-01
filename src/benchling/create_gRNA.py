@@ -56,7 +56,7 @@ def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
 def export_grna_to_benchling(gRNA):
     benchling_ids = json.load(open('benchling_ids.json'))
 
-    api_caller = Caller('https://tol-sangertest.benchling.com/api/v2/dna-oligos')
+    api_caller = Caller(benchling_connection.oligos_url)
     token = benchling_connection.token
 
     fwd_sgrna = prepare_sgrna_json(gRNA, '+', benchling_ids)
