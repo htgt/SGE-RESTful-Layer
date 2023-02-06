@@ -4,10 +4,11 @@ EXPOSE 8081
 
 ENV PYTHONUNBUFFERED: 1
 
+WORKDIR /
 COPY . .
 RUN apt update && apt install build-essential -y --no-install-recommends
 
-WORKDIR /
+
 RUN make
 RUN make install
 RUN make test
