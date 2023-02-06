@@ -1,12 +1,13 @@
 FROM python:3.8-slim-bullseye
 
 EXPOSE 8081
-WORKDIR /app
 
 ENV PYTHONUNBUFFERED: 1
 
-RUN apt install build-essential -y --no-install-recommends
 COPY . .
+RUN apt update && apt install build-essential -y --no-install-recommends
+
+WORKDIR /
 RUN make
 RUN make install
 RUN make test
