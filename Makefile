@@ -19,6 +19,7 @@ install:
         $(MAKE) install-sudo; \
     fi
 	sudo apt-get update
+
 	if [ "$(shell which python3.8-dev)" = "" ]; then \
         $(MAKE) install-python3.8-dev; \
     fi
@@ -41,13 +42,19 @@ install-python3.8-venv:
 	sudo apt-get -y install python3.8-venv
 
 install-python3.8-dev: 
-	echo "Installing python3.8-dev..."
-	sudo apt-get -y install python3.8-dev
-	dkpg -L python3.8-dev
-	PYTHONPATH = which python
-	PYTHONPATH38 = which python3.8
-	sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2
-	sudo update-alternatives --config python
+	if [ "$(shell which python3)" != "" ] && [ "$(shell python3 -v)" >= 3.8 ]; then \
+		PYTHONPATH = which python \
+		PYTHONPATH38 = which python3 \
+		sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 \
+	else
+		echo "Installing python3.8-dev..." \
+		sudo apt-get -y install python3.8-dev \
+		PYTHONPATH = which python \
+		PYTHONPATH38 = which python3.8 \
+	fi
+	sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 
+	sudo update-alternatives --config python 
+
 
 install-libglib2.0-dev: 
 	echo "Installing libglib2.0-dev..."
