@@ -45,7 +45,7 @@ install-python3.8-dev:
 	if [ "$(shell which python3)" != "" ] && [ "$(shell python3 -v)" >= 3.8 ]; then \
 		PYTHONPATH = which python \
 		PYTHONPATH38 = which python3 \
-		sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 \
+		sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 
 	else
 		echo "Installing python3.8-dev..." \
 		sudo apt-get -y install python3.8-dev \
