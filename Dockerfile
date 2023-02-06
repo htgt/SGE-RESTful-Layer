@@ -5,6 +5,7 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED: 1
 
+RUN apt install build-essential -y --no-install-recommends
 COPY . .
 RUN make
 RUN make install
