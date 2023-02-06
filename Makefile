@@ -43,8 +43,8 @@ install-python3.8-venv:
 install-python3.8-dev: 
 	echo "Installing python3.8-dev..."
 	sudo apt-get -y install python3.8-dev
-	which python
-	sudo update-alternatives --install /usr/bin/python python $PYTHONPATH 2
+	PYTHONPATH38 = which python3.8-dev
+	sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2
 	sudo update-alternatives --config python
 
 install-libglib2.0-dev: 
