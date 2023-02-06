@@ -1,6 +1,6 @@
 from .auth_utils import APIConnector
 from warnings import warn
-from utils.exceptions import NoBenchlingEnvMatchWarning
+from src.utils.exceptions import NoBenchlingEnvMatchWarning
 
 CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016'
 PROD_ENV = 'tol'  # 'prod', 'ci', 'tol'
