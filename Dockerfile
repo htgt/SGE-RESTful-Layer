@@ -1,4 +1,4 @@
-FROM python:3.8-slim-bullseye as base
+FROM python:3.8-slim-bullseye
 
 EXPOSE 8081
 WORKDIR /app
