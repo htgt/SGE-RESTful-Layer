@@ -1,3 +1,6 @@
+# .ONESHELL:
+# SHELL := /bin/bash
+
 VENV = venv
 PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
@@ -42,15 +45,15 @@ install-python3.8-venv:
 	sudo apt-get -y install python3.8-venv
 
 install-python3.8-dev: 
-	if [ "$(shell which python3)" != "" ] && ["$(shell python3 -v)" >= 3.8 ]; then
-		PYTHONPATH = which python
-		PYTHONPATH38 = which python3
-		sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 
-	else
-		echo "Installing python3.8-dev..."
-		sudo apt-get -y install python3.8-dev
-		PYTHONPATH = which python
-		PYTHONPATH38 = which python3.8 
+	if [ "$(shell which python3)" != "" ] && ["$(shell python3 -v)" >= 3.8 ]; then \
+		PYTHONPATH = which python \
+		PYTHONPATH38 = which python3 \
+		sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 ; \
+	else; \
+		echo "Installing python3.8-dev..." \
+		sudo apt-get -y install python3.8-dev \
+		PYTHONPATH = which python \
+		PYTHONPATH38 = which python3.8 ; \
 	fi
 	sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 
 	sudo update-alternatives --config python 
