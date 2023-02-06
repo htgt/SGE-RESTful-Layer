@@ -14,38 +14,38 @@ init:
 	chmod +x .githooks/*
 
 install: 
-	@echo "Installing..."
+	echo "Installing..."
 	sudo apt-get update
-	@if [ "$(shell which python3.8-dev)" = "" ]; then \
+	if [ "$(shell which python3.8-dev)" = "" ]; then \
         $(MAKE) install-python3.8-dev; \
     fi
-	@if [ "$(shell which python3.8-venv)" = "" ]; then \
+	if [ "$(shell which python3.8-venv)" = "" ]; then \
         $(MAKE) install-python3.8-venv; \
     fi
-	@if [ "$(shell which libglib2.0-dev)" = "" ]; then \
+	if [ "$(shell which libglib2.0-dev)" = "" ]; then \
         $(MAKE) install-libglib2.0-dev; \
     fi
-	@if [ "$(shell which autoconf)" = "" ]; then \
+	if [ "$(shell which autoconf)" = "" ]; then \
         $(MAKE) install-autoconf; \
     fi
 
 
 install-python3.8-venv:
-	@echo "Installing python3.8-venv..."
-	@sudo apt-get -y install python3.8-venv
+	echo "Installing python3.8-venv..."
+	sudo apt-get -y install python3.8-venv
 
 install-python3.8-dev: 
-	@echo "Installing python3.8-dev..."
-	@sudo apt-get -y install python3.8-dev
-	@sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2
-	@sudo update-alternatives --config python
+	echo "Installing python3.8-dev..."
+	sudo apt-get -y install python3.8-dev
+	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2
+	sudo update-alternatives --config python
 
 install-libglib2.0-dev: 
-	@echo "Installing libglib2.0-dev..."
+	echo "Installing libglib2.0-dev..."
 	sudo apt-get -y install libglib2.0-dev 
 
 install-autoconf: 
-	@echo "Installing autoconf..."
+	echo "Installing autoconf..."
 	sudo apt-get -y install autoconf libtool
 
 setup-venv:
