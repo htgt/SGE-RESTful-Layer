@@ -4,10 +4,11 @@ EXPOSE 8081
 
 ENV PYTHONUNBUFFERED: 1
 
-WORKDIR /app
-COPY . ./
+WORKDIR /usr/src/app
+COPY . .
 RUN apt-get update && apt-get install build-essential -y
-RUN ls
+RUN apt-get install -y git
+
 RUN make
 RUN sudo make install
 RUN make test
