@@ -6,7 +6,7 @@ PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
 
 ifeq ($(PREFIX),)
-    PREFIX := /usr/local
+	PREFIX := /usr/local
 endif
 
 APP = $(PREFIX)/src/app
@@ -19,22 +19,22 @@ init:
 install: 
 	echo "Installing..."
 	if [ "$(shell which sudo)" = "" ]; then
-        $(MAKE) install-sudo;
-    fi
+		$(MAKE) install-sudo;
+	fi
 	sudo apt-get update
 
 	if [ "$(shell which python3.8-dev)" = "" ]; then
-        $(MAKE) install-python3.8-dev;
-    fi
+		$(MAKE) install-python3.8-dev;
+	fi
 	if [ "$(shell which python3.8-venv)" = "" ]; then
-        $(MAKE) install-python3.8-venv;
-    fi
+		$(MAKE) install-python3.8-venv;
+	fi
 	if [ "$(shell which libglib2.0-dev)" = "" ]; then
-        $(MAKE) install-libglib2.0-dev;
-    fi
+		$(MAKE) install-libglib2.0-dev;
+	fi
 	if [ "$(shell which autoconf)" = "" ]; then
-        $(MAKE) install-autoconf;
-    fi
+		$(MAKE) install-autoconf;
+	fi
 
 install-sudo:
 	echo "Installing sudo..."
