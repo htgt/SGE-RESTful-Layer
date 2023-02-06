@@ -14,8 +14,9 @@ test:
   tags:
     - openstack-autoscale
   script:
-    - pip3 install -r requirements.txt
-    - python -m unittest
+    - make
+    - make install
+    - make unittest
 sast:
   stage: test
 
