@@ -75,12 +75,12 @@ setup-venv:
 	./venv/bin/pip install -r sge-primer-scoring/requirements.txt
 
 test:
-	. venv/bin/activate
+	. venv/bin/activate \
 	&& python -m unittest
 
 run:
-	. venv/bin/activate
-	&& flask --app src/app run --host=0.0.0.0 --port=8080
+	. venv/bin/activate \
+	&& flask --app src/app run --host=0.0.0.0 --port=8080 \
 	&& gunicorn --bind 0.0.0.0:5000 src.app:app
 
 
