@@ -19,9 +19,6 @@ install:
         $(MAKE) install-sudo; \
     fi
 	sudo apt-get update
-	if [ "$(shell which python)" = "" ]; then \
-        $(MAKE) install-python; \
-    fi
 	if [ "$(shell which python3.8-dev)" = "" ]; then \
         $(MAKE) install-python3.8-dev; \
     fi
@@ -42,11 +39,6 @@ install-sudo:
 install-python3.8-venv:
 	echo "Installing python3.8-venv..."
 	sudo apt-get -y install python3.8-venv
-
-install-python:
-	echo "Installing python..."
-	sudo apt-get -y install python
-	sudo apt-get -y install python3
 
 install-python3.8-dev: 
 	echo "Installing python3.8-dev..."
