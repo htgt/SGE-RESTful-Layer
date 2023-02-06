@@ -43,7 +43,6 @@ install-python3.8-venv:
 install-python3.8-dev: 
 	echo "Installing python3.8-dev..."
 	sudo apt-get -y install python3.8-dev
-	touch 
 	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 2
 	sudo update-alternatives --config python
 
