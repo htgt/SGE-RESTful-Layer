@@ -72,7 +72,6 @@ venv/bin/activate:
 	python -m venv venv
 	./venv/bin/pip install -U pip wheel setuptools 
 	./venv/bin/pip install -r requirements.txt
-	./venv/bin/pip install -r sge-primer-scoring/requirements.txt
 
 test: venv/bin/activate
 	. venv/bin/activate \
