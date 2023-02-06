@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED: 1
 WORKDIR /usr/src/app
 COPY . .
 RUN apt-get update && apt-get install build-essential -y
-RUN apt-get install -y git
+RUN apt-get install -y git sudo
 
 RUN make
 RUN sudo make install
