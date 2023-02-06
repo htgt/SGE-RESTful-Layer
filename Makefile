@@ -15,6 +15,9 @@ init:
 
 install: 
 	echo "Installing..."
+	if [ "$(shell which sudo)" = "" ]; then \
+        $(MAKE) install-sudo; \
+    fi
 	sudo apt-get update
 	if [ "$(shell which python3.8-dev)" = "" ]; then \
         $(MAKE) install-python3.8-dev; \
@@ -29,6 +32,9 @@ install:
         $(MAKE) install-autoconf; \
     fi
 
+install-sudo:
+	echo "Installing sudo..."
+	apt-get -y install sudo
 
 install-python3.8-venv:
 	echo "Installing python3.8-venv..."
