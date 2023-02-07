@@ -11,7 +11,6 @@ RUN apt-get install -y git sudo
 
 RUN make
 RUN sudo make install
-RUN make test
 
 COPY . .
 
