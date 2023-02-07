@@ -28,9 +28,11 @@ test:
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - docker build -f Dockerfile .
-    - docker push Dockerfile
-    - docker run Dockerfile
+    - tag="python:3.8-slim-bullseye:$CI_COMMIT_REF_SLUG-test"
+    - docker build -f Dockerfile . -t ${tag}
+    - docker image ls
+    - docker push ${tag}
+    - docker run ${tag}
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
