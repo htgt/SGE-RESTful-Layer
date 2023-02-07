@@ -30,7 +30,6 @@ test:
   script:
     - tag="python:3.8-slim-bullseye:$CI_COMMIT_REF_SLUG-test"
     - docker build -f Dockerfile . -t ${tag}
-    - docker image ls
     - docker push ${tag}
     - docker run ${tag}
   # Run this job in a branch where a Dockerfile exists
