@@ -28,9 +28,8 @@ test:
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - |
-      tag = "$CI_COMMIT_REF_SLUG-test"
-      name = "python-3.8-slim-bullseye"
+    - tag="$CI_COMMIT_REF_SLUG-test"
+    - name="python-3.8-slim-bullseye"
     - docker build . -t ${name}:${tag}
     - docker push ${name}:${tag}
     - docker run ${name}:${tag}
