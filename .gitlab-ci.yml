@@ -29,8 +29,8 @@ test:
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
     - docker build -f Dockerfile .
-    - docker push
-    - docker run
+    - docker push Dockerfile
+    - docker run Dockerfile
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
