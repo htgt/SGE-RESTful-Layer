@@ -64,13 +64,13 @@ class TestGuideRNAOligo(unittest.TestCase):
         self.assertEqual(transformed[0], first_base)
 
 
-    def test_transformed_sequence_first_base(self):
+    def test_transformed_sequence_last_base(self):
         input_sequence = 'CACCAATATGGTGGCCCTCCATT'
-        first_base = 'C'
+        last_base = 'C'
 
         transformed = GuideRNAOligo(input_sequence).transform_first_and_last_bases()
 
-        self.assertEqual(transformed[-1], first_base)
+        self.assertEqual(transformed[-1], last_base)
 
     def test_create_oligos(self):
         input_sequence = 'AATATGGTGGCCCTCCATT'
