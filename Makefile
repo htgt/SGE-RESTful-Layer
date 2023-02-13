@@ -45,7 +45,7 @@ install-python3.8-venv:
 	@sudo apt-get -y install python3.8-venv
 
 install-python3.8-dev: 
-	@if ! hash python3; then
+	@if [ "$(shell which python3)" = "" ]; then
 		# Python3 not installed.
 		@echo "Installing python3.8-dev..."
 		@sudo apt-get -y install python3.8-dev
@@ -61,7 +61,7 @@ install-python3.8-dev:
 		fi
 		@sudo update-alternatives --install ${PYTHONPATH} python ${PYTHONPATH38} 2 
 		@sudo update-alternatives --config python 
-
+	fi
 
 install-libglib2.0-dev: 
 	@echo "Installing libglib2.0-dev..."
