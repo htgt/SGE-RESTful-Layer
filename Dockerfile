@@ -11,12 +11,10 @@ RUN apt-get install -y git sudo
 
 RUN make
 RUN sudo make install
-RUN make setup-venv
-# RUN make test
 
 COPY . .
 
-CMD [ "make", "run"]
+CMD [ "make", "setup-venv"]
 
 
 # syntax=docker/dockerfile:1
