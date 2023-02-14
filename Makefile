@@ -81,11 +81,17 @@ setup-venv: venv/bin/activate
 activate-venv: setup-venv
 	@. venv/bin/activate
 
+./src/benchling/config.cfg: 
+	FILE = ./src/benchling/config.cfg
+	if  [[ ! -f "${FILE}" ]]; then
+		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > ./src/benchling/config.cfg
+	fi
+
 test: setup-venv
 	@. venv/bin/activate \
 	&& python -m unittest
 
-run: setup-venv
+run &: setup-venv ./src/benchling/config.cfg
 	@. venv/bin/activate \
 	&& flask --app src/app run --host=0.0.0.0 --port=8080 \
 	&& gunicorn --bind 0.0.0.0:5000 src.app:app
