@@ -29,7 +29,7 @@ test:
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
     - tag="$CI_COMMIT_REF_SLUG-test"
-    - name="python-3-8-slim-bullseye"
+    - name="$CI_REGISTRY_IMAGE"
     - docker build . -t "${name}:${tag}"
     - docker push "${name}:${tag}"
     - docker run "${name}:${tag}"
