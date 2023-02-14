@@ -29,10 +29,10 @@ test:
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
     - tag="$CI_COMMIT_REF_SLUG-test"
-    - name="python-3.8-slim-bullseye"
-    - docker build . -t ${name}:${tag}
-    - docker push ${name}:${tag}
-    - docker run ${name}:${tag}
+    - name="python-3-8-slim-bullseye"
+    - docker build . -t "${name}:${tag}"
+    - docker push "${name}:${tag}"
+    - docker run "${name}:${tag}"
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
