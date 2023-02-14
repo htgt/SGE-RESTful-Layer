@@ -11,6 +11,7 @@ RUN apt-get install -y git sudo
 
 RUN make
 RUN sudo make install
+RUN make setup-venv
 # RUN make test
 
 COPY . .
