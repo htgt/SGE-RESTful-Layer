@@ -1,6 +1,6 @@
 import requests
 from pathlib import Path
-from utils.exceptions import NoSecretKeyException
+from src.utils.exceptions import NoSecretKeyException
 
 
 class APIConnector:
