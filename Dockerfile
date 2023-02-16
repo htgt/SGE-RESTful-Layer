@@ -1,20 +1,11 @@
-FROM python:3.8-slim-bullseye
+FROM python:3.8.0
 
 EXPOSE 8081
+WORKDIR /app
 
-ENV PYTHONUNBUFFERED: 1
-
-WORKDIR /usr/src/app
-COPY . .
-RUN apt-get update && apt-get install build-essential -y
-RUN apt-get install -y git sudo
-
-RUN make
-RUN sudo make install
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD [ "make", "setup-venv"]
-
-
-# syntax=docker/dockerfile:1
+CMD [ "python3", "-m" , "gunicorn", "--bind=0.0.0.0:8081", "src.app:app"]
