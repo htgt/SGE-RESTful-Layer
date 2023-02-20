@@ -11,6 +11,7 @@ class BenchlingConnection:
         url = self.generate_url(prod_env=PROD_ENV)
         self.api_url = url + r'api/v2/'
         self.oligos_url = self.api_url + r'dna-oligos'
+        self.guide_url = self.api_url + r'guide'
         self.blobs_url = self.api_url + r'blobs/'
         self.tasks_url = self.api_url + r'workflow-tasks/'
         self.tasks_output_url = self.api_url + r'workflow-outputs'
