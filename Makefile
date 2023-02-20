@@ -10,6 +10,7 @@ ifeq ($(PREFIX),)
 endif
 
 APP = $(PREFIX)/src/app
+BENCHLING_CONFIG_FILE = $(PREFIX)/src/benchling/config.cfg
 
 
 init: 
@@ -74,27 +75,32 @@ install-autoconf:
 venv/bin/activate:
 	@python -m venv venv
 
-setup-venv: venv/bin/activate
+setup-venv: venv/requirements_run
+
+venv/requirements_run: venv/bin/activate requirements.txt
 	@./venv/bin/pip install -U pip wheel setuptools 
 	@./venv/bin/pip install -r requirements.txt
+	@touch venv/requirements_run
 
 activate-venv: setup-venv
 	@. venv/bin/activate
 
-./src/benchling/config.cfg: 
-	FILE = ./src/benchling/config.cfg
-	if  [[ ! -f "${FILE}" ]]; then
-		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > ./src/benchling/config.cfg
+$(BENCHLING_CONFIG_FILE): 
+	if  [[ ! -f "${BENCHLING_CONFIG_FILE}" ]]; then
+		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > $(BENCHLING_CONFIG_FILE)
 	fi
 
 test: setup-venv
-	@. venv/bin/activate \
-	&& python -m unittest
+	@. venv/bin/activate
+	@python -m unittest
 
-run &: setup-venv ./src/benchling/config.cfg
-	@. venv/bin/activate \
-	&& flask --app src/app run --host=0.0.0.0 --port=8080 \
-	&& gunicorn --bind 0.0.0.0:5000 src.app:app
+run-flask: ./src/benchling/config.cfg setup-venv
+	@. venv/bin/activate
+	@flask --app src/app run --host=0.0.0.0 --port=8080
+
+run-gunicorn: ./src/benchling/config.cfg setup-venv
+	@. venv/bin/activate 
+	@gunicorn --bind 0.0.0.0:5000 src.app:app
 
 clean: 
 	@rm -rf __pycache__
