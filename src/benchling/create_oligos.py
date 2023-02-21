@@ -4,26 +4,25 @@ import json
 import sys
 sys.path.append("..")
 
-
-def prepare_oligos_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
+def prepare_oligos_json(oligos, ids):
     return {
-        "bases": str(getattr(gRNA, 'sequence')),
+        "bases": str(getattr(oligos, 'sequence')),
         "fields": {
-            "Gene Name": {
-                "value": str(getattr(gRNA, 'gene_name')),
+            "Oligos": {
+                "value": str(getattr(oligos, 'gene_name')),
             },
-            "WGE ID": {
-                "value": int(getattr(gRNA, 'id')),
+            "ID": {
+                "value": int(getattr(oligos, 'id')),
             },
-            "Forward sgRNA": {
-                "value": str(fwd_sgrna_id),
+            "Targeton": {
+                "value": str(getattr(oligos, 'targeton')),
             },
-            "Reverse sgRNA": {
-                "value": str(rev_sgrna_id),
+            "Sequence": {
+                "value": str(getattr(oligos, 'sequence')),
             },
         },
         "folderId": ids['folder_id'],
-        "name": str(getattr(gRNA, 'id')),
+        "name": str(getattr(oligos, 'id')),
         "schemaId": ids['grna_schema_id']
     }
 
@@ -37,9 +36,9 @@ def export_oligos_to_benchling(oligos):
     oligos_json = prepare_oligos_json(oligos, '+', benchling_ids)
 
     try:
-        fwd_sgrna_id = api_caller.make_request('post', token, oligos_json).json()['id']
+        olgos_id = api_caller.make_request('post', token, oligos_json).json()['id']
 
     except Exception as err:
         raise Exception(err)
 
-    return fwd_sgrna_id
+    return olgos_id

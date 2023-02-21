@@ -16,6 +16,7 @@ class BenchlingConnection:
         self.tasks_url = self.api_url + r'workflow-tasks/'
         self.tasks_output_url = self.api_url + r'workflow-outputs'
         self.token_url = self.api_url + r'token'
+        self.sequence_url = self.api_url + r'dna-sequences'
 
         _auth_object = APIConnector(self.token_url, CLIENT_ID)
         if _auth_object:

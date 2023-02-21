@@ -5,6 +5,10 @@ VENV = venv
 PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
 
+# Docker
+name = "sge-restful-layer"
+tag = "test"
+
 ifeq ($(PREFIX),)
 	PREFIX := /usr/local
 endif
@@ -82,6 +86,9 @@ venv/requirements_run: venv/bin/activate requirements.txt
 	@./venv/bin/pip install -r requirements.txt
 	@touch venv/requirements_run
 
+clean-venv/requirements_run:
+	@rm -f venv/requirements_run
+
 activate-venv: setup-venv
 	@. venv/bin/activate
 
@@ -96,11 +103,19 @@ test: setup-venv
 
 run-flask: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate
-	@flask --app src/app run --host=0.0.0.0 --port=8080
+	@flask --app src/app run --host=0.0.0.0 --port=8081
 
 run-gunicorn: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate 
-	@gunicorn --bind 0.0.0.0:5000 src.app:app
+	@python -m gunicorn --bind 0.0.0.0:8081 src.app:app
+
+docker_touch:
+	@docker build --pull -t "${name}:${tag}" .
+	touch docker_touch
+build_docker: docker_touch
+
+run-docker: build_docker
+	@docker run -p 8081:8081 -t "${name}:${tag}"
 
 clean: 
 	@rm -rf __pycache__
