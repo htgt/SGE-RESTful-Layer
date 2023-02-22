@@ -11,7 +11,7 @@ def prepare_oligos_json(oligos, ids):
         # "ids": {
         #     "value": str(getattr(oligos, 'id')),
         # },
-        # "fields": {
+        "fields": {
 
         #     # "bases": {
         #     #     "value": str(getattr(oligos, 'bases')),
@@ -19,10 +19,16 @@ def prepare_oligos_json(oligos, ids):
         #     # "direction": {
         #         # "value": str(getattr(oligos, 'direction')),
         #     # },
-        #      "targeton": {
-        #         "value": str(getattr(oligos, 'targeton')),
-        #     },
-        # },
+             "Targeton": {
+                "value": str(getattr(oligos, 'targeton')),
+            },
+            "Strand": {
+                "value": str(getattr(oligos, 'strand')),
+            },
+            "Guide RNA": {
+                "value": str(getattr(oligos, 'grna'))
+            }
+        },
         "folderId": str(getattr(oligos, 'folder_id')),
         "name": str(getattr(oligos, 'name')),
         "schemaId": str(getattr(oligos, 'schema_id'))

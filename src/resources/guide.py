@@ -33,21 +33,27 @@ class GuideEndpoint(Resource):
                 # print(guide_data)
                 oligos = GuideRNAOligo(guide_data["seq"]).create_oligos()
                 print(oligos)
+                benchling_ids = json.load(open('benchling_ids.json'))
                 
                 oligos.forward.targeton = guide_data["targeton"]
                 oligos.forward.folder_id = guide_data["folder_id"]
                 # oligos.forward.id = guide_data["id"]
                 oligos.forward.schema_id = "ts_wFWXiFSo"
                 oligos.forward.name = "Guide RNA Oligo"
+                oligos.forward.strand = benchling_ids["forward_strand"]
+                oligos.forward.grna = guide_data["id"]
                 oligos.reverse.targeton = guide_data["targeton"]
                 oligos.reverse.folder_id = guide_data["folder_id"]
                 # oligos.reverse.id = guide_data["id"]
                 oligos.reverse.schema_id = "ts_wFWXiFSo"
                 oligos.reverse.name = "Guide RNA Oligo"
-                export_return = export_oligos_to_benchling(oligos.forward)
-                export_return = export_oligos_to_benchling(oligos.reverse)
+                oligos.reverse.strand = benchling_ids["reverse_strand"]
+                oligos.reverse.grna = guide_data["id"]
+                print("working up to export")
+                export_return_forward = export_oligos_to_benchling(oligos.forward)
+                export_return_reverse = export_oligos_to_benchling(oligos.reverse)
                 
-                return export_return, 200
+                return (export_return_forward, export_return_reverse), 200
 
             except Exception as err:
                 return json.dumps(err), 500

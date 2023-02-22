@@ -24,7 +24,7 @@ class Caller:
 
     def make_get(self, headers, get_path):
         url = urljoin(self.__getattribute__('endpoint'), get_path)
-        print(url)
+        # print(url)
         res = requests.get(url, headers=headers)
 
         if res.ok:
