@@ -4,21 +4,23 @@ import json
 import sys
 sys.path.append("..")
 
+
 def prepare_oligos_json(oligos, ids):
     return {
-        "bases": str(getattr(oligos, 'sequence')),
+        "bases": str(getattr(oligos, 'bases')),
+        "ids": {
+            "value": int(getattr(oligos, 'id')),
+        },
         "fields": {
-            "Oligos": {
-                "value": str(getattr(oligos, 'gene_name')),
+
+            "bases": {
+                "value": str(getattr(oligos, 'bases')),
             },
-            "ID": {
-                "value": int(getattr(oligos, 'id')),
+            "direction": {
+                "value": str(getattr(oligos, 'direction')),
             },
-            "Targeton": {
+             "targeton": {
                 "value": str(getattr(oligos, 'targeton')),
-            },
-            "Sequence": {
-                "value": str(getattr(oligos, 'sequence')),
             },
         },
         "folderId": ids['folder_id'],
@@ -33,7 +35,7 @@ def export_oligos_to_benchling(oligos):
     api_caller = Caller(benchling_connection.oligos_url)
     token = benchling_connection.token
 
-    oligos_json = prepare_oligos_json(oligos, '+', benchling_ids)
+    oligos_json = prepare_oligos_json(oligos, benchling_ids)
 
     try:
         olgos_id = api_caller.make_request('post', token, oligos_json).json()['id']

@@ -34,10 +34,17 @@ class GuideRNA:
         return Seq(self.reverse_prefix + self.sequence.reverse_complement())
 
 
+    
+@dataclass
+class Oligo:
+    sequence: str
+    direction: str
+    bases: list
+    
 @dataclass
 class OligosPair:
-    forward: str
-    reverse: str
+    forward: Oligo
+    reverse: Oligo
 
 class GuideRNAOligo:
     def __init__(self, seq) -> None:
@@ -52,8 +59,15 @@ class GuideRNAOligo:
 
     def create_oligos(self) -> OligosPair:
         transformed_seq = self.transform_first_and_last_bases()
-
-        return OligosPair(
-            self.forward_prefix + transformed_seq,
-            self.reverse_prefix + transformed_seq.reverse_complement()
+        forward_oligo = Oligo(
+            transformed_seq, 
+            self.forward_prefix, 
+            [self.first_base, self.last_base]
         )
+        reverse_oligo = Oligo(
+            transformed_seq.reverse_complement(), 
+            self.reverse_prefix, 
+            [self.last_base, self.first_base]
+        )
+
+        return OligosPair(forward_oligo, reverse_oligo)

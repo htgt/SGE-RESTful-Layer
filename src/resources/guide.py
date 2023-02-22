@@ -13,7 +13,7 @@ class GuideEndpoint(Resource):
         guide_data = {}
 
         guide_data["id"] = data["detail"]["entity"]["id"]
-        # guide_data["seq"] = data["detail"]["entity"]["fields"]["Guide Sequence"]["value"]
+        guide_data["seq"] = data["detail"]["entity"]["fields"]["Guide Sequence"]["value"]
         guide_data["targeton"] = data["detail"]["entity"]["fields"]["Targeton"]["value"]
 
         return guide_data
@@ -30,9 +30,16 @@ class GuideEndpoint(Resource):
                 guide_data = self.__transform_event_input_data(data)
                 guide_data["seq"] = get_sequence(guide_data["id"])
                 # print(guide_data)
-                oligos = GuideRNAOligo(guide_data["seq"])
-                # print(oligos)
-                export_return = export_oligos_to_benchling(oligos)
+                oligos = GuideRNAOligo(guide_data["seq"]).create_oligos()
+                print(oligos)
+                
+                oligos.forward.targeton = guide_data["targeton"]
+                oligos.forward.id = guide_data["id"]
+                oligos.reverse.targeton = guide_data["targeton"]
+                oligos.reverse.id = guide_data["id"]
+                export_return = export_oligos_to_benchling(oligos.forward)
+                export_return = export_oligos_to_benchling(oligos.reverse)
+                
                 return export_return, 200
 
             except Exception as err:
