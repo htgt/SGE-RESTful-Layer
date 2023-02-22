@@ -13,8 +13,9 @@ class GuideEndpoint(Resource):
         guide_data = {}
 
         guide_data["id"] = data["detail"]["entity"]["id"]
-        guide_data["seq"] = data["detail"]["entity"]["fields"]["Guide Sequence"]["value"]
+        # guide_data["seq"] = data["detail"]["entity"]["fields"]["Guide Sequence"]["value"]
         guide_data["targeton"] = data["detail"]["entity"]["fields"]["Targeton"]["value"]
+        guide_data["folder_id"] = data["detail"]["entity"]["folderId"]
 
         return guide_data
     
@@ -34,9 +35,15 @@ class GuideEndpoint(Resource):
                 print(oligos)
                 
                 oligos.forward.targeton = guide_data["targeton"]
-                oligos.forward.id = guide_data["id"]
+                oligos.forward.folder_id = guide_data["folder_id"]
+                # oligos.forward.id = guide_data["id"]
+                oligos.forward.schema_id = "ts_wFWXiFSo"
+                oligos.forward.name = "Guide RNA Oligo"
                 oligos.reverse.targeton = guide_data["targeton"]
-                oligos.reverse.id = guide_data["id"]
+                oligos.reverse.folder_id = guide_data["folder_id"]
+                # oligos.reverse.id = guide_data["id"]
+                oligos.reverse.schema_id = "ts_wFWXiFSo"
+                oligos.reverse.name = "Guide RNA Oligo"
                 export_return = export_oligos_to_benchling(oligos.forward)
                 export_return = export_oligos_to_benchling(oligos.reverse)
                 

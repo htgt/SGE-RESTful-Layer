@@ -7,25 +7,25 @@ sys.path.append("..")
 
 def prepare_oligos_json(oligos, ids):
     return {
-        "bases": str(getattr(oligos, 'bases')),
-        "ids": {
-            "value": int(getattr(oligos, 'id')),
-        },
-        "fields": {
+        "bases": str(getattr(oligos, 'sequence')),
+        # "ids": {
+        #     "value": str(getattr(oligos, 'id')),
+        # },
+        # "fields": {
 
-            "bases": {
-                "value": str(getattr(oligos, 'bases')),
-            },
-            "direction": {
-                "value": str(getattr(oligos, 'direction')),
-            },
-             "targeton": {
-                "value": str(getattr(oligos, 'targeton')),
-            },
-        },
-        "folderId": ids['folder_id'],
-        "name": str(getattr(oligos, 'id')),
-        "schemaId": ids['grna_schema_id']
+        #     # "bases": {
+        #     #     "value": str(getattr(oligos, 'bases')),
+        #     # },
+        #     # "direction": {
+        #         # "value": str(getattr(oligos, 'direction')),
+        #     # },
+        #      "targeton": {
+        #         "value": str(getattr(oligos, 'targeton')),
+        #     },
+        # },
+        "folderId": str(getattr(oligos, 'folder_id')),
+        "name": str(getattr(oligos, 'name')),
+        "schemaId": str(getattr(oligos, 'schema_id'))
     }
 
 
@@ -36,6 +36,7 @@ def export_oligos_to_benchling(oligos):
     token = benchling_connection.token
 
     oligos_json = prepare_oligos_json(oligos, benchling_ids)
+    print(oligos_json)
 
     try:
         olgos_id = api_caller.make_request('post', token, oligos_json).json()['id']
