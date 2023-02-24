@@ -1,5 +1,6 @@
 import unittest
 import requests
+from benchling import benchling_connection
 from mock import patch
 
 from rest_calls.send_calls import Caller
@@ -22,7 +23,7 @@ class TestCaller(unittest.TestCase):
         expected = requests.Response
         expected_header = {'Authorization': f"Bearer mocked_token"}
 
-        test_endpoint = 'https://tol-sangertest.benchling.com/api/v2/'
+        test_endpoint = benchling_connection.api_url
         test_path = 'blobs/51cc7076-633d-42fc-a216-982fdc63a3ce'
         caller = Caller(test_endpoint)
 
@@ -32,7 +33,7 @@ class TestCaller(unittest.TestCase):
         # assert
         self.assertTrue(request.called)
         self.assertEqual(f"{request.call_args}",
-                         f"call('https://tol-sangertest.benchling.com/api/v2/blobs/51cc7076-633d-42fc-a216-982fdc63a3ce', headers={expected_header})")
+                         f"call('{benchling_connection.blobs_url}51cc7076-633d-42fc-a216-982fdc63a3ce', headers={expected_header})")
 
     @patch('builtins.print')
     @patch('requests.post')
