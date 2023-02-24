@@ -2,8 +2,9 @@ from .auth_utils import APIConnector
 from warnings import warn
 from src.utils.exceptions import NoBenchlingEnvMatchWarning
 
-CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016'
-PROD_ENV = 'tol'  # 'prod', 'ci', 'tol'
+# CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016' # tol
+CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
+PROD_ENV = 'ci'  # 'prod', 'ci', 'tol'
 
 
 class BenchlingConnection:
@@ -11,10 +12,12 @@ class BenchlingConnection:
         url = self.generate_url(prod_env=PROD_ENV)
         self.api_url = url + r'api/v2/'
         self.oligos_url = self.api_url + r'dna-oligos'
+        self.guide_url = self.api_url + r'guide'
         self.blobs_url = self.api_url + r'blobs/'
         self.tasks_url = self.api_url + r'workflow-tasks/'
         self.tasks_output_url = self.api_url + r'workflow-outputs'
         self.token_url = self.api_url + r'token'
+        self.sequence_url = self.api_url + r'dna-sequences'
 
         _auth_object = APIConnector(self.token_url, CLIENT_ID)
         if _auth_object:
