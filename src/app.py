@@ -9,6 +9,10 @@ from src.resources.task import TaskEndpoint
 app = Flask(__name__)
 api = Api(app)
 
+@app.route("/")
+def hello():
+    return "SGE Restful Layer"
+
 api.add_resource(Entity, '/entity/<string:id>')
 api.add_resource(EventEndpoint, '/event', methods=["POST"])
 api.add_resource(Blob, '/blob/<string:id>')
