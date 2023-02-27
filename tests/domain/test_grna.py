@@ -72,13 +72,14 @@ class TestGuideRNAOligo(unittest.TestCase):
 
         self.assertEqual(transformed[-1], last_base)
 
-    # def test_create_oligos(self):
-    #     input_sequence = 'AATATGGTGGCCCTCCATT'
 
-    #     oligos = GuideRNAOligo(input_sequence).create_oligos()
+    def test_create_oligos(self):
+         input_sequence = 'AATATGGTGGCCCTCCATT'
 
-    #     self.assertEqual(oligos.forward, Seq("CACCGATATGGTGGCCCTCCATC"))
-    #     self.assertEqual(oligos.reverse, Seq("AAACGATGGAGGGCCACCATATC"))
+         oligos = GuideRNAOligo(input_sequence).create_oligos()
+
+         self.assertEqual(oligos.forward.sequence, Seq('CACCGATATGGTGGCCCTCCATC'))
+         self.assertEqual(oligos.reverse.sequence, Seq('AAACGATGGAGGGCCACCATATC'))
 
 
 if __name__ == '__main__':
