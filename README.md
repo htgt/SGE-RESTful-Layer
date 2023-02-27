@@ -58,7 +58,7 @@ Build image
 
 Run container
 
-```docker run -d -p 8081:8081 sge-restful-layer ```
+```docker run -p 8081:8081 sge-restful-layer ```
 
 ## Run Unit Tests
 
