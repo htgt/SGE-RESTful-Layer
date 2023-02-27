@@ -1,4 +1,6 @@
 from src.rest_calls.send_calls import Caller
+from src.utils.exceptions import OligoDirectionInvalid
+from src.domain.guideRNA import Oligo
 from . import benchling_connection
 import json
 import sys
@@ -51,3 +53,19 @@ def export_oligos_to_benchling(oligos):
         raise Exception(err)
 
     return olgos_id
+
+def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
+    oligo.targeton = guide_data["targeton"]
+    oligo.folder_id = guide_data["folder_id"]
+    oligo.schema_id = schema_id
+    oligo.name = name
+    if direction == "forward":
+        oligo.strand = benchling_ids["forward_strand"]
+    elif direction == "reverse":
+        oligo.strand = benchling_ids["reverse_strand"]
+    else: 
+        raise OligoDirectionInvalid(f"Invalid direction given {direction}, expecting \"forward\" or \"reverse\"")
+    
+    oligo.grna = guide_data["id"]
+    return oligo
+    

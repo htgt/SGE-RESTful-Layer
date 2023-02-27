@@ -1,6 +1,5 @@
 from Bio.Seq import Seq
 from dataclasses import dataclass
-from src.utils.exceptions import OligoDirectionInvalid
 
 transformations_dict = {
     "FORWARD_PREFIX": "CACC",
@@ -39,22 +38,7 @@ class GuideRNA:
 @dataclass
 class Oligo:
     sequence: str
-    # direction: str
-    # bases: list
-    def setup_oligo_class(self, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
-        self.targeton = guide_data["targeton"]
-        self.folder_id = guide_data["folder_id"]
-        self.schema_id = schema_id
-        self.name = name
-        if direction == "forward":
-            self.strand = benchling_ids["forward_strand"]
-        elif direction == "reverse":
-            self.strand = benchling_ids["reverse_strand"]
-        else: 
-            raise OligoDirectionInvalid(f"Invalid direction given {direction}, expecting \"forward\" or \"reverse\"")
-        
-        self.grna = guide_data["id"]
-    
+
 @dataclass
 class OligosPair:
     forward: Oligo

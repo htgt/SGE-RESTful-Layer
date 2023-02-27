@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from src.domain.guideRNA import GuideRNAOligo
 from src.benchling.get_sequence import get_sequence
-from src.benchling.create_oligos import prepare_oligos_json, export_oligos_to_benchling
+from src.benchling.create_oligos import prepare_oligos_json, export_oligos_to_benchling, setup_oligo_class
 import json
 
 BENCHLING_GUIDE_RNA_SCHEMA_ID = "ts_vGZYroiQ"
@@ -36,13 +36,15 @@ class GuideEndpoint(Resource):
                 oligos = GuideRNAOligo(guide_data["seq"]).create_oligos()
                 benchling_ids = json.load(open('benchling_ids.json'))
                 # Foward
-                oligos.forward.setup_oligo_class(
+                oligos.forward = setup_oligo_class(
+                    oligos.forward,
                     guide_data, 
                     benchling_ids, 
                     'forward',
                 )
                 # Reverse
-                oligos.reverse.setup_oligo_class(
+                oligos.reverse = setup_oligo_class(
+                    oligos.reverse,
                     guide_data, 
                     benchling_ids, 
                     'reverse',
