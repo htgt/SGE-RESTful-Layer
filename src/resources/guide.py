@@ -16,6 +16,9 @@ class GuideEndpoint(Resource):
         # guide_data["seq"] = data["detail"]["entity"]["fields"]["Guide Sequence"]["value"]
         guide_data["targeton"] = data["detail"]["entity"]["fields"]["Targeton"]["value"]
         guide_data["folder_id"] = data["detail"]["entity"]["folderId"]
+        guide_data["schemaid"] = "ts_wFWXiFSo"
+        guide_data["name"] = "Guide RNA Oligo"
+        
 
         return guide_data
     
@@ -30,26 +33,21 @@ class GuideEndpoint(Resource):
             try:
                 guide_data = self.__transform_event_input_data(data)
                 guide_data["seq"] = get_sequence(guide_data["id"])
-                # print(guide_data)
                 oligos = GuideRNAOligo(guide_data["seq"]).create_oligos()
-                print(oligos)
                 benchling_ids = json.load(open('benchling_ids.json'))
-                
-                oligos.forward.targeton = guide_data["targeton"]
-                oligos.forward.folder_id = guide_data["folder_id"]
-                # oligos.forward.id = guide_data["id"]
-                oligos.forward.schema_id = "ts_wFWXiFSo"
-                oligos.forward.name = "Guide RNA Oligo"
-                oligos.forward.strand = benchling_ids["forward_strand"]
-                oligos.forward.grna = guide_data["id"]
-                oligos.reverse.targeton = guide_data["targeton"]
-                oligos.reverse.folder_id = guide_data["folder_id"]
-                # oligos.reverse.id = guide_data["id"]
-                oligos.reverse.schema_id = "ts_wFWXiFSo"
-                oligos.reverse.name = "Guide RNA Oligo"
-                oligos.reverse.strand = benchling_ids["reverse_strand"]
-                oligos.reverse.grna = guide_data["id"]
-                print("working up to export")
+                # Foward
+                oligos.forward.setup_oligo_class(
+                    guide_data, 
+                    benchling_ids, 
+                    'forward',
+                )
+                # Reverse
+                oligos.reverse.setup_oligo_class(
+                    guide_data, 
+                    benchling_ids, 
+                    'reverse',
+                )
+
                 export_return_forward = export_oligos_to_benchling(oligos.forward)
                 export_return_reverse = export_oligos_to_benchling(oligos.reverse)
                 
