@@ -9,8 +9,9 @@ import json
 BENCHLING_GUIDE_RNA_SCHEMA_ID = "ts_vGZYroiQ"
 BENCHLING_ENTITY_REGISTERED_EVENT = "v2.entity.registered"
 
+
 class GuideEndpoint(Resource):
-    def __transform_event_input_data(self,data):
+    def __transform_event_input_data(self, data):
         guide_data = {}
 
         guide_data["id"] = data["detail"]["entity"]["id"]
@@ -18,13 +19,13 @@ class GuideEndpoint(Resource):
         guide_data["folder_id"] = data["detail"]["entity"]["folderId"]
         guide_data["schemaid"] = "ts_wFWXiFSo"
         guide_data["name"] = "Guide RNA Oligo"
-        
+
         return guide_data
-    
+
     def get(self, id):
-        
+
         return id, 201
-    
+
     def post(self):
         data = request.json
 
@@ -37,32 +38,39 @@ class GuideEndpoint(Resource):
                 # Foward
                 oligos.forward = setup_oligo_class(
                     oligos.forward,
-                    guide_data, 
-                    benchling_ids, 
+                    guide_data,
+                    benchling_ids,
                     'forward',
                 )
                 # Reverse
                 oligos.reverse = setup_oligo_class(
                     oligos.reverse,
-                    guide_data, 
-                    benchling_ids, 
+                    guide_data,
+                    benchling_ids,
                     'reverse',
                 )
-                export_return_forward = export_oligos_to_benchling(oligos.forward, benchling_connection)
-                export_return_reverse = export_oligos_to_benchling(oligos.reverse, benchling_connection)
-                
+                export_return_forward = export_oligos_to_benchling(
+                    oligos.forward, 
+                    benchling_connection
+                )
+                export_return_reverse = export_oligos_to_benchling(
+                    oligos.reverse, 
+                    benchling_connection
+                )
+
                 return (export_return_forward, export_return_reverse), 200
 
             except Exception as err:
                 return json.dumps(err), 500
         else:
             return "Incorrect input data", 404
-    
-def check_event_is_guide_rna(data:dict) -> bool:
+
+
+def check_event_is_guide_rna(data: dict) -> bool:
     bool_check = True
     if not data["detail-type"] == BENCHLING_ENTITY_REGISTERED_EVENT:
         bool_check = False
     if not data["detail"]["entity"]["schema"]["id"] == BENCHLING_GUIDE_RNA_SCHEMA_ID:
         bool_check = False
-        
+
     return bool_check

@@ -7,6 +7,7 @@ import json
 import sys
 sys.path.append("..")
 
+
 @dataclass
 class BenchlingOligo(Oligo):
     targeton: str
@@ -17,12 +18,11 @@ class BenchlingOligo(Oligo):
     grna: str
 
 
-
 def prepare_oligos_json(oligos, ids):
     return {
         "bases": str(getattr(oligos, 'sequence')),
         "fields": {
-             "Targeton": {
+            "Targeton": {
                 "value": str(getattr(oligos, 'targeton')),
             },
             "Strand": {
@@ -38,7 +38,7 @@ def prepare_oligos_json(oligos, ids):
     }
 
 
-def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection, benchling_ids_path = 'benchling_ids.json'):
+def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection, benchling_ids_path='benchling_ids.json'):
     benchling_ids = json.load(open(benchling_ids_path))
 
     api_caller = Caller(benchling_connection.oligos_url)
@@ -54,23 +54,24 @@ def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: Ben
 
     return olgos_id
 
+
 def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
     if direction == "forward":
         strand = benchling_ids["forward_strand"]
     elif direction == "reverse":
         strand = benchling_ids["reverse_strand"]
-    else: 
-        raise OligoDirectionInvalid(f"Invalid direction given {direction}, expecting \"forward\" or \"reverse\"")
-    
+    else:
+        raise OligoDirectionInvalid(
+            f"Invalid direction given {direction}, expecting \"forward\" or \"reverse\"")
+
     benchling_oligo = BenchlingOligo(
-        sequence = oligo.sequence,
-        targeton = guide_data["targeton"],
-        folder_id = guide_data["folder_id"],
-        schema_id = schema_id,
-        name = name,
-        strand = strand,
-        grna = guide_data["id"]
+        sequence=oligo.sequence,
+        targeton=guide_data["targeton"],
+        folder_id=guide_data["folder_id"],
+        schema_id=schema_id,
+        name=name,
+        strand=strand,
+        grna=guide_data["id"]
     )
 
     return benchling_oligo
-    
