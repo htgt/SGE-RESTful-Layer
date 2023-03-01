@@ -19,20 +19,25 @@ def create_set_of_gRNAs(data):
 
 class GuideRNA:
     def __init__(self, data) -> None :
-        self.id = data["wge_id"]
-        self.sequence = Seq(data["seq"])
-        self.gene_name = data["gene_symbol"]
+        self.wge_id = data['wge_id']
+        self.sequence = data['seq']
+        self.targeton = data['targeton']
+        self.strand = data['strand']
+        self.wge_link = data['wge_link']
+        self.off_targets = data['off_targets']
+        self.species = data['species']
 
-        self.forward_prefix = transformations_dict["FORWARD_PREFIX"]
-        self.reverse_prefix = transformations_dict["REVERSE_PREFIX"]
-
-    # forward and reverse will not be used as a part of guideRNA class
-    def forward_sgRNA(self) -> Seq:
-        return Seq(self.forward_prefix + self.sequence)
-
-    def reverse_sgRNA(self) -> Seq:
-        return Seq(self.reverse_prefix + self.sequence.reverse_complement())
-
+    def as_benchling_entity_dict(self) -> dict:
+        entity = {
+            'WGE ID' : self.wge_id,
+            'Guide Sequence' : self.seq,
+            'Targeton' : self.targeton,
+            'Strand' : self.strand,
+            'WGE Hyperlink' : self.wge_link,
+            'Off Target Summary Data' : self.off_targets,
+            'Species' : self.species
+        }
+        return entity
 
     
 @dataclass
