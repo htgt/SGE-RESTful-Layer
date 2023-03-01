@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
+from src.wge.wge import query_wge_by_id
 import requests
-import json
 
 
 class WGEEndpoint(Resource):
@@ -17,9 +17,8 @@ class WGEEndpoint(Resource):
 
     def get(self):
         wge_id = request.args.get('id')
-        wge_packet = requests.get("https://wge.stemcell.sanger.ac.uk/api/crispr_by_id?species=Grch38&id=" + wge_id)
-
-        return wge_packet.json()
+        wge_json = query_wge_by_id(wge_id)
+        return wge_json
     
     def post(self, id):
         data = request.json
