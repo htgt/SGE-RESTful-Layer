@@ -28,7 +28,7 @@ class BenchlingConnection:
         self.token = _auth_object.token
 
     @staticmethod
-    def generate_url(prod_env='tol') -> str:
+    def generate_url(prod_env='ci') -> str:
         url = r'https://'
         prod_env_dict = {
             "tol" : r"tol-sangertest.",
