@@ -28,7 +28,7 @@ class WGEEndpoint(Resource):
         data = request.json
         event_data = self.__transform_event_input_data(data)
         wge_data = query_wge_by_id(event_data['wge_id'])
-        grna_entity = prepare_guide_rna_entity(wge_data)
+        grna_entity = prepare_guide_rna_entity(event_data, wge_data)
         post_guide_rna_to_benchling(event_data, grna_entity)
 
         return event_data

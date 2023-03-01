@@ -16,7 +16,7 @@ def prepare_guide_rna_entity(event_data : dict, wge_data : dict) -> dict:
     grna_data = wge_data[wge_id]
     strand = calculate_strand(grna_data['pam_right'])
     wge_link = build_wge_link(wge_id)
-    species = get_wge_species(wge_data['species_id'])
+    species = get_wge_species(grna_data['species_id'])
 
     grna_entity = {
         'Guide Sequence' : grna_data['seq'],
@@ -29,7 +29,7 @@ def prepare_guide_rna_entity(event_data : dict, wge_data : dict) -> dict:
     }
 
     print(grna_entity)
-    return
+    return grna_entity
 
 def post_guide_rna_to_benchling(event_data, grna_entity):
     return
