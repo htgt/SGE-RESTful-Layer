@@ -8,59 +8,61 @@ from Bio.Seq import Seq
 from copy import deepcopy
 from src.benchling import benchling_connection
 
+
 class TestCreateOligo(unittest.TestCase):
     def setUp(self):
         self.example_forward_oligo_json_dict = {
-            'bases': 'CACCGGCTGACGGGTGACACCCC', 
+            'bases': 'CACCGGCTGACGGGTGACACCCC',
             'fields': {
                 'Targeton': {'value': 'seq_8VA7PA1S'},
-                'Strand': {'value': 'sfso_J7roINLu'}, 
+                'Strand': {'value': 'sfso_J7roINLu'},
                 'Guide RNA': {'value': 'seq_EFxZ6d9f'}
-            }, 
-            'folderId': 'lib_MaKCkHDE', 
-            'name': 'Guide RNA Oligo', 
+            },
+            'folderId': 'lib_MaKCkHDE',
+            'name': 'Guide RNA Oligo',
             'schemaId': 'ts_wFWXiFSo'
         }
         self.example_reverse_oligo_json_dict = {
-            'bases': 'AAACGGGGTGTCACCCGTCAGCC', 
+            'bases': 'AAACGGGGTGTCACCCGTCAGCC',
             'fields': {
                 'Targeton': {'value': 'seq_8VA7PA1S'},
-                'Strand': {'value': 'sfso_Ts3OFHmc'}, 
+                'Strand': {'value': 'sfso_Ts3OFHmc'},
                 'Guide RNA': {'value': 'seq_EFxZ6d9f'}
-            }, 
-            'folderId': 'lib_MaKCkHDE', 
-            'name': 'Guide RNA Oligo', 
+            },
+            'folderId': 'lib_MaKCkHDE',
+            'name': 'Guide RNA Oligo',
             'schemaId': 'ts_wFWXiFSo'
         }
         with open('benchling_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
-        self.example_oligos_pair = OligosPair(forward=Oligo(sequence=Seq('CACCGGCTGACGGGTGACACCCC')), reverse=Oligo(sequence=Seq('AAACGGGGTGTCACCCGTCAGCC')))
+        self.example_oligos_pair = OligosPair(forward=Oligo(sequence=Seq(
+            'CACCGGCTGACGGGTGACACCCC')), reverse=Oligo(sequence=Seq('AAACGGGGTGTCACCCGTCAGCC')))
         self.example_benchling_oligos_pair = OligosPair(
             forward=BenchlingOligo(
                 sequence=Seq('CACCGGCTGACGGGTGACACCCC'),
-                targeton = 'seq_8VA7PA1S',
-                folder_id =  'lib_MaKCkHDE',
-                schema_id =  'ts_wFWXiFSo',
-                name =  'Guide RNA Oligo',
-                strand =  'sfso_J7roINLu',
-                grna =  'seq_EFxZ6d9f'
-            ), 
+                targeton='seq_8VA7PA1S',
+                folder_id='lib_MaKCkHDE',
+                schema_id='ts_wFWXiFSo',
+                name='Guide RNA Oligo',
+                strand='sfso_J7roINLu',
+                grna='seq_EFxZ6d9f'
+            ),
             reverse=BenchlingOligo(
                 sequence=Seq('AAACGGGGTGTCACCCGTCAGCC'),
-                targeton = 'seq_8VA7PA1S',
-                folder_id =  'lib_MaKCkHDE',
-                schema_id =  'ts_wFWXiFSo',
-                name =  'Guide RNA Oligo',
-                strand =  'sfso_Ts3OFHmc',
-                grna =  'seq_EFxZ6d9f'
+                targeton='seq_8VA7PA1S',
+                folder_id='lib_MaKCkHDE',
+                schema_id='ts_wFWXiFSo',
+                name='Guide RNA Oligo',
+                strand='sfso_Ts3OFHmc',
+                grna='seq_EFxZ6d9f'
             )
         )
         self.example_guide_data = {
             'id': 'seq_EFxZ6d9f',
             'targeton': 'seq_8VA7PA1S',
             'folder_id': 'lib_MaKCkHDE',
-            'schemaid': 'ts_wFWXiFSo', 
-            'name': 'Guide RNA Oligo', 
+            'schemaid': 'ts_wFWXiFSo',
+            'name': 'Guide RNA Oligo',
             'seq': 'TGCTGACGGGTGACACCCA'
         }
         self.example_oligo = Oligo(sequence=Seq('CACCGGCTGACGGGTGACACCCC'))
@@ -84,7 +86,7 @@ class TestCreateOligo(unittest.TestCase):
                 'grna': 'seq_EFxZ6d9f'
             }
         ]
-        
+
     # This method will be used by the mock to export_to_benchling
     def mocked_requests_get(*args, **kwargs):
         class MockResponse:
@@ -128,7 +130,7 @@ class TestCreateOligo(unittest.TestCase):
     #     example_reverse_oligo_json_dict = self.example_reverse_oligo_json_dict
     #     self.assertDictEqual(test_forward_oligo_json_dict, example_forward_oligo_json_dict)
     #     self.assertDictEqual(test_reverse_oligo_json_dict, example_reverse_oligo_json_dict)
-        
+
     def test_setup_oligo_class(self):
         # Arrange
         oligos = deepcopy(self.example_oligos_pair)
@@ -138,22 +140,22 @@ class TestCreateOligo(unittest.TestCase):
         # Foward
         oligos.forward = setup_oligo_class(
             oligos.forward,
-            guide_data, 
-            benchling_ids, 
+            guide_data,
+            benchling_ids,
             'forward',
         )
         # Reverse
         oligos.reverse = setup_oligo_class(
             oligos.reverse,
-            guide_data, 
-            benchling_ids, 
+            guide_data,
+            benchling_ids,
             'reverse',
         )
         # Assert
         test_oligos_list_dicts = oligos.to_list_dicts()
         example_oligos_list_dicts = self.example_setup_oligos_list_dicts
         self.assertCountEqual(test_oligos_list_dicts, example_oligos_list_dicts)
-        
+
     def test_wrong_direction_setup_oligo_class(self):
         # Arrange
         oligos = deepcopy(self.example_oligos_pair)
@@ -163,10 +165,11 @@ class TestCreateOligo(unittest.TestCase):
         with self.assertRaises(OligoDirectionInvalid):
             oligos.forward = setup_oligo_class(
                 oligos.forward,
-                guide_data, 
-                benchling_ids, 
+                guide_data,
+                benchling_ids,
                 'wrong_direction',
             )
+
 
 if __name__ == '__main__':
     unittest.main()
