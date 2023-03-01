@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 from src.wge.wge import (
     query_wge_by_id,
-    prepare_guide_rna_entity,
+    prepare_guide_rna_class,
     post_guide_rna_to_benchling
 )
 
@@ -28,8 +28,8 @@ class WGEEndpoint(Resource):
         data = request.json
         event_data = self.__transform_event_input_data(data)
         wge_data = query_wge_by_id(event_data['wge_id'])
-        grna_entity = prepare_guide_rna_entity(event_data, wge_data)
-        post_guide_rna_to_benchling(event_data, grna_entity)
+        grna_class = prepare_guide_rna_class(event_data, wge_data)
+        post_guide_rna_to_benchling(event_data, grna_class)
 
         return event_data
         #return (export_return_forward, export_return_reverse), 200

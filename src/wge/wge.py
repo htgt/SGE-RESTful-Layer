@@ -9,8 +9,7 @@ def query_wge_by_id(wge_id : str) -> dict:
 
     return wge_packet.json()
      
-def prepare_guide_rna_entity(event_data : dict, wge_data : dict) -> dict:
-    #{'1107691594': {'seq': 'AGGATTTTGGTAATTGGGTTTGG', 'genic': 1, 'chr_name': '13', 'off_target_summary': '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}', 'chr_start': 42958750, 'chr_end': 42958772, 'pam_right': 1, 'exonic': 0, 'species_id': 4, 'id': 1107691594}}
+def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
     wge_id = event_data['wge_id']
 
     grna_data = wge_data[wge_id]
@@ -18,18 +17,20 @@ def prepare_guide_rna_entity(event_data : dict, wge_data : dict) -> dict:
     wge_link = build_wge_link(wge_id)
     species = get_wge_species(grna_data['species_id'])
 
-    grna_entity = {
-        'Guide Sequence' : grna_data['seq'],
-        'Targeton' : event_data['targeton_id'],
-        'Strand' : strand,
-        'WGE ID' : wge_id,
-        'WGE Hyperlink' : wge_link,
-        'Off Target Summary Data' : grna_data['off_target_summary'],
-        'Species' : species,
+    grna_dict = {
+        'seq' : grna_data['seq'],
+        'targeton' : event_data['targeton_id'],
+        'strand' : strand,
+        'wge_id' : wge_id,
+        'wge_link' : wge_link,
+        'off_targets' : grna_data['off_target_summary'],
+        'species' : species,
     }
+    print(grna_dict)
+    
+    grna_class = GuideRNA(grna_dict)
 
-    print(grna_entity)
-    return grna_entity
+    return grna_class
 
 def post_guide_rna_to_benchling(event_data, grna_entity):
     return
