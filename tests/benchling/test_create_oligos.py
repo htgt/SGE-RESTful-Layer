@@ -1,8 +1,3 @@
-import sys, os
-os.chdir(r'/Users/pi2/Documents/GitLab/sge-restful-layer/')
-sys.path.insert(0, '')
-sys.path.insert(0, 'src/')
-
 import unittest
 from unittest.mock import patch
 from src.utils.exceptions import OligoDirectionInvalid
@@ -158,6 +153,20 @@ class TestCreateOligo(unittest.TestCase):
         test_oligos_list_dicts = oligos.to_list_dicts()
         example_oligos_list_dicts = self.example_setup_oligos_list_dicts
         self.assertCountEqual(test_oligos_list_dicts, example_oligos_list_dicts)
+        
+    def test_wrong_direction_setup_oligo_class(self):
+        # Arrange
+        oligos = deepcopy(self.example_oligos_pair)
+        guide_data = self.example_guide_data
+        benchling_ids = self.benchling_ids
+        # Act, Assert
+        with self.assertRaises(OligoDirectionInvalid):
+            oligos.forward = setup_oligo_class(
+                oligos.forward,
+                guide_data, 
+                benchling_ids, 
+                'wrong_direction',
+            )
 
 if __name__ == '__main__':
     unittest.main()
