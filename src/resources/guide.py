@@ -2,7 +2,8 @@ from flask import request
 from flask_restful import Resource
 from src.domain.guideRNA import GuideRNAOligo
 from src.benchling.get_sequence import get_sequence
-from src.benchling.create_oligos import prepare_oligos_json, export_oligos_to_benchling, setup_oligo_class
+from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_class
+from src.benchling import benchling_connection
 import json
 
 BENCHLING_GUIDE_RNA_SCHEMA_ID = "ts_vGZYroiQ"
@@ -13,13 +14,11 @@ class GuideEndpoint(Resource):
         guide_data = {}
 
         guide_data["id"] = data["detail"]["entity"]["id"]
-        # guide_data["seq"] = data["detail"]["entity"]["fields"]["Guide Sequence"]["value"]
         guide_data["targeton"] = data["detail"]["entity"]["fields"]["Targeton"]["value"]
         guide_data["folder_id"] = data["detail"]["entity"]["folderId"]
         guide_data["schemaid"] = "ts_wFWXiFSo"
         guide_data["name"] = "Guide RNA Oligo"
         
-
         return guide_data
     
     def get(self, id):
@@ -49,9 +48,8 @@ class GuideEndpoint(Resource):
                     benchling_ids, 
                     'reverse',
                 )
-
-                export_return_forward = export_oligos_to_benchling(oligos.forward)
-                export_return_reverse = export_oligos_to_benchling(oligos.reverse)
+                export_return_forward = export_oligos_to_benchling(oligos.forward, benchling_connection)
+                export_return_reverse = export_oligos_to_benchling(oligos.reverse, benchling_connection)
                 
                 return (export_return_forward, export_return_reverse), 200
 

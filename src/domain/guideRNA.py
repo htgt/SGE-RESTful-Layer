@@ -1,5 +1,6 @@
 from Bio.Seq import Seq
 from dataclasses import dataclass
+from typing import List
 
 transformations_dict = {
     "FORWARD_PREFIX": "CACC",
@@ -33,15 +34,38 @@ class GuideRNA:
     def reverse_sgRNA(self) -> Seq:
         return Seq(self.reverse_prefix + self.sequence.reverse_complement())
 
+
+
     
 @dataclass
 class Oligo:
     sequence: str
     
+    def get_fields(self) -> List[str]:
+        keys = []
+        for key in vars(self).keys():
+            keys.append(str(key))
+        return list(set(keys))
+    
+    
 @dataclass
 class OligosPair:
     forward: Oligo
     reverse: Oligo
+    
+    def get_fields(self) -> List[str]:
+        keys = []
+        for key in vars(self).keys():
+            keys.append(str(key))
+        return list(set(keys))
+        
+    def to_list_dicts(self) -> List[str]:
+        list_of_dicts = []
+        for oligo in self.get_fields():
+            return_dict = vars(getattr(self, oligo))
+            list_of_dicts.append(return_dict)
+        return list_of_dicts
+    
 
 class GuideRNAOligo:
     def __init__(self, seq) -> None:
@@ -64,3 +88,9 @@ class GuideRNAOligo:
         )
 
         return OligosPair(forward_oligo, reverse_oligo)
+
+    def get_fields(self) -> List[str]:
+        keys = []
+        for key in vars(self).keys():
+            keys.append(str(key))
+        return list(set(keys))
