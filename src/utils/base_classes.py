@@ -1,5 +1,4 @@
 from typing import List
-from dataclasses import dataclass
 
 class BaseClass:
     def get_fields(self) -> List[str]:
@@ -8,11 +7,5 @@ class BaseClass:
             keys.append(str(key))
         return list(set(keys))
     
-@dataclass
-class BaseBenchlingClass(BaseClass):
-    targeton: str
-    folder_id: str
-    schema_id: str
-    name: str
-    strand: str
-    grna: str
+    def _asdict(self) -> dict:
+        return vars(self)

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from . import BenchlingConnection
 import json
 import sys
-from src.benchling.classes import BaseClass
+from src.utils.base_classes import BaseClass
 from src.rest_calls.send_calls import export_to_benchling
 sys.path.append("..")
 

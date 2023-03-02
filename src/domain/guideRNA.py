@@ -1,7 +1,7 @@
 from Bio.Seq import Seq
 from dataclasses import dataclass
+from src.utils.base_classes import BaseClass
 from typing import List
-from src.benchling.classes import BaseClass
 
 transformations_dict = {
     "FORWARD_PREFIX": "CACC",
@@ -46,11 +46,11 @@ class Oligo(BaseClass):
 class OligosPair(BaseClass):
     forward: Oligo
     reverse: Oligo
-
-    def to_list_dicts(self) -> List[str]:
+    
+    def to_list_dicts(self) -> List[dict]:
         list_of_dicts = []
-        for oligo in self.get_fields():
-            return_dict = vars(getattr(self, oligo))
+        for field in self.get_fields():
+            return_dict = getattr(self, field)._asdict()
             list_of_dicts.append(return_dict)
         return list_of_dicts
 
