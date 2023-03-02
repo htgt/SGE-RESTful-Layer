@@ -3,3 +3,4 @@ venv
 .idea/
 config.cfg
 *.swp
+grna_event.json

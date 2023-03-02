@@ -62,7 +62,7 @@ Or with makefile
 
 Run container
 
-```docker run -d -p 8081:8081 sge-restful-layer ```
+```docker run -p 8081:8081 sge-restful-layer ```
 
 Or with makefile (also builds)
 ```make run-docker```

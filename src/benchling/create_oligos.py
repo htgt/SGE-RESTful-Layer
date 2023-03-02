@@ -1,25 +1,30 @@
 from src.rest_calls.send_calls import Caller
-from . import benchling_connection
+from src.utils.exceptions import OligoDirectionInvalid
+from src.domain.guideRNA import Oligo, OligosPair
+from dataclasses import dataclass
+from . import BenchlingConnection
 import json
 import sys
+from src.utils.base_classes import BaseClass
+from src.rest_calls.send_calls import export_to_benchling
 sys.path.append("..")
 
 
-def prepare_oligos_json(oligos, ids):
+@dataclass
+class BenchlingOligo(Oligo, BaseClass):
+    targeton: str
+    folder_id: str
+    schema_id: str
+    name: str
+    strand: str
+    grna: str
+
+
+def prepare_oligo_json(oligos: BenchlingOligo) -> dict:
     return {
         "bases": str(getattr(oligos, 'sequence')),
-        # "ids": {
-        #     "value": str(getattr(oligos, 'id')),
-        # },
         "fields": {
-
-        #     # "bases": {
-        #     #     "value": str(getattr(oligos, 'bases')),
-        #     # },
-        #     # "direction": {
-        #         # "value": str(getattr(oligos, 'direction')),
-        #     # },
-             "Targeton": {
+            "Targeton": {
                 "value": str(getattr(oligos, 'targeton')),
             },
             "Strand": {
@@ -35,19 +40,47 @@ def prepare_oligos_json(oligos, ids):
     }
 
 
-def export_grna_to_benchling(event_data : dict, grna_class):
-    benchling_ids = json.load(open('benchling_ids.json'))
+def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection):
+    oligo_forward_json = prepare_oligo_json(oligos.forward)
+    oligo_reverse_json = prepare_oligo_json(oligos.reverse)
+    oligo_forward_id = export_to_benchling(oligo_forward_json, benchling_connection)
+    oligo_reverse_id = export_to_benchling(oligo_reverse_json, benchling_connection)
+    return (oligo_forward_id, oligo_reverse_id)
 
-    api_caller = Caller(benchling_connection.oligos_url)
-    token = benchling_connection.token
+def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict, benchling_ids: dict) -> OligosPair:
+    # Foward
+    oligos.forward = setup_oligo_class(
+        oligos.forward,
+        guide_data,
+        benchling_ids,
+        'forward',
+    )
+    # Reverse
+    oligos.reverse = setup_oligo_class(
+        oligos.reverse,
+        guide_data,
+        benchling_ids,
+        'reverse',
+    )
+    return oligos
 
-    oligos_json = prepare_oligos_json(oligos, benchling_ids)
-    print(oligos_json)
+def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
+    if direction == "forward":
+        strand = benchling_ids["forward_strand"]
+    elif direction == "reverse":
+        strand = benchling_ids["reverse_strand"]
+    else:
+        raise OligoDirectionInvalid(
+            f"Invalid direction given {direction}, expecting \"forward\" or \"reverse\"")
 
-    try:
-        olgos_id = api_caller.make_request('post', token, oligos_json).json()['id']
+    benchling_oligo = BenchlingOligo(
+        sequence=oligo.sequence,
+        targeton=guide_data["targeton"],
+        folder_id=guide_data["folder_id"],
+        schema_id=schema_id,
+        name=name,
+        strand=strand,
+        grna=guide_data["id"]
+    )
 
-    except Exception as err:
-        raise Exception(err)
-
-    return olgos_id
+    return benchling_oligo

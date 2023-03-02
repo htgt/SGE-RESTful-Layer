@@ -20,7 +20,8 @@ def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
     grna_dict = {
         'seq' : grna_data['seq'],
         'targeton' : event_data['targeton_id'],
-        'strand' : strand,
+        #'strand' : strand,
+        'strand' : 0,
         'wge_id' : wge_id,
         'wge_link' : wge_link,
         'off_targets' : grna_data['off_target_summary'],
@@ -34,8 +35,8 @@ def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
 
 def calculate_strand(pam : int) -> chr:
     strands = {
-        0 : '-',
-        1 : '+',
+        0 : 'sfso_qKNl7o1M', # -
+        1 : 'sfso_DqRsZ1Cg', # +
     }
     return strands[pam]
 
@@ -44,9 +45,9 @@ def build_wge_link(wge_id : int) -> str:
 
 def get_wge_species(species_id : int) -> str:
     species = {
-        1 : 'Human',
-        2 : 'Mouse',
-        3 : 'Pig',
-        4 : 'Grch38'
+        1 : 'sfso_gWKuC1ge', #Grch37 - Homo Sapiens
+        2 : 'sfso_gjQvG19Z', #Mouse - Mus musculus
+        4 : 'sfso_gWKuC1ge', #Grch38 - Homo Sapiens
     }
     return species[species_id]
+

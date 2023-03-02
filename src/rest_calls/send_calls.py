@@ -1,6 +1,7 @@
 import curl
 import requests
 from urllib.parse import urljoin
+from src.benchling import BenchlingConnection
 
 
 class Caller:
@@ -39,8 +40,8 @@ class Caller:
     # res.json()
 
     def make_post(self, headers, json_data):
+        print({'headers' : headers, 'body': json_data })
         res = requests.post(self.__getattribute__('endpoint'), json=json_data, headers=headers)
-
         if res.ok:
             print(f'Successful request. Status code: {res.status_code}.')
         else:
@@ -60,3 +61,15 @@ class Caller:
             print(curl.parse(res))
 
         return res
+
+def export_to_benchling(json_dict: dict, benchling_connection: BenchlingConnection) -> str:
+    api_caller = Caller(benchling_connection.sequence_url + '/seq_Z3rvNMFp')
+    print(benchling_connection.sequence_url)
+    token = benchling_connection.token
+    try:
+        oligos_id = api_caller.make_request('patch', token, json_dict).json()['id']
+
+    except Exception as err:
+        raise Exception(err)
+
+    return oligos_id
