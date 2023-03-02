@@ -11,12 +11,13 @@ class BenchlingConnection:
     def __init__(self):
         url = self.generate_url(prod_env=PROD_ENV)
         self.api_url = url + r'api/v2/'
-        self.oligos_url = self.api_url + r'dna-oligos'
         self.blobs_url = self.api_url + r'blobs/'
+        self.oligos_url = self.api_url + r'dna-oligos/'
+        self.sequence_url = self.api_url + r'dna-sequences/'
         self.tasks_url = self.api_url + r'workflow-tasks/'
-        self.tasks_output_url = self.api_url + r'workflow-outputs'
+        self.tasks_output_url = self.api_url + r'workflow-outputs/'
+        
         self.token_url = self.api_url + r'token'
-        self.sequence_url = self.api_url + r'dna-sequences'
 
         _auth_object = APIConnector(self.token_url, CLIENT_ID)
         if _auth_object:

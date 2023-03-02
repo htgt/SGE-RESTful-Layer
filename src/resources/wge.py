@@ -4,7 +4,7 @@ from src.wge.wge import (
     query_wge_by_id,
     prepare_guide_rna_class,
 )
-from src.rest_calls.send_calls import export_to_benchling
+from src.rest_calls.send_calls import export_to_service
 from src.benchling import benchling_connection
 
 import requests
@@ -36,12 +36,13 @@ class WGEEndpoint(Resource):
         event_data = self.__transform_event_input_data(data)
         wge_data = query_wge_by_id(event_data['wge_id'])
         grna_class = prepare_guide_rna_class(event_data, wge_data)
-        export_to_benchling(grna_class.as_benchling_req_body(event_data), benchling_connection)
+        benchling_body = grna_class.as_benchling_req_body(event_data)
+        patch_url = benchling_connection.sequence_url + event_data['entity_id'] 
+        response = export_to_service(
+            benchling_body,
+            patch_url,
+            benchling_connection.token,
+            'patch',
+        )
 
-        return event_data
-        #return (export_return_forward, export_return_reverse), 200
-
-            #except Exception as err:
-            #    return json.dumps(err), 500
-       # else:
-       #     return "Incorrect input data", 404
+        return response

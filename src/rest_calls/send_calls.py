@@ -62,14 +62,17 @@ class Caller:
 
         return res
 
-def export_to_benchling(json_dict: dict, benchling_connection: BenchlingConnection) -> str:
-    api_caller = Caller(benchling_connection.sequence_url + '/seq_Z3rvNMFp')
-    print(benchling_connection.sequence_url)
-    token = benchling_connection.token
+def export_to_service(
+    json_dict: dict, 
+    service_url : str,
+    token : str,
+    action : str='get'
+) -> str:
+    api_caller = Caller(service_url)
     try:
-        oligos_id = api_caller.make_request('patch', token, json_dict).json()['id']
+        entity_id = api_caller.make_request(action, token, json_dict).json()['id']
 
     except Exception as err:
         raise Exception(err)
 
-    return oligos_id
+    return entity_id
