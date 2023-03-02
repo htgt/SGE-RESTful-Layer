@@ -1,22 +1,17 @@
+from src.rest_calls.send_calls import Caller
+from . import benchling_connection
+
 from src.domain.libamp_primers import LibampPrimer
 import json
 import sys
 sys.path.append("..")
 
-benchling_ids = json.load(open('benchling_ids.json'))
 
 def post_libamp_primers(data):
     pairs = []
 
     for primer_pair in data:
-        libamp_primer_left = create_libamp_primer(primer_pair, "left")
-        libamp_primer_right = create_libamp_primer(primer_pair, "right")
-        pairs.append(
-            transform_primer_to_benchling_json(libamp_primer_left, benchling_ids)
-        )
-        pairs.append(
-            transform_primer_to_benchling_json(libamp_primer_right, benchling_ids)
-        )
+        export_primer_pair(primer_pair)
 
     return pairs.__repr__()
 
@@ -35,7 +30,7 @@ def create_libamp_primer(pair, strand = "left") -> LibampPrimer:
             pair["targeton"],
         )
 
-def transform_primer_to_benchling_json(primer, ids) -> dict:
+def primer_to_benchling_json(primer, ids) -> dict:
     return {
         "bases": primer.sequence,
         "fields": {
@@ -67,4 +62,34 @@ def transform_primer_to_benchling_json(primer, ids) -> dict:
         "folderId": ids["folder_id"],
         "schemaId": ids["libamp_schema_id"]
     }
+
+def export_primer_pair(pair) -> None:
+    benchling_ids = json.load(open("benchling_ids.json"))
+    api_caller = Caller(benchling_connection.oligos_url)
+    token = benchling_connection.token
+
+    primer_left = create_libamp_primer(pair, "left")
+    primer_right = create_libamp_primer(pair, "right")
+
+    primer_left_json = primer_to_benchling_json(primer_left, benchling_ids)
+    primer_right_json = primer_to_benchling_json(primer_right, benchling_ids)
+
+    try:
+        left_result = export_to_benchling(api_caller, token, primer_left_json)
+        right_result = export_to_benchling(api_caller, token, primer_right_json)
+
+        print("Result: ", left_result, right_result)
+
+    except Exception as err:
+        raise Exception(err)
+
+
+def export_to_benchling(caller, token, json) -> str:
+    res = caller.make_request('post', token, json).json()
+
+    return res
+
+
+
+
 
