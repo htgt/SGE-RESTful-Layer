@@ -5,11 +5,12 @@ from dataclasses import dataclass
 from . import BenchlingConnection
 import json
 import sys
+from src.utils.classes import BaseClass
 sys.path.append("..")
 
 
 @dataclass
-class BenchlingOligo(Oligo):
+class BenchlingOligo(Oligo, BaseClass):
     targeton: str
     folder_id: str
     schema_id: str
