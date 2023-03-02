@@ -18,7 +18,8 @@ class APIConnector:
     def get_secret_key(self) -> str:
         # Replace with function arg and user input for url/path.
         SECRET_KEY_URL = 'src/benchling/config.cfg'
-        secret_path = Path('src/benchling/config.cfg')
+
+        secret_path = Path(SECRET_KEY_URL)
         if secret_path.exists():
             secret_key = open(secret_path, 'r').read()
         else:
