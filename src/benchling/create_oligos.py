@@ -35,7 +35,7 @@ def prepare_oligos_json(oligos, ids):
     }
 
 
-def export_oligos_to_benchling(oligos):
+def export_grna_to_benchling(event_data : dict, grna_class):
     benchling_ids = json.load(open('benchling_ids.json'))
 
     api_caller = Caller(benchling_connection.oligos_url)

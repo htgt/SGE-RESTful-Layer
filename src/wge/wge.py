@@ -32,9 +32,6 @@ def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
 
     return grna_class
 
-def post_guide_rna_to_benchling(event_data, grna_entity):
-    return
-
 def calculate_strand(pam : int) -> chr:
     strands = {
         0 : '-',

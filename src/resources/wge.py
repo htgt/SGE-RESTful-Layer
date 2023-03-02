@@ -3,8 +3,8 @@ from flask_restful import Resource
 from src.wge.wge import (
     query_wge_by_id,
     prepare_guide_rna_class,
-    post_guide_rna_to_benchling
 )
+from src.benchling.create_oligos import export_grna_to_benchling
 
 import requests
 
@@ -29,7 +29,7 @@ class WGEEndpoint(Resource):
         event_data = self.__transform_event_input_data(data)
         wge_data = query_wge_by_id(event_data['wge_id'])
         grna_class = prepare_guide_rna_class(event_data, wge_data)
-        post_guide_rna_to_benchling(event_data, grna_class)
+        export_grna_to_benchling(event_data, grna_class)
 
         return event_data
         #return (export_return_forward, export_return_reverse), 200
