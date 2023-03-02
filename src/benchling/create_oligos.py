@@ -1,11 +1,12 @@
 from src.rest_calls.send_calls import Caller
 from src.utils.exceptions import OligoDirectionInvalid
-from src.domain.guideRNA import Oligo
+from src.domain.guideRNA import Oligo, OligosPair
 from dataclasses import dataclass
 from . import BenchlingConnection
 import json
 import sys
-from src.utils.classes import BaseClass
+from src.benchling.classes import BaseClass
+from src.rest_calls.send_calls import export_to_benchling
 sys.path.append("..")
 
 
@@ -19,7 +20,7 @@ class BenchlingOligo(Oligo, BaseClass):
     grna: str
 
 
-def prepare_oligos_json(oligos, ids):
+def prepare_oligo_json(oligos: BenchlingOligo) -> dict:
     return {
         "bases": str(getattr(oligos, 'sequence')),
         "fields": {
@@ -39,22 +40,29 @@ def prepare_oligos_json(oligos, ids):
     }
 
 
-def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection, benchling_ids_path='benchling_ids.json'):
-    benchling_ids = json.load(open(benchling_ids_path))
+def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection):
+    oligo_forward_json = prepare_oligo_json(oligos.forward)
+    oligo_reverse_json = prepare_oligo_json(oligos.reverse)
+    oligo_forward_id = export_to_benchling(oligo_forward_json, benchling_connection)
+    oligo_reverse_id = export_to_benchling(oligo_reverse_json, benchling_connection)
+    return (oligo_forward_id, oligo_reverse_id)
 
-    api_caller = Caller(benchling_connection.oligos_url)
-    token = benchling_connection.token
-
-    oligos_json = prepare_oligos_json(oligos, benchling_ids)
-
-    try:
-        olgos_id = api_caller.make_request('post', token, oligos_json).json()['id']
-
-    except Exception as err:
-        raise Exception(err)
-
-    return olgos_id
-
+def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict, benchling_ids: dict) -> OligosPair:
+    # Foward
+    oligos.forward = setup_oligo_class(
+        oligos.forward,
+        guide_data,
+        benchling_ids,
+        'forward',
+    )
+    # Reverse
+    oligos.reverse = setup_oligo_class(
+        oligos.reverse,
+        guide_data,
+        benchling_ids,
+        'reverse',
+    )
+    return oligos
 
 def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
     if direction == "forward":

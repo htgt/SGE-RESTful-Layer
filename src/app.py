@@ -17,4 +17,4 @@ api.add_resource(TaskEndpoint, '/task', methods=["POST", "GET"])
 api.add_resource(GuideEndpoint, '/guide', methods=["POST"])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

@@ -1,6 +1,7 @@
 import curl
 import requests
 from urllib.parse import urljoin
+from src.benchling import BenchlingConnection
 
 
 class Caller:
@@ -60,3 +61,15 @@ class Caller:
             print(curl.parse(res))
 
         return res
+
+def export_to_benchling(json_dict: dict, benchling_connection: BenchlingConnection) -> str:
+    api_caller = Caller(benchling_connection.oligos_url)
+    token = benchling_connection.token
+
+    try:
+        oligos_id = api_caller.make_request('post', token, json_dict).json()['id']
+
+    except Exception as err:
+        raise Exception(err)
+
+    return oligos_id

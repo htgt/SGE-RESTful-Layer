@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from src.utils.exceptions import OligoDirectionInvalid
 from src.domain.guideRNA import OligosPair, Oligo
-from src.benchling.create_oligos import prepare_oligos_json, export_oligos_to_benchling, setup_oligo_class, BenchlingOligo
+from src.benchling.create_oligos import prepare_oligo_json, setup_oligo_class, BenchlingOligo
 import json
 from Bio.Seq import Seq
 from copy import deepcopy
@@ -104,32 +104,17 @@ class TestCreateOligo(unittest.TestCase):
 
         return MockResponse(None, 404)
 
-    def test_prepare_oligos_json(self):
+    def test_prepare_oligo_json(self):
         # Arrange
-        benchling_ids = self.benchling_ids
         oligos = deepcopy(self.example_benchling_oligos_pair)
         # Act
-        test_forward_oligo_json_dict = prepare_oligos_json(oligos.forward, benchling_ids)
-        test_reverse_oligo_json_dict = prepare_oligos_json(oligos.reverse, benchling_ids)
+        test_forward_oligo_json_dict = prepare_oligo_json(oligos.forward)
+        test_reverse_oligo_json_dict = prepare_oligo_json(oligos.reverse)
         # Assert
         example_forward_oligo_json_dict = self.example_forward_oligo_json_dict
         example_reverse_oligo_json_dict = self.example_reverse_oligo_json_dict
         self.assertDictEqual(test_forward_oligo_json_dict, example_forward_oligo_json_dict)
         self.assertDictEqual(test_reverse_oligo_json_dict, example_reverse_oligo_json_dict)
-
-#    Can't figure out how to test this.
-    # def test_export_oligos_to_benchling_fail(self):
-    #      # Arrange
-    #     oligos = deepcopy(self.example_benchling_oligos_pair)
-    #     benchling_connection.oligo_url = 'not_an_url'
-    #     # Act
-    #     test_forward_oligo_json_dict = export_oligos_to_benchling(oligos.forward, benchling_connection)
-    #     test_reverse_oligo_json_dict = export_oligos_to_benchling(oligos.reverse, benchling_connection)
-    #     # Assert
-    #     example_forward_oligo_json_dict = self.example_forward_oligo_json_dict
-    #     example_reverse_oligo_json_dict = self.example_reverse_oligo_json_dict
-    #     self.assertDictEqual(test_forward_oligo_json_dict, example_forward_oligo_json_dict)
-    #     self.assertDictEqual(test_reverse_oligo_json_dict, example_reverse_oligo_json_dict)
 
     def test_setup_oligo_class(self):
         # Arrange

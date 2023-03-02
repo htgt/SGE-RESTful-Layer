@@ -1,7 +1,7 @@
 from Bio.Seq import Seq
 from dataclasses import dataclass
 from typing import List
-from src.utils.classes import BaseClass
+from src.benchling.classes import BaseClass
 
 transformations_dict = {
     "FORWARD_PREFIX": "CACC",
