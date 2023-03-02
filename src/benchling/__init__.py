@@ -2,8 +2,8 @@ from .auth_utils import APIConnector
 from warnings import warn
 from src.utils.exceptions import NoBenchlingEnvMatchWarning
 
-CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
-PROD_ENV = 'ci'  # 'prod', 'ci', 'tol'
+CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016'
+PROD_ENV = 'tol'  # 'prod', 'ci', 'tol'
 
 
 class BenchlingConnection:
