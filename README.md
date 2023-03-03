@@ -25,7 +25,8 @@ With Makefile
 ```sh
 make run
 ```
-```make run``` Launches the flask container and binds with Gunicorn.
+```make run-gunicorn``` Launches the app with Gunicorn.
+```make run-flask``` Launches the app with flask.
 
 OR
 
@@ -55,10 +56,16 @@ Build image
 
 ```docker build -t sge-restful-layer . ```
 
+Or with makefile
+```make build-docker``'
+
 
 Run container
 
 ```docker run -p 8081:8081 sge-restful-layer ```
+
+Or with makefile (also builds)
+```make run-docker```
 
 ## Run Unit Tests
 

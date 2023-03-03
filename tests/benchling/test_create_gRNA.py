@@ -3,6 +3,7 @@ import unittest
 from domain.guideRNA import GuideRNA
 import benchling.create_gRNA
 
+
 class TestCreategRNA(unittest.TestCase):
     def setUp(self):
         return
@@ -106,9 +107,13 @@ class TestCreategRNA(unittest.TestCase):
             "schemaId": 'grna_schema_id'
         }
 
-
         # act
-        actual = benchling.create_gRNA.prepare_grna_json(test_grna, test_fwd_sgrna_id, test_rev_sgrna_id, test_ids)
+        actual = benchling.create_gRNA.prepare_grna_json(
+            test_grna, 
+            test_fwd_sgrna_id, 
+            test_rev_sgrna_id, 
+            test_ids
+        )
 
         # assert
         self.assertEqual(actual, expected)

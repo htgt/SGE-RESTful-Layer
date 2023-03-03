@@ -4,8 +4,12 @@ EXPOSE 8081
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+COPY Makefile Makefile
+COPY src src
+COPY tests tests
 
-COPY . .
+RUN make install
+RUN make setup-venv
 
-CMD [ "python3", "-m" , "gunicorn", "src.app:app"]
+
+CMD [ "sh", "-c", "make run-gunicorn" ]
