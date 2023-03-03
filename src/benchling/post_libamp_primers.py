@@ -28,11 +28,19 @@ def create_libamp_primer(pair, strand = "left") -> LibampPrimer:
             pair["product_size"],
             pair["version"],
             pair["targeton"],
+            generate_primer_name(pair["pair"], strand),
         )
+
+
+def generate_primer_name(pair_name, strand) -> str:
+    append = "F" if "left" else "R"
+
+    return pair_name + append
 
 def primer_to_benchling_json(primer, ids) -> dict:
     return {
         "bases": primer.sequence,
+        "name": primer.name,
         "fields": {
             "GC Content (%)": {
                 "value": primer.gc_content,
@@ -41,16 +49,13 @@ def primer_to_benchling_json(primer, ids) -> dict:
                 "value": primer.chr_start,
             },
             "LibAmp Primer Type": {
-                "value": primer.strand == "left" if ids["libamp_forward"] else ids["libamp_reverse"],
+                "value":  ids["libamp_forward"] if primer.strand == "left" else ids["libamp_reverse"],
             },
             "Primer Score": {
                 "value": primer.score,
             },
             "Product Size (bp)":{
                 "value": primer.product_size,
-            },
-            "Targeton": {
-                "value": primer.targeton,
             },
             "Tm (°C)": {
                 "value": primer.melting_temp,

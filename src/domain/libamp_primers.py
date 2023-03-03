@@ -13,6 +13,7 @@ class LibampPrimer:
     product_size: float
     version: str
     targeton: str
+    name: str
 
 
 
