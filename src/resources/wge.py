@@ -1,11 +1,7 @@
 from flask import request
 from flask_restful import Resource
-from src.wge.wge import (
-    query_wge_by_id,
-    prepare_guide_rna_class,
-)
-from src.rest_calls.send_calls import export_to_service
-from src.benchling import benchling_connection
+
+from src.wge.wge import patch_wge_data_to_service
 
 import requests
 import json
@@ -29,20 +25,12 @@ class WGEEndpoint(Resource):
     def get(self):
         wge_id = request.args.get('id')
         wge_json = query_wge_by_id(wge_id)
+
         return wge_json
     
     def post(self):
         data = request.json
         event_data = self.__transform_event_input_data(data)
-        wge_data = query_wge_by_id(event_data['wge_id'])
-        grna_class = prepare_guide_rna_class(event_data, wge_data)
-        benchling_body = grna_class.as_benchling_req_body(event_data)
-        patch_url = benchling_connection.sequence_url + event_data['entity_id'] 
-        response = export_to_service(
-            benchling_body,
-            patch_url,
-            benchling_connection.token,
-            'patch',
-        )
+        response = patch_wge_data_to_service(self, event_data)
 
         return response
