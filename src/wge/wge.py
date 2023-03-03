@@ -5,11 +5,11 @@ from src.domain.guideRNA import GuideRNA
 from src.rest_calls.send_calls import export_to_service
 from src.benchling import benchling_connection
 
-def patch_wge_data_to_service(self, event_data : dict) -> dict:
+def patch_wge_data_to_service(event_data : dict) -> dict:
     wge_data = query_wge_by_id(event_data['wge_id'])
     grna_class = prepare_guide_rna_class(event_data, wge_data)
     benchling_body = grna_class.as_benchling_req_body(event_data)
-    patch_url = benchling_connection.sequence_url + event_data['entity_id']
+    patch_url = benchling_connection.sequence_url + '/' + event_data['entity_id']
     response = export_to_service(
         benchling_body,
         patch_url,

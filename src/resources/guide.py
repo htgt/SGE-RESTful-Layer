@@ -4,6 +4,9 @@ from src.domain.guideRNA import GuideRNAOligo
 from src.benchling.get_sequence import get_sequence
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class
 from src.benchling import benchling_connection
+from src.resources.wge import transform_wge_event
+from src.wge.wge import patch_wge_data_to_service
+
 import json
 
 BENCHLING_GUIDE_RNA_SCHEMA_ID = "ts_vGZYroiQ"
@@ -28,8 +31,14 @@ class GuideEndpoint(Resource):
 
     def post(self):
         data = request.json
-
         if check_event_is_guide_rna(data):
+            response = {}
+            if check_wge_id(data):
+                try:
+                    wge_event = transform_wge_event(data)
+                    response['grna'] = patch_wge_data_to_service(wge_event)
+                except Exception as err:
+                    return json.dumps(err), 500
             try:
                 guide_data = self.__transform_event_input_data(data)
                 guide_data["seq"] = get_sequence(guide_data["id"])
@@ -41,8 +50,9 @@ class GuideEndpoint(Resource):
                     oligos, 
                     benchling_connection
                 )
+                response['oligos'] = export_return
 
-                return export_return, 200
+                return response, 200
 
             except Exception as err:
                 return json.dumps(err), 500
@@ -58,3 +68,9 @@ def check_event_is_guide_rna(data: dict) -> bool:
         bool_check = False
 
     return bool_check
+
+def check_wge_id(data : dict) -> bool:
+    check = False 
+    if data['detail']['entity']['fields']['WGE ID']:
+        check = True
+    return check

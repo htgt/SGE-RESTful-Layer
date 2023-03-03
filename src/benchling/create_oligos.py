@@ -45,13 +45,13 @@ def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: Ben
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
     oligo_forward_id = export_to_service(
         oligo_forward_json,
-        benchling_connection.oligo_url,
+        benchling_connection.oligos_url,
         benchling_connection.token,
         'post',
     )
     oligo_reverse_id = export_to_service(
         oligo_reverse_json,
-        benchling_connection.oligo_url,
+        benchling_connection.oligos_url,
         benchling_connection.token,
         'post',
     )
