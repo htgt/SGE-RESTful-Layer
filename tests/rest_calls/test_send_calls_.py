@@ -55,7 +55,10 @@ class TestCaller(unittest.TestCase):
         # assert
         self.assertEqual(actual, expected)
         self.assertTrue(request.called)
-        self.assertEqual(f"{request.call_args}", f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
+        self.assertEqual(
+            f"{request.call_args}",
+            f"call('{test_endpoint}', json={test_data}, headers={expected_header})"
+        )
 
     @patch('builtins.print')
     @patch('requests.post')
@@ -79,7 +82,9 @@ class TestCaller(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertTrue(mock_print.called)
         self.assertTrue(request.called)
-        self.assertEqual(f"{request.call_args}", f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
+        self.assertEqual(f"{request.call_args}",
+                         f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
+
 
 if __name__ == '__main__':
     unittest.main()
