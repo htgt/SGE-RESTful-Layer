@@ -1,6 +1,7 @@
 import requests
 from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
+import json
 
 
 class APIConnector:
@@ -17,10 +18,15 @@ class APIConnector:
 
     def get_secret_key(self) -> str:
         # Replace with function arg and user input for url/path.
-        SECRET_KEY_URL = 'src/benchling/config.cfg'
-        secret_path = Path('src/benchling/config.cfg')
+        SECRET_KEY_URL = 'src/benchling/config.json'
+        secret_path = Path(SECRET_KEY_URL)
         if secret_path.exists():
-            secret_key = open(secret_path, 'r').read()
+            try:
+                with open(secret_path, 'r') as f:
+                    secrets = json.load(f)
+                secret_key = secrets['benchling_secret_key']
+            except:
+                raise NoSecretKeyException(f"Unable to get secret key from {SECRET_KEY_URL}")
         else:
             raise NoSecretKeyException(f"No Config file found at {SECRET_KEY_URL}")
         if len(secret_key) < 1:
