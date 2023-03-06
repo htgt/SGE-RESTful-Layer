@@ -33,7 +33,7 @@ def create_libamp_primer(pair, strand = "left") -> LibampPrimer:
 
 
 def generate_primer_name(pair_name, strand) -> str:
-    append = "F" if "left" else "R"
+    append = "F" if strand == left else "R"
 
     return pair_name + append
 
@@ -48,6 +48,9 @@ def primer_to_benchling_json(primer, ids) -> dict:
             "Genome Location": {
                 "value": primer.chr_start,
             },
+            "Primer Direction (short form)": {
+                "value": ids["forward_direction"] if primer.strand == "left" else ids["negative_direction"],
+            },
             "LibAmp Primer Type": {
                 "value":  ids["libamp_forward"] if primer.strand == "left" else ids["libamp_reverse"],
             },
@@ -59,9 +62,6 @@ def primer_to_benchling_json(primer, ids) -> dict:
             },
             "Tm (°C)": {
                 "value": primer.melting_temp,
-            },
-            "Version": {
-                "value": primer.version,
             },
         },
         "folderId": ids["folder_id"],

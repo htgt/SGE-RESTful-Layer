@@ -4,6 +4,8 @@
   "sgrna_schema_id": "ts_3arvRFIl",
   "positive_strand": "sfso_Mmvf1ki5",
   "negative_strand": "sfso_zIBEDlMM",
+  "forward_direction": "sfso_SqidJ89q",
+  "negative_direction": "sfso_oJJndGCo",
   "libamp_schema_id": "ts_6UmlYWkl",
   "libamp_forward": "sfso_VGq0VE2s",
   "libamp_reverse": "sfso_LKX4eewx"
