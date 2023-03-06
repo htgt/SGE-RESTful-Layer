@@ -3,4 +3,5 @@ venv
 .idea/
 config.cfg
 config.json
+.env
 grna_event.json
