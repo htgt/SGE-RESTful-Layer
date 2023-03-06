@@ -25,7 +25,6 @@ class Caller:
 
     def make_get(self, headers, get_path):
         url = urljoin(self.__getattribute__('endpoint'), get_path)
-        # print(url)
         res = requests.get(url, headers=headers)
 
         if res.ok:
@@ -34,13 +33,10 @@ class Caller:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
             print(f'DEBUG: {res.text}')
 
-        # print(res)
 
         return res.text
-    # res.json()
 
     def make_post(self, headers, json_data):
-        print({'headers' : headers, 'body': json_data })
         res = requests.post(self.__getattribute__('endpoint'), json=json_data, headers=headers)
         if res.ok:
             print(f'Successful request. Status code: {res.status_code}.')

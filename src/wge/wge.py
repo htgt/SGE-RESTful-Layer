@@ -16,6 +16,7 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
         benchling_connection.token,
         'patch',
     )
+
     return response
 
 def query_wge_by_id(wge_id : str) -> dict:
@@ -41,7 +42,6 @@ def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
         'off_targets' : grna_data['off_target_summary'],
         'species' : species,
     }
-    print(grna_dict)
     
     grna_class = GuideRNA(grna_dict)
 
