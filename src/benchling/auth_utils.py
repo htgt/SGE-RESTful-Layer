@@ -3,6 +3,7 @@ from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
 import json
 from dotenv import load_dotenv
+import os
 
 
 class APIConnector:
@@ -18,15 +19,16 @@ class APIConnector:
         self.token = self.get_access_token()
 
     def get_secret_key(self) -> str:
-        # Replace with function arg and user input for url/path.
-        try:
-            config = load_dotenv(".env")
-        except:
-            raise NoSecretKeyException(f"Unable to get config from .env")
-        if "benchling_secret_key" in config:
-            secret_key = config['benchling_secret_key']
-        else:
-            raise NoSecretKeyException(f"No secret key found in .env")
+        secret_key = os.getenv('BENCHLING_SECRET_KEY')
+        if not secret_key:
+            try:
+                load_dotenv(".env")
+                secret_key = os.getenv('BENCHLING_SECRET_KEY')
+                if not secret_key:
+                    raise NoSecretKeyException(f"Environmental variable Benchling secret key is empty.")
+            except:
+                raise NoSecretKeyException(f"No secret key found in Enviromental variables or .env")
+
         if len(secret_key) < 1:
             raise NoSecretKeyException(f"Empty secret key stored in .env")
         return secret_key
