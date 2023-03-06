@@ -35,6 +35,6 @@ def transform_wge_event(data):
     wge_grna_data['wge_id'] = data_entity['fields']['WGE ID']['value']
     wge_grna_data['targeton_id'] = data_entity['fields']['Targeton']['value']
     wge_grna_data['schema_id'] = data_entity['schema']['id']
-    wge_grna_data['name'] = data_entity['schema']['name']
+    wge_grna_data['name'] = data_entity['name']
     
     return wge_grna_data

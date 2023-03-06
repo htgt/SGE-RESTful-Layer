@@ -33,7 +33,7 @@ class GuideEndpoint(Resource):
         data = request.json
         if check_event_is_guide_rna(data):
             response = {}
-            if check_wge_id(data):
+            if check_wge_id(data) == True:
                 try:
                     wge_event = transform_wge_event(data)
                     response['grna'] = patch_wge_data_to_service(wge_event)
