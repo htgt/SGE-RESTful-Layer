@@ -1,6 +1,12 @@
 class NoSecretKeyException(Exception):
     pass
 
-### Warnings
+
+class OligoDirectionInvalid(Exception):
+    pass
+
+# Warnings
+
+
 class NoBenchlingEnvMatchWarning(UserWarning):
     pass
