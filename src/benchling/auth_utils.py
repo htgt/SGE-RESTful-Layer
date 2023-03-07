@@ -25,12 +25,13 @@ class APIConnector:
             raise NoSecretKeyException(f"No Config file found at {SECRET_KEY_URL}")
         if len(secret_key) < 1:
             raise NoSecretKeyException(f"No secret key found at {SECRET_KEY_URL}")
-        return secret_key
+
+        return open(SECRET_KEY_URL, 'r').read().strip('\n')
 
     def get_access_token(self) -> str:
         # Ideally store access token in cache with correct ttd
         # Only regenerate when cached token expires
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
-
+        
         return auth_json['access_token']
