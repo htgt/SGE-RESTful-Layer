@@ -2,8 +2,7 @@ from src.domain.guideRNA import GuideRNAOligo
 from src.benchling import benchling_connection
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class
 from src.benchling.get_sequence import get_sequence
-from src.resources.wge import transform_wge_event
-from src.wge.wge import patch_wge_data_to_service
+from src.wge.wge import patch_wge_data_to_service, transform_wge_event
 
 def patch_grna_event(data : dict) -> dict:
     if check_wge_id(data):

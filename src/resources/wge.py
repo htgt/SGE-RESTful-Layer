@@ -1,18 +1,12 @@
 from flask import request
 from flask_restful import Resource
 
-from src.wge.wge import patch_wge_data_to_service
+from src.wge.wge import transform_wge_event, patch_wge_data_to_service
 
 import requests
 import json
 
 class WGEEndpoint(Resource):
-    def __transform_event_input_data(self, data):
-        wge_grna = transform_wge_event(data)        
-        
-        return wge_grna
-
-
     def get(self):
         wge_id = request.args.get('id')
         wge_json = query_wge_by_id(wge_id)
@@ -21,20 +15,7 @@ class WGEEndpoint(Resource):
     
     def post(self):
         data = request.json
-        event_data = self.__transform_event_input_data(data)
+        event_data = transform_wge_event(data)
         response = patch_wge_data_to_service(event_data)
 
         return response
-    
-def transform_wge_event(data):
-    data_entity = data['detail']['entity']
-    
-    wge_grna_data = {}
-    wge_grna_data['folder_id'] = data_entity['folderId']
-    wge_grna_data['entity_id'] = data_entity['id']
-    wge_grna_data['wge_id'] = data_entity['fields']['WGE ID']['value']
-    wge_grna_data['targeton_id'] = data_entity['fields']['Targeton']['value']
-    wge_grna_data['schema_id'] = data_entity['schema']['id']
-    wge_grna_data['name'] = data_entity['name']
-    
-    return wge_grna_data
