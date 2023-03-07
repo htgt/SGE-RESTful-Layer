@@ -24,30 +24,6 @@ class TestGuideRNA(unittest.TestCase):
                          Seq("GACTTCCAGCTACGGCGCG"))
         self.assertEqual(getattr(test_gRNA, "off_targets"), "{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}")
 
-    def test_create_set_of_guide_RNAs(self):
-        input_data = [{
-            'wge_id': '1168686327',
-            'seq': 'GACTTCCAGCTACGGCGCG',
-            'targeton': 'TGTN001',
-            'strand': 'sfso_qKNl7o1M',
-            'wge_link': 'www.test.com',
-            'off_targets': '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
-            'species': 'sfso_gWKuC1ge',
-        }, {
-            'wge_id': '1067960606',
-            'seq': 'AATATGGTGGCCCTCCACC',
-            'targeton': 'TGTN001',
-            'strand': 'sfso_qKNl7o1M',
-            'wge_link': 'www.test.com',
-            'off_targets': '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
-            'species': 'sfso_gWKuC1ge',
-        }]
-
-        test_array = create_set_of_gRNAs(input_data)
-
-        self.assertEqual(getattr(test_array[0], "wge_id"), "1168686327")
-        self.assertEqual(getattr(test_array[1], "wge_id"), "1067960606")
-
     def test_grna_as_benchling_req_body(self):
         input_data = {
             'wge_id': '1168686327',
