@@ -25,7 +25,6 @@ class Caller:
 
     def make_get(self, headers, get_path):
         url = urljoin(self.__getattribute__('endpoint'), get_path)
-        # print(url)
         res = requests.get(url, headers=headers)
 
         if res.ok:
@@ -34,14 +33,11 @@ class Caller:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
             print(f'DEBUG: {res.text}')
 
-        # print(res)
 
         return res.text
-    # res.json()
 
     def make_post(self, headers, json_data):
         res = requests.post(self.__getattribute__('endpoint'), json=json_data, headers=headers)
-
         if res.ok:
             print(f'Successful request. Status code: {res.status_code}.')
         else:
@@ -62,14 +58,17 @@ class Caller:
 
         return res
 
-def export_to_benchling(json_dict: dict, benchling_connection: BenchlingConnection) -> str:
-    api_caller = Caller(benchling_connection.oligos_url)
-    token = benchling_connection.token
-
+def export_to_service(
+    json_dict: dict, 
+    service_url : str,
+    token : str,
+    action : str='get'
+) -> str:
+    api_caller = Caller(service_url)
     try:
-        oligos_id = api_caller.make_request('post', token, json_dict).json()['id']
+        json_response = api_caller.make_request(action, token, json_dict).json()
 
     except Exception as err:
         raise Exception(err)
 
-    return oligos_id
+    return json_response
