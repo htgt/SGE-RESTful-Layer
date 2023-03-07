@@ -8,12 +8,10 @@ sys.path.append("..")
 
 
 def post_libamp_primers(data):
-    pairs = []
-
     for primer_pair in data:
-        export_primer_pair(primer_pair)
+        result = export_primer_pair(primer_pair)
 
-    return pairs.__repr__()
+    return result
 
 
 def create_libamp_primer(pair, strand = "left") -> LibampPrimer:
