@@ -25,7 +25,6 @@ class APIConnector:
             raise NoSecretKeyException(f"No Config file found at {SECRET_KEY_URL}")
         if len(secret_key) < 1:
             raise NoSecretKeyException(f"No secret key found at {SECRET_KEY_URL}")
-        return secret_key
 
         return open(SECRET_KEY_URL, 'r').read().strip('\n')
 
