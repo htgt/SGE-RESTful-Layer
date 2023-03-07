@@ -43,20 +43,20 @@ def prepare_oligo_json(oligos: BenchlingOligo) -> dict:
 def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection):
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
-    oligo_forward_id = export_to_service(
+    oligo_forward = export_to_service(
         oligo_forward_json,
         benchling_connection.oligos_url,
         benchling_connection.token,
         'post',
     )
-    oligo_reverse_id = export_to_service(
+    oligo_reverse = export_to_service(
         oligo_reverse_json,
         benchling_connection.oligos_url,
         benchling_connection.token,
         'post',
     )
 
-    return (oligo_forward_id, oligo_reverse_id)
+    return (oligo_forward['id'], oligo_reverse['id'])
 
 def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict, benchling_ids: dict) -> OligosPair:
     # Foward

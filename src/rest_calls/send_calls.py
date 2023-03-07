@@ -66,9 +66,9 @@ def export_to_service(
 ) -> str:
     api_caller = Caller(service_url)
     try:
-        entity_id = api_caller.make_request(action, token, json_dict).json()['id']
+        json_response = api_caller.make_request(action, token, json_dict).json()
 
     except Exception as err:
         raise Exception(err)
 
-    return entity_id
+    return json_response

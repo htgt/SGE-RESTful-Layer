@@ -17,7 +17,7 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
         'patch',
     )
 
-    return response
+    return response['id']
 
 def query_wge_by_id(wge_id : str) -> dict:
     url = "https://wge.stemcell.sanger.ac.uk/api/crispr_by_id?species=Grch38&id=" + str(wge_id)
