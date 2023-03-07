@@ -31,7 +31,7 @@ def create_libamp_primer(pair, strand = "left") -> LibampPrimer:
 
 
 def generate_primer_name(pair_name, strand) -> str:
-    append = "F" if strand == left else "R"
+    append = "F" if strand == "left" else "R"
 
     return pair_name + append
 

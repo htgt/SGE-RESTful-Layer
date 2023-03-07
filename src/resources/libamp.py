@@ -7,8 +7,6 @@ class Libamp(Resource):
     def post(self):
         data = request.json
 
-        #print(data)
-
         result = post_libamp_primers(data)
 
         return result, 201
