@@ -2,6 +2,7 @@ import unittest
 
 from src.domain.taskImportGrnas import TaskImport
 
+
 class TestRaskImportGrnas(unittest.TestCase):
     def _get_blob_url_fake(self, str):
         return "www.example.com"
