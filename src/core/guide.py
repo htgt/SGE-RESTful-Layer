@@ -4,6 +4,21 @@ from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_
 from src.benchling.get_sequence import get_sequence
 from src.wge.wge import patch_wge_data_to_service, transform_wge_event
 
+BENCHLING_GUIDE_RNA_SCHEMA_ID = "ts_vGZYroiQ"
+BENCHLING_ENTITY_REGISTERED_EVENT = "v2.entity.registered"
+
+def handle_guide_event(data : dict) -> dict:
+    response = {}
+    try:
+        response['grna'] = patch_grna_event(data)
+    except Exception as err:
+        return json.dumps(err), 500
+    try:
+        response['oligos'] = post_grna_oligos_event(data)
+        return response, 200 
+    except Exception as err: 
+        return json.dumps(err), 500
+
 def patch_grna_event(data : dict) -> dict:
     if check_wge_id(data):
         wge_event = transform_wge_event(data)
