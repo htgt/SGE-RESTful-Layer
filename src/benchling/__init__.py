@@ -55,7 +55,6 @@ class BenchlingSchemaIds:
     def __init__(self):
         self.ids = json.load(open(BENCHLING_IDS_URL))
 
-        print('Benchling IDs:', self.ids)
 
 benchling_connection = BenchlingConnection()
 benchling_schema_ids = BenchlingSchemaIds()

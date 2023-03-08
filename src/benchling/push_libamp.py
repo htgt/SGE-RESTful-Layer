@@ -1,6 +1,6 @@
 from . import benchling_connection, benchling_schema_ids
 from src.rest_calls.send_calls import export_to_service
-
+import requests
 
 def primer_to_benchling_json(primer, ids) -> dict:
     return {
@@ -47,16 +47,18 @@ def export_primer_pair(primer_left, primer_right) -> list:
             token,
             'post',
         )
-        right_response= export_to_service(
-            primer_right_json,
-            url,
-            token,
-            'post',
-        )
 
-        print("Result: ", left_response, right_response)
+        if left_response.ok:
+            right_response = export_to_service(
+                primer_right_json,
+                url,
+                token,
+                'post',
+            )
+        else:
+            raise Exception(left_response)
 
     except Exception as err:
         raise Exception(err)
 
-    return [left_response, right_response]
+    return [left_response.json(), right_response.json()]
