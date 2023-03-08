@@ -1,7 +1,6 @@
 import curl
 import requests
 from urllib.parse import urljoin
-from src.benchling import BenchlingConnection
 
 
 class Caller:

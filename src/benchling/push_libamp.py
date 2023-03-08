@@ -1,8 +1,10 @@
 from . import benchling_connection, benchling_schema_ids
 from src.rest_calls.send_calls import export_to_service
-import requests
+from src.benchling.archive_entity import archive_oligo
+from src.domain.libamp_primers import LibampPrimer
 
-def primer_to_benchling_json(primer, ids) -> dict:
+
+def primer_to_benchling_json(primer: LibampPrimer, ids) -> dict:
     return {
         "bases": primer.sequence,
         "name": primer.name,
@@ -33,32 +35,62 @@ def primer_to_benchling_json(primer, ids) -> dict:
         "schemaId": ids["schemas"]["libamp_schema_id"]
     }
 
-def export_primer_pair(primer_left, primer_right) -> list:
+
+def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrimer):
     url = benchling_connection.oligos_url
     token = benchling_connection.token
+
+    return export_primer_pair(
+        primer_left,
+        primer_right,
+        export_to_service,
+        archive_oligo,
+        url,
+        token
+    )
+
+def export_primer_pair(
+        primer_left: LibampPrimer,
+        primer_right: LibampPrimer,
+        export_function,
+        archive_function,
+        url: str,
+        token: str,
+) -> list:
 
     primer_left_json = primer_to_benchling_json(primer_left, benchling_schema_ids.ids)
     primer_right_json = primer_to_benchling_json(primer_right, benchling_schema_ids.ids)
 
-    try:
-        left_response = export_to_service(
-            primer_left_json,
+
+    print("Export call: ",
+        primer_left_json,
+        url,
+        token,
+        'post',)
+
+    left_response = export_function(
+        primer_left_json,
+        url,
+        token,
+        'post',
+    )
+
+    if left_response.ok:
+        left_primer_id =  left_response.json()["id"]
+
+        right_response = export_function(
+            primer_right_json,
             url,
             token,
             'post',
         )
 
-        if left_response.ok:
-            right_response = export_to_service(
-                primer_right_json,
-                url,
-                token,
-                'post',
-            )
-        else:
-            raise Exception(left_response)
+        if not right_response.ok:
+            archive_function(left_primer_id)
 
-    except Exception as err:
-        raise Exception(err)
+            raise Exception(right_response)
+
+    else:
+        raise Exception(left_response)
 
     return [left_response.json(), right_response.json()]

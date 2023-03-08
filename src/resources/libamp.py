@@ -1,6 +1,5 @@
 from flask import request
 from flask_restful import Resource
-from flask import make_response, jsonify
 
 from src.core.post_libamp_primers import post_libamp_primers
 
