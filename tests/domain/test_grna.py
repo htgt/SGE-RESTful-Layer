@@ -77,29 +77,31 @@ class TestGuideRNA(unittest.TestCase):
 
 
 class TestGuideRNAOligo(unittest.TestCase):
-    def test_transformed_sequence_first_base(self):
-        input_sequence = 'CACCAATATGGTGGCCCTCCATT'
+    def test_forward_sequence(self):
+        input_sequence = 'AATATGGTGGCCCTCCATT'
         first_base = 'G'
 
-        transformed = GuideRNAOligo(input_sequence).transform_first_and_last_bases()
+        transformed = GuideRNAOligo(input_sequence).forward_sequence()
 
         self.assertEqual(transformed[0], first_base)
+        self.assertEqual(transformed, 'GATATGGTGGCCCTCCATT')
 
-    def test_transformed_sequence_last_base(self):
-        input_sequence = 'CACCAATATGGTGGCCCTCCATT'
+    def test_reverse_sequence(self):
+        input_sequence = 'AATATGGTGGCCCTCCATT'
         last_base = 'C'
 
-        transformed = GuideRNAOligo(input_sequence).transform_first_and_last_bases()
+        transformed = GuideRNAOligo(input_sequence).reverse_sequence()
 
         self.assertEqual(transformed[-1], last_base)
+        self.assertEqual(transformed, 'AATGGAGGGCCACCATATC')
 
     def test_create_oligos(self):
         input_sequence = 'AATATGGTGGCCCTCCATT'
 
         oligos = GuideRNAOligo(input_sequence).create_oligos()
 
-        self.assertEqual(oligos.forward.sequence, Seq('CACCGATATGGTGGCCCTCCATC'))
-        self.assertEqual(oligos.reverse.sequence, Seq('AAACGATGGAGGGCCACCATATC'))
+        self.assertEqual(oligos.forward.sequence, Seq('CACCGATATGGTGGCCCTCCATT'))
+        self.assertEqual(oligos.reverse.sequence, Seq('AAACAATGGAGGGCCACCATATC'))
 
 
 if __name__ == '__main__':
