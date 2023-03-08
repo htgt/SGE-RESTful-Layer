@@ -3,11 +3,13 @@ from src.domain.libamp_primers import LibampPrimer
 
 
 def post_libamp_primers(data):
+    result = []
+
     for primer_pair in data:
         primer_left = create_libamp_primer(primer_pair, "left")
         primer_right = create_libamp_primer(primer_pair, "right")
 
-        result = export_primer_pair(primer_left, primer_right)
+        result.append(export_primer_pair(primer_left, primer_right))
 
     return result
 

@@ -1,5 +1,5 @@
-from src.rest_calls.send_calls import Caller
 from . import benchling_connection, benchling_schema_ids
+from src.rest_calls.send_calls import export_to_service
 
 
 def primer_to_benchling_json(primer, ids) -> dict:
@@ -33,24 +33,30 @@ def primer_to_benchling_json(primer, ids) -> dict:
         "schemaId": ids["schemas"]["libamp_schema_id"]
     }
 
-def export_primer_pair(primer_left, primer_right) -> None:
-    api_caller = Caller(benchling_connection.oligos_url)
+def export_primer_pair(primer_left, primer_right) -> list:
+    url = benchling_connection.oligos_url
     token = benchling_connection.token
 
     primer_left_json = primer_to_benchling_json(primer_left, benchling_schema_ids.ids)
     primer_right_json = primer_to_benchling_json(primer_right, benchling_schema_ids.ids)
 
     try:
-        left_result = export_to_benchling(api_caller, token, primer_left_json)
-        right_result = export_to_benchling(api_caller, token, primer_right_json)
+        left_response = export_to_service(
+            primer_left_json,
+            url,
+            token,
+            'post',
+        )
+        right_response= export_to_service(
+            primer_right_json,
+            url,
+            token,
+            'post',
+        )
 
-        print("Result: ", left_result, right_result)
+        print("Result: ", left_response, right_response)
 
     except Exception as err:
         raise Exception(err)
 
-
-def export_to_benchling(caller, token, json) -> str:
-    res = caller.make_request('post', token, json).json()
-
-    return res
+    return [left_response, right_response]
