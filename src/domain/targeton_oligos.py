@@ -9,4 +9,3 @@ class TargetonOligo:
         self.action_vector = data['action_vector']
         self.ext_vector = data['ext_vector']
         self.sgrna_vector = data['sgrna_vector']
-        self.version = data['version']
