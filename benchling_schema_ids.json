@@ -1,0 +1,15 @@
+{
+  "default_folder_id": "lib_MaKCkHDE",
+  "schemas": {
+      "grna_schema_id": "ts_61h752hP",
+      "libamp_schema_id": "ts_6UmlYWkl"
+  },
+  "dropdowns": {
+      "forward_strand": "sfso_J7roINLu",
+      "reverse_strand": "sfso_Ts3OFHmc",
+      "forward_direction": "sfso_SqidJ89q",
+      "reverse_direction": "sfso_oJJndGCo",
+      "libamp_forward": "sfso_VGq0VE2s",
+      "libamp_reverse": "sfso_LKX4eewx"
+  }
+}
