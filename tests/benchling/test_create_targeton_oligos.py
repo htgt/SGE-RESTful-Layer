@@ -1,15 +1,12 @@
 import unittest
-import json
 
-from unittest.mock import patch
 from src.domain.targeton_oligos import TargetonOligo
-from src.benchling import benchling_connection
 from src.benchling.targeton_oligos import (
     as_benchling_entity,
 )
 
 
-class TestCreateOligo(unittest.TestCase):
+class TestTargetonOligo(unittest.TestCase):
     def setUp(self):
         self.data = {
             'entity_name': 'chr17_43104794_43105038_minus_sgRNA_ex4',
@@ -24,42 +21,8 @@ class TestCreateOligo(unittest.TestCase):
             'sgrna_vector': 'sgRNA_ex4'
         }
         self.targeton_oligo = TargetonOligo(self.data)
-        self.packet = {
-            'name': 'chr17_43104794_43105038_minus_sgRNA_ex4',
-            'folderId': 'lib_MaKCkHDE',
-            'schemaId': 'ts_UP3gzN10',
-            'fields': {
-                'Action Vector': {
-                    'value': '(1del,2del1,snv),(1del,snvre,inframe,stop,ala),(1del,2del0,snv)'
-                },
-                'Ext Vector': {
-                    'value': '25,25'
-                },
-                'Ref. Start Position': {
-                    'value': 43104794
-                },
-                'Ref. End Position': {
-                    'value': 43105038
-                },
-                'Ref2. Start Position': {
-                    'value': 43104868
-                },
-                'Ref2. End Position': {
-                    'value': 43104956
-                },
-                'Reference Chromosome': {
-                    'value': 'sfso_yMb5PNqX'
-                },
-                'Reference Strand': {
-                    'value': 'sfso_qKNl7o1M'
-                },
-                'sgRNA Vector': {
-                    'value': 'sgRNA_ex4'
-                }
-            }
-        }
 
-    def test_as_benchling_entity(self):
+    def test_as_benchling_entity_success(self):
         expected_response = {
             'Action Vector': {
                 'value': '(1del,2del1,snv),(1del,snvre,inframe,stop,ala),(1del,2del0,snv)'
@@ -93,6 +56,7 @@ class TestCreateOligo(unittest.TestCase):
         actual_response = as_benchling_entity(self.targeton_oligo)
 
         self.assertDictEqual(actual_response, expected_response)
+
 
 if __name__ == '__main__':
     unittest.main()
