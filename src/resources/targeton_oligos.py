@@ -9,7 +9,8 @@ import json
 class TargetonOligoEndpoint(Resource):
     def post(self):
         data = request.json
-        
+        print('here')
+
         post_targeton_oligos(data)
 
         return data
