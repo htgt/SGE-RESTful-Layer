@@ -4,7 +4,7 @@ import requests
 from src.domain.guideRNA import GuideRNA
 from src.rest_calls.send_calls import export_to_service
 from src.benchling import benchling_connection
-from src.utils.schemas import get_strand_dropdown_id
+from src.benchling.utils.schemas import get_strand_dropdown_id
 
 def patch_wge_data_to_service(event_data : dict) -> dict:
     wge_data = query_wge_by_id(event_data['wge_id'])

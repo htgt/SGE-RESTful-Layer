@@ -3,7 +3,7 @@ import json
 from src.domain.targeton_oligos import TargetonOligo
 from src.rest_calls.send_calls import export_to_service
 from src.benchling import benchling_schema_ids, benchling_connection
-from src.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
+from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
 
 def post_targeton_oligos(oligo_data: dict):
     for oligo in oligo_data:
@@ -67,3 +67,4 @@ def send_targeton_oligo_post_request(body: dict):
         'post'
     )
     print(response)
+    return response
