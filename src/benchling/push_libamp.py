@@ -1,0 +1,56 @@
+from src.rest_calls.send_calls import Caller
+from . import benchling_connection, benchling_schema_ids
+
+
+def primer_to_benchling_json(primer, ids) -> dict:
+    return {
+        "bases": primer.sequence,
+        "name": primer.name,
+        "fields": {
+            "GC Content (%)": {
+                "value": primer.gc_content,
+            },
+            "Genome Location": {
+                "value": primer.chr_start,
+            },
+            "Primer Direction (short form)": {
+                "value": ids["dropdowns"]["forward_direction"] if primer.strand == "left" else ids["dropdowns"]["reverse_direction"],
+            },
+            "LibAmp Primer Type": {
+                "value":  ids["dropdowns"]["libamp_forward"] if primer.strand == "left" else ids["dropdowns"]["libamp_reverse"],
+            },
+            "Primer Score": {
+                "value": primer.score,
+            },
+            "Product Size (bp)":{
+                "value": primer.product_size,
+            },
+            "Tm (°C)": {
+                "value": primer.melting_temp,
+            },
+        },
+        "folderId": ids["default_folder_id"],
+        "schemaId": ids["schemas"]["libamp_schema_id"]
+    }
+
+def export_primer_pair(primer_left, primer_right) -> None:
+    api_caller = Caller(benchling_connection.oligos_url)
+    token = benchling_connection.token
+
+    primer_left_json = primer_to_benchling_json(primer_left, benchling_schema_ids.ids)
+    primer_right_json = primer_to_benchling_json(primer_right, benchling_schema_ids.ids)
+
+    try:
+        left_result = export_to_benchling(api_caller, token, primer_left_json)
+        right_result = export_to_benchling(api_caller, token, primer_right_json)
+
+        print("Result: ", left_result, right_result)
+
+    except Exception as err:
+        raise Exception(err)
+
+
+def export_to_benchling(caller, token, json) -> str:
+    res = caller.make_request('post', token, json).json()
+
+    return res
