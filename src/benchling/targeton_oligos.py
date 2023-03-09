@@ -1,15 +1,16 @@
 import json
 
 from src.domain.targeton_oligos import TargetonOligo
-from src.rest_calls.send_calls import export_to_service
-from src.benchling import benchling_schema_ids, benchling_connection
+from src.benchling import benchling_schema_ids
 from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
+from src.core.post_targeton_oligos import send_targeton_oligo_post_request
 
 def post_targeton_oligos(oligo_data: dict):
     for oligo in oligo_data:
         targeton_oligo = TargetonOligo(oligo_data[oligo])
         packet = prepare_targeton_oligo_packet(oligo, targeton_oligo)
-        send_targeton_oligo_post_request(packet)
+        response = send_targeton_oligo_post_request(packet)
+        print(response)
 
 
 def prepare_targeton_oligo_packet(name: str, targeton_oligo: TargetonOligo):
@@ -57,14 +58,3 @@ def as_benchling_entity(targeton_oligo: TargetonOligo) -> dict:
     }
 
     return entity
-
-
-def send_targeton_oligo_post_request(body: dict):
-    response = export_to_service(
-        body,
-        benchling_connection.custom_entity_url,
-        benchling_connection.token,
-        'post'
-    )
-    print(response)
-    return response
