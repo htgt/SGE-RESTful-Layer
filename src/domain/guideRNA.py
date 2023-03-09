@@ -7,7 +7,6 @@ transformations_dict = {
     "FORWARD_PREFIX": "CACC",
     "REVERSE_PREFIX": "AAAC",
     "FIRST_BASE": "G",
-    "LAST_BASE": "C",
 }
 
 
@@ -84,20 +83,21 @@ class GuideRNAOligo(BaseClass):
     def __init__(self, seq) -> None:
         self.sequence = Seq(seq)
         self.first_base = transformations_dict["FIRST_BASE"]
-        self.last_base = transformations_dict["LAST_BASE"]
         self.forward_prefix = transformations_dict["FORWARD_PREFIX"]
         self.reverse_prefix = transformations_dict["REVERSE_PREFIX"]
-
-    def transform_first_and_last_bases(self) -> str:
-        return self.first_base + self.sequence[1:-1] + self.last_base
+    
+    def forward_sequence(self) -> Seq:
+        return self.first_base + self.sequence[1:]
+    
+    def reverse_sequence(self) -> Seq:
+        return self.forward_sequence().reverse_complement()
 
     def create_oligos(self) -> OligosPair:
-        transformed_seq = self.transform_first_and_last_bases()
         forward_oligo = Oligo(
-            self.forward_prefix + transformed_seq,
+            self.forward_prefix + self.forward_sequence(),
         )
         reverse_oligo = Oligo(
-            self.reverse_prefix + transformed_seq.reverse_complement(),
+            self.reverse_prefix + self.reverse_sequence(),
         )
 
         return OligosPair(forward_oligo, reverse_oligo)
