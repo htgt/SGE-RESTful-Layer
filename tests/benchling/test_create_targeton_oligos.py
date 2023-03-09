@@ -22,6 +22,7 @@ class TestTargetonOligo(unittest.TestCase):
         }
         self.targeton_oligo = TargetonOligo(self.data)
 
+
     def test_as_benchling_entity_success(self):
         expected_response = {
             'Action Vector': {
