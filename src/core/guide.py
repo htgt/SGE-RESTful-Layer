@@ -1,3 +1,4 @@
+import json
 from src.domain.guideRNA import GuideRNAOligo
 from src.benchling import benchling_connection
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class

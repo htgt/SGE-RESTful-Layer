@@ -8,6 +8,7 @@ from src.resources.task import TaskEndpoint
 from src.resources.libamp import Libamp
 from src.resources.guide import GuideEndpoint
 from src.resources.wge import WGEEndpoint
+from src.resources.targeton_oligos import TargetonOligoEndpoint
 
 app = Flask(__name__)
 api = Api(app)
@@ -23,6 +24,7 @@ api.add_resource(TaskEndpoint, '/task', methods=["POST", "GET"])
 api.add_resource(Libamp, '/libamp', methods=["POST"])
 api.add_resource(GuideEndpoint, '/guide', methods=["POST"])
 api.add_resource(WGEEndpoint, '/wge', methods=["POST", "GET"])
+api.add_resource(TargetonOligoEndpoint, '/targeton-oligo', methods=["POST"])
 
 if __name__ == "__main__":
     app.run()
