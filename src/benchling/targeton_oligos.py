@@ -5,6 +5,7 @@ from src.benchling import benchling_schema_ids
 from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
 from src.core.post_targeton_oligos import send_targeton_oligo_post_request
 
+
 def post_targeton_oligos(oligo_data: dict):
     for oligo in oligo_data:
         targeton_oligo = TargetonOligo(oligo_data[oligo])

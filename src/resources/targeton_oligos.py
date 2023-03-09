@@ -6,6 +6,7 @@ from src.benchling.targeton_oligos import post_targeton_oligos
 import requests
 import json
 
+
 class TargetonOligoEndpoint(Resource):
     def post(self):
         data = request.json
