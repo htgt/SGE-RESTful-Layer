@@ -1,7 +1,6 @@
 import curl
 import requests
 from urllib.parse import urljoin
-from src.benchling import BenchlingConnection
 
 
 class Caller:
@@ -54,7 +53,6 @@ class Caller:
         else:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
             print(f'DEBUG: {res.text}')
-            print(curl.parse(res))
 
         return res
 
@@ -64,11 +62,8 @@ def export_to_service(
     token : str,
     action : str='get'
 ) -> str:
+
     api_caller = Caller(service_url)
-    try:
-        json_response = api_caller.make_request(action, token, json_dict).json()
+    response = api_caller.make_request(action, token, json_dict)
 
-    except Exception as err:
-        raise Exception(err)
-
-    return json_response
+    return response
