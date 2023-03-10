@@ -1,6 +1,7 @@
 import curl
 import requests
 from urllib.parse import urljoin
+from src.benchling import BenchlingConnection
 
 
 class Caller:
@@ -59,11 +60,14 @@ class Caller:
 def export_to_service(
     json_dict: dict, 
     service_url : str,
-    token : str,
-    action : str='get'
+    connection: BenchlingConnection,
+    action : str='get', 
 ) -> str:
 
+    token = connection.token
     api_caller = Caller(service_url)
     response = api_caller.make_request(action, token, json_dict)
-
+    if not response.ok:
+        token = connection._auth_object.get_access_token()
+        response = api_caller.make_request(action, token, json_dict)
     return response

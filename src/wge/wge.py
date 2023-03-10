@@ -14,7 +14,7 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
     response = export_to_service(
         benchling_body,
         patch_url,
-        benchling_connection.token,
+        benchling_connection,
         'patch',
     )
 

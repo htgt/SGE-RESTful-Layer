@@ -6,7 +6,7 @@ def send_targeton_oligo_post_request(body: dict) -> dict:
         response = export_to_service(
             body,
             benchling_connection.custom_entity_url,
-            benchling_connection.token,
+            benchling_connection,
             'post'
         )
         return response, 201

@@ -25,13 +25,13 @@ class BenchlingConnection:
 
         self.token_url = self.api_url + r'token'
 
-        _auth_object = APIConnector(self.token_url, CLIENT_ID)
-        if _auth_object:
+        self._auth_object = APIConnector(self.token_url, CLIENT_ID)
+        if self._auth_object:
             print('BenchlingConnection initialized')
         else:
             raise (Exception("APIConnector failed to make _auth_object."))
 
-        self.token = _auth_object.token
+        self.token = self._auth_object.token
 
     @staticmethod
     def generate_url(prod_env='ci') -> str:
