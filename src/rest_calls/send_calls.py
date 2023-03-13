@@ -56,18 +56,38 @@ class Caller:
             print(f'DEBUG: {res.text}')
 
         return res
+    
+    
+    def _response_handler(self, res):
+        if res.ok:
+            print(f'Successful request. Status code: {res.status_code}.')
+        else:
+            print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
+            print(f'DEBUG: {res.text}')
+            if res.status_code == '201':
+                print(f'Token expired, renewing token.')
+                
 
 def export_to_service(
+    json_dict: dict, 
+    service_url : str,
+    connection: BaseConnection,
+    action : str='get', 
+) -> str:
+
+    api_caller = Caller(service_url)
+    response = api_caller.make_request(action, token, json_dict)
+        
+    return response
+
+def export_to_benchling(    
     json_dict: dict, 
     service_url : str,
     connection: BenchlingConnection,
     action : str='get', 
 ) -> str:
-
-    token = connection.token
-    api_caller = Caller(service_url)
-    response = api_caller.make_request(action, token, json_dict)
     if not response.ok:
         token = connection._auth_object.get_access_token()
-        response = api_caller.make_request(action, token, json_dict)
-    return response
+    response = export_to_service(json_dict, service_url, connection.token, action=action)
+    
+    return response 
