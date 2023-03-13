@@ -2,6 +2,7 @@ import curl
 import requests
 from urllib.parse import urljoin
 from src.benchling import BenchlingConnection
+from src.utils.base_classes import BaseConnection
 
 
 class Caller:

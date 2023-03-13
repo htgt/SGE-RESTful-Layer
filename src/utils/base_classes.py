@@ -9,3 +9,6 @@ class BaseClass:
     
     def _asdict(self) -> dict:
         return vars(self)
+    
+class BaseConnection(BaseClass):
+    pass
