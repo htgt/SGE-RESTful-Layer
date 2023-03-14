@@ -16,7 +16,7 @@ def handle_guide_event(data : dict) -> dict:
         return json.dumps(err), 500
     try:
         response['oligos'] = post_grna_oligos_event(data)
-        return response, 200 
+        return response, 201
     except Exception as err: 
         return json.dumps(err), 500
 

@@ -36,9 +36,6 @@ class GuideRNA:
                 'WGE ID' : {
                     'value' : self.wge_id,
                 },
-                'Guide Sequence' : {
-                    'value' : self.sequence,
-                },
                 'Targeton' : {
                     'value' : self.targeton,
                 },
