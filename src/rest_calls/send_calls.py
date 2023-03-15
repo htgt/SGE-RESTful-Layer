@@ -3,6 +3,8 @@ import requests
 from urllib.parse import urljoin
 from src.benchling import BenchlingConnection
 from src.utils.base_classes import BaseConnection
+from typing import List
+from functools import reduce
 
 
 class Caller:
@@ -29,7 +31,6 @@ class Caller:
         res = requests.get(url, headers=headers)
         self._response_handler(res)
 
-
         return res.text
 
     def make_post(self, headers, json_data):
@@ -43,7 +44,6 @@ class Caller:
         self._response_handler(res)
 
         return res
-    
     
     def _response_handler(self, res):
         if res.ok:
@@ -71,8 +71,22 @@ def export_to_benchling(
     connection: BenchlingConnection,
     action : str='get', 
 ) -> str:
-    if not response.ok:
-        token = connection._auth_object.get_access_token()
-    response = export_to_service(json_dict, service_url, connection.token, action=action)
+    # Check if token has expired.
+    if connection.token.check_if_expired():
+        connection.get_store_token()
+    response = export_to_service(json_dict, service_url, connection.token.value, action=action)
+    # If somehow it expired within timer, or token is otherwise invalid, get a new token and try again.
+    if response.status_code in ['400', '401', '403'] and not response.ok:
+        connection.get_store_token()
+        response = export_to_service(json_dict, service_url, connection.token.value, action=action)
     
     return response 
+
+def concat_url(parts: List[str]) -> str:
+    # The parts must end with /
+    new_parts = []
+    for part in parts:
+        if not part[-1]=='/':
+            part = part + '/'
+        new_parts.append(part)
+    return reduce(urljoin, new_parts)

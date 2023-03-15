@@ -13,6 +13,5 @@ def get_sequence(id):
     api_caller = Caller(url)
     token = benchling_connection.token
     get_data = api_caller.make_request('get', token, url)
-
     data_dict = json.loads(get_data)
     return data_dict["bases"]

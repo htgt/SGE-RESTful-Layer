@@ -105,6 +105,10 @@ run-flask: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate
 	@flask --app src/app run --host=0.0.0.0 --port=8081
 
+run-flask-debug: ./src/benchling/config.cfg setup-venv
+	@. venv/bin/activate
+	@flask --app src/app --debug run --host=0.0.0.0 --port=8081
+
 run-gunicorn: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn --bind 0.0.0.0:8081 src.app:app

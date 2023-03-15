@@ -10,15 +10,15 @@ BENCHLING_ENTITY_REGISTERED_EVENT = "v2.entity.registered"
 
 def handle_guide_event(data : dict) -> dict:
     response = {}
-    try:
-        response['grna'] = patch_grna_event(data)
-    except Exception as err:
-        return json.dumps(err), 500
-    try:
-        response['oligos'] = post_grna_oligos_event(data)
-        return response, 200 
-    except Exception as err: 
-        return json.dumps(err), 500
+    # try:
+    #     response['grna'] = patch_grna_event(data)
+    # except Exception as err:
+    #     return json.dumps(err), 500
+    # try:
+    response['oligos'] = post_grna_oligos_event(data)
+    return response, 200 
+    # except Exception as err: 
+    #     return json.dumps(err), 500
 
 def patch_grna_event(data : dict) -> dict:
     if check_wge_id(data):
@@ -59,7 +59,6 @@ def check_event_is_guide_rna(data: dict) -> bool:
         bool_check = False
     if not data["detail"]["entity"]["schema"]["id"] == BENCHLING_GUIDE_RNA_SCHEMA_ID:
         bool_check = False
-    
     return bool_check
 
 def transform_event_input_data(data):

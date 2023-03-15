@@ -1,6 +1,8 @@
 import requests
 from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
+from src.utils.base_classes import BaseClass
+from time import clock_gettime, CLOCK_REALTIME
 
 
 class APIConnector:
@@ -34,5 +36,20 @@ class APIConnector:
         # Only regenerate when cached token expires
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
+        token = BenchlingToken(auth_json)
+        return token
+    
+class BenchlingToken(BaseClass):
+    def __init__(self, auth_response: dict):
+        self.value = auth_response['access_token']
+        self.start_time = clock_gettime(CLOCK_REALTIME)
+        self.duration = auth_response['expires_in']
+        self.expire_time = self.start_time + self.duration
+        self.valid = True
+
+    def check_if_expired(self):
+        if self.start_time + self.duration > self.expire_time:
+            return True
+        else:
+            return False
         
-        return auth_json['access_token']

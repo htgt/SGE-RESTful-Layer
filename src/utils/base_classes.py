@@ -1,5 +1,6 @@
 from typing import List
 
+
 class BaseClass:
     def get_fields(self) -> List[str]:
         keys = []
@@ -12,3 +13,4 @@ class BaseClass:
     
 class BaseConnection(BaseClass):
     pass
+    
