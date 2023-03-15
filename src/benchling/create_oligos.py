@@ -75,11 +75,11 @@ def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict, benchling_ids: 
     )
     return oligos
 
-def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "") -> None:
+def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo") -> None:
     if direction == "forward":
-        strand = benchling_ids["forward_strand"]
+        strand = benchling_ids["dropdowns"]["sense"]
     elif direction == "reverse":
-        strand = benchling_ids["reverse_strand"]
+        strand = benchling_ids["dropdowns"]["antisense"]
     else:
         raise OligoDirectionInvalid(
             f"Invalid direction given {direction}, expecting \"forward\" or \"reverse\"")
@@ -88,7 +88,7 @@ def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direc
         sequence=oligo.sequence,
         targeton=guide_data["targeton"],
         folder_id=guide_data["folder_id"],
-        schema_id=schema_id,
+        schema_id=benchling_ids["schemas"]["grna_oligo_schema_id"],
         name=name,
         strand=strand,
         grna=guide_data["id"]

@@ -24,7 +24,7 @@ class GuideRNA:
         self.wge_id = data['wge_id']
         self.sequence = data['seq']
         self.targeton = data['targeton']
-        self.strand = data['strand']
+        #self.strand = data['strand']
         self.wge_link = data['wge_link']
         self.off_targets = data['off_targets']
         self.species = data['species']
@@ -39,9 +39,9 @@ class GuideRNA:
                 'Targeton' : {
                     'value' : self.targeton,
                 },
-                'Strand' : {
-                    'value' : self.strand,
-                },
+            #    'Strand' : {
+            #        'value' : self.strand,
+            #    },
                 'WGE Hyperlink' : {
                     'value' : self.wge_link,
                 },

@@ -57,9 +57,9 @@ def check_wge_id(data : dict) -> bool:
 
 def check_event_is_guide_rna(data: dict) -> bool:
     bool_check = True
-    if not data["detail-type"] == benchling_schema_ids.ids["schemas"]["grna_schema_id"]:
+    if not data["detail-type"] == benchling_schema_ids.ids["events"]["entity_registered"]:
         bool_check = False
-    if not data["detail"]["entity"]["schema"]["id"] == benchling_schema_ids.ids["events"]["entity_registered"]:
+    if not data["detail"]["entity"]["schema"]["id"] == benchling_schema_ids.ids["schemas"]["grna_schema_id"]:
         bool_check = False
     return bool_check
 
@@ -70,7 +70,7 @@ def transform_event_input_data(data, ids):
     guide_data["id"] = data["detail"]["entity"]["id"]
     guide_data["targeton"] = data["detail"]["entity"]["fields"]["Targeton"]["value"]
     guide_data["folder_id"] = data["detail"]["entity"]["folderId"]
-    guide_data["schemaid"] = ids.schemas.grna_oligo_schema_id
+    guide_data["schemaid"] = ids["schemas"]["grna_oligo_schema_id"]
     guide_data["name"] = "Guide RNA Oligo"
 
     return guide_data
