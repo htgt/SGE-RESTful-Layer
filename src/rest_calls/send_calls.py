@@ -71,8 +71,10 @@ def export_to_benchling(
     connection: BenchlingConnection,
     action : str='get', 
 ) -> str:
-    if not response.ok:
-        token = connection._auth_object.get_access_token()
+
     response = export_to_service(json_dict, service_url, connection.token, action=action)
+    if response.status_code in ["400", "401", "403"] and not response.ok:
+        connection.get_store_token()
+        response = export_to_service(json_dict, service_url, connection.token, action=action)
     
     return response 
