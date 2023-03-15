@@ -18,7 +18,7 @@ class BenchlingConnection:
         self.api_url = url + r'api/v2/'
         self.blobs_url = self.api_url + r'blobs/'
         self.oligos_url = self.api_url + r'dna-oligos'
-        self.sequence_url = self.api_url + r'dna-sequence'
+        self.sequence_url = self.api_url + r'dna-sequences'
         self.tasks_url = self.api_url + r'workflow-tasks/'
         self.tasks_output_url = self.api_url + r'workflow-outputs'
         self.custom_entity_url = self.api_url + r'custom-entities'

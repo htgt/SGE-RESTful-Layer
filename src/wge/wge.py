@@ -18,7 +18,7 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
         'patch',
     )
 
-    return response.json()['id']
+    return response['id']
 
 
 def query_wge_by_id(wge_id : str) -> dict:
@@ -32,14 +32,14 @@ def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
     wge_id = event_data['wge_id']
 
     grna_data = wge_data[wge_id]
-    strand = get_strand_dropdown_id(grna_data['pam_right'])
+    #strand = get_strand_dropdown_id(grna_data['pam_right'])
     wge_link = build_wge_link(wge_id)
     species = get_wge_species(grna_data['species_id'])
 
     grna_dict = {
         'seq' : grna_data['seq'],
         'targeton' : event_data['targeton_id'],
-        'strand' : strand,
+        #'strand' : strand,
         'wge_id' : wge_id,
         'wge_link' : wge_link,
         'off_targets' : grna_data['off_target_summary'],

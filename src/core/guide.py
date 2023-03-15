@@ -1,12 +1,11 @@
 import json
 from src.domain.guideRNA import GuideRNAOligo
-from src.benchling import benchling_connection
+from src.benchling import benchling_connection, benchling_schema_ids
+
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class
 from src.benchling.get_sequence import get_sequence
 from src.wge.wge import patch_wge_data_to_service, transform_wge_event
 
-BENCHLING_GUIDE_RNA_SCHEMA_ID = "ts_vGZYroiQ"
-BENCHLING_ENTITY_REGISTERED_EVENT = "v2.entity.registered"
 
 def handle_guide_event(data : dict) -> dict:
     response = {}
@@ -39,10 +38,13 @@ def post_grna_oligos_event(data : dict) -> dict:
         return "Incorrect input data", 404
 
 def transform_grna_oligos(data : dict) -> dict:
-    guide_data = transform_event_input_data(data)
+    benchling_ids = benchling_schema_ids.ids
+
+    guide_data = transform_event_input_data(data, benchling_ids)
     guide_data["seq"] = get_sequence(guide_data["id"])
     oligos = GuideRNAOligo(guide_data["seq"]).create_oligos()
-    benchling_ids = json.load(open('benchling_ids.json'))
+    #benchling_ids = json.load(open('benchling_ids.json'))
+
     oligos = setup_oligo_pair_class(oligos, guide_data, benchling_ids)
     
     return oligos
@@ -55,18 +57,20 @@ def check_wge_id(data : dict) -> bool:
 
 def check_event_is_guide_rna(data: dict) -> bool:
     bool_check = True
-    if not data["detail-type"] == BENCHLING_ENTITY_REGISTERED_EVENT:
+    if not data["detail-type"] == benchling_schema_ids.ids["schemas"]["grna_schema_id"]:
         bool_check = False
-    if not data["detail"]["entity"]["schema"]["id"] == BENCHLING_GUIDE_RNA_SCHEMA_ID:
+    if not data["detail"]["entity"]["schema"]["id"] == benchling_schema_ids.ids["events"]["entity_registered"]:
         bool_check = False
+    return bool_check
 
-def transform_event_input_data(data):
+
+def transform_event_input_data(data, ids):
     guide_data = {}
 
     guide_data["id"] = data["detail"]["entity"]["id"]
     guide_data["targeton"] = data["detail"]["entity"]["fields"]["Targeton"]["value"]
     guide_data["folder_id"] = data["detail"]["entity"]["folderId"]
-    guide_data["schemaid"] = "ts_wFWXiFSo"
+    guide_data["schemaid"] = ids.schemas.grna_oligo_schema_id
     guide_data["name"] = "Guide RNA Oligo"
 
     return guide_data

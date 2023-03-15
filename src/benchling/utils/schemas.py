@@ -3,8 +3,8 @@ from src.benchling import benchling_schema_ids
 
 def get_strand_dropdown_id(sign : chr) -> str:
     dropdowns = benchling_schema_ids.ids['dropdowns']
-    fwd = dropdowns['plus']
-    rev = dropdowns['minus']
+    fwd = dropdowns['sense']
+    rev = dropdowns['antisense']
     strands = {
         0 : rev,
         1 : fwd,
