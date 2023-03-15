@@ -76,6 +76,7 @@ def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict, benchling_ids: 
     )
     return oligos
 
+
 def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
     if direction == "forward":
         strand = benchling_ids["forward_strand"]

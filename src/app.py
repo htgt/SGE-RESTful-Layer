@@ -13,9 +13,11 @@ from src.resources.targeton_oligos import TargetonOligoEndpoint
 app = Flask(__name__)
 api = Api(app)
 
+
 @app.route("/")
 def hello():
     return "SGE Restful Layer"
+
 
 api.add_resource(Entity, '/entity/<string:id>')
 api.add_resource(EventEndpoint, '/event', methods=["POST"])
