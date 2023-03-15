@@ -27,34 +27,20 @@ class Caller:
     def make_get(self, headers, get_path):
         url = urljoin(self.__getattribute__('endpoint'), get_path)
         res = requests.get(url, headers=headers)
-
-        if res.ok:
-            print(f'Successful request. Status code: {res.status_code}.')
-        else:
-            print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
-            print(f'DEBUG: {res.text}')
+        self._response_handler(res)
 
 
         return res.text
 
     def make_post(self, headers, json_data):
         res = requests.post(self.__getattribute__('endpoint'), json=json_data, headers=headers)
-        if res.ok:
-            print(f'Successful request. Status code: {res.status_code}.')
-        else:
-            print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
-            print(f'DEBUG: {res.text}')
+        self._response_handler(res)
 
         return res
 
     def make_patch(self, headers, data):
         res = requests.patch(self.__getattribute__('endpoint'), json=data, headers=headers)
-
-        if res.ok:
-            print(f'Successful request. Status code: {res.status_code}.')
-        else:
-            print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
-            print(f'DEBUG: {res.text}')
+        self._response_handler(res)
 
         return res
     
@@ -65,14 +51,12 @@ class Caller:
         else:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
             print(f'DEBUG: {res.text}')
-            if res.status_code == '201':
-                print(f'Token expired, renewing token.')
                 
 
 def export_to_service(
     json_dict: dict, 
     service_url : str,
-    connection: BaseConnection,
+    token: str,
     action : str='get', 
 ) -> str:
 

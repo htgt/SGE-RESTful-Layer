@@ -59,6 +59,8 @@ def check_event_is_guide_rna(data: dict) -> bool:
         bool_check = False
     if not data["detail"]["entity"]["schema"]["id"] == BENCHLING_GUIDE_RNA_SCHEMA_ID:
         bool_check = False
+    
+    return bool_check
 
 def transform_event_input_data(data):
     guide_data = {}
