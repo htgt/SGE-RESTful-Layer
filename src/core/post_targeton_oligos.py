@@ -1,5 +1,6 @@
-from src.rest_calls.send_calls import export_to_benchling
+from src.benchling.auth_utils import export_to_benchling
 from src.benchling import benchling_connection
+import json
 
 def send_targeton_oligo_post_request(body: dict) -> dict:
     try:

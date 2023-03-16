@@ -6,7 +6,7 @@ from . import BenchlingConnection
 import json
 import sys
 from src.utils.base_classes import BaseClass
-from src.rest_calls.send_calls import export_to_benchling
+from src.benchling.auth_utils import export_to_benchling
 sys.path.append("..")
 
 

@@ -1,6 +1,12 @@
+from __future__ import annotations
 import requests
 from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
+from src.rest_calls.send_calls import export_to_service
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.benchling import BenchlingConnection
 
 
 class APIConnector:
@@ -36,3 +42,17 @@ class APIConnector:
         auth_json = auth_res.json()
 
         return auth_json['access_token']
+
+def export_to_benchling(
+    json_dict: dict,
+    service_url : str,
+    connection: BenchlingConnection,
+    action : str = 'get',
+) -> str:
+
+    response = export_to_service(json_dict, service_url, connection.token, action=action)
+    if response.status_code in ["400", "401", "403"] and not response.ok:
+        connection.get_store_token()
+        response = export_to_service(json_dict, service_url, connection.token, action=action)
+
+    return response
