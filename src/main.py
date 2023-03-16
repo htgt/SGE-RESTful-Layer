@@ -6,7 +6,7 @@ data = {
     'gene_name': 'A1CF'
 }
 
-create_gRNA.export_grna_to_benchling(data)
+grna_from_benchling = create_gRNA.export_grna_to_benchling(data)
 
 guide_rna_event_data = grna_from_benchling
 create_oligos.export_oligos_to_benchling(guide_rna_event_data)

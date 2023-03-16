@@ -58,9 +58,6 @@ class BenchlingToken(BaseClass):
             return True
         else:
             return False
-        
-
-        return auth_json['access_token']
 
 def export_to_benchling(
     json_dict: dict,
