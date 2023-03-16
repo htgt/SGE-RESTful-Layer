@@ -5,3 +5,4 @@ config.cfg
 *.swp
 grna_event.json
 .env
+launch.json
