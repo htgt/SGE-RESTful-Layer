@@ -1,8 +1,14 @@
+from __future__ import annotations
 import requests
 from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
 from src.utils.base_classes import BaseClass
 from time import clock_gettime, CLOCK_REALTIME
+from src.rest_calls.send_calls import export_to_service
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.benchling import BenchlingConnection
 
 
 class APIConnector:
@@ -53,3 +59,23 @@ class BenchlingToken(BaseClass):
         else:
             return False
         
+
+        return auth_json['access_token']
+
+def export_to_benchling(
+    json_dict: dict,
+    service_url : str,
+    connection: BenchlingConnection,
+    action : str = 'get',
+) -> str:
+    # Check if token has expired.
+    if connection.token.check_if_expired():
+        connection.get_store_token()
+    response = export_to_service(json_dict, service_url, connection.token.value, action=action)
+    # If somehow it expired within timer, or token is otherwise invalid, get a new token and try again.
+    response = export_to_service(json_dict, service_url, connection.token, action=action)
+    if response.status_code in ["400", "401", "403"] and not response.ok:
+        connection.get_store_token()
+        response = export_to_service(json_dict, service_url, connection.token, action=action)
+
+    return response

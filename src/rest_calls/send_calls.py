@@ -1,8 +1,5 @@
-import curl
 import requests
 from urllib.parse import urljoin
-from src.benchling import BenchlingConnection
-from src.utils.base_classes import BaseConnection
 from typing import List
 from functools import reduce
 
@@ -51,36 +48,19 @@ class Caller:
         else:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
             print(f'DEBUG: {res.text}')
-                
+
 
 def export_to_service(
-    json_dict: dict, 
+    json_dict: dict,
     service_url : str,
     token: str,
-    action : str='get', 
+    action : str = 'get',
 ) -> str:
 
     api_caller = Caller(service_url)
     response = api_caller.make_request(action, token, json_dict)
-        
-    return response
 
-def export_to_benchling(    
-    json_dict: dict, 
-    service_url : str,
-    connection: BenchlingConnection,
-    action : str='get', 
-) -> str:
-    # Check if token has expired.
-    if connection.token.check_if_expired():
-        connection.get_store_token()
-    response = export_to_service(json_dict, service_url, connection.token.value, action=action)
-    # If somehow it expired within timer, or token is otherwise invalid, get a new token and try again.
-    if response.status_code in ['400', '401', '403'] and not response.ok:
-        connection.get_store_token()
-        response = export_to_service(json_dict, service_url, connection.token.value, action=action)
-    
-    return response 
+    return response
 
 def concat_url(parts: List[str]) -> str:
     # The parts must end with /

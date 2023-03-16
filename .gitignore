@@ -4,3 +4,4 @@ venv
 config.cfg
 *.swp
 grna_event.json
+.env

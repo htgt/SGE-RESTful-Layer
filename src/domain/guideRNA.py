@@ -61,6 +61,7 @@ class GuideRNA:
         }
         return body
 
+
 @dataclass
 class Oligo(BaseClass):
     sequence: str
@@ -70,7 +71,7 @@ class Oligo(BaseClass):
 class OligosPair(BaseClass):
     forward: Oligo
     reverse: Oligo
-    
+
     def to_list_dicts(self) -> List[dict]:
         list_of_dicts = []
         for field in self.get_fields():
@@ -85,10 +86,10 @@ class GuideRNAOligo(BaseClass):
         self.first_base = transformations_dict["FIRST_BASE"]
         self.forward_prefix = transformations_dict["FORWARD_PREFIX"]
         self.reverse_prefix = transformations_dict["REVERSE_PREFIX"]
-    
+
     def forward_sequence(self) -> Seq:
         return self.first_base + self.sequence[1:]
-    
+
     def reverse_sequence(self) -> Seq:
         return self.forward_sequence().reverse_complement()
 

@@ -6,7 +6,7 @@ from . import BenchlingConnection
 import json
 import sys
 from src.utils.base_classes import BaseClass
-from src.rest_calls.send_calls import export_to_service
+from src.benchling.auth_utils import export_to_benchling
 sys.path.append("..")
 
 
@@ -43,13 +43,13 @@ def prepare_oligo_json(oligos: BenchlingOligo) -> dict:
 def export_oligos_to_benchling(oligos: BenchlingOligo, benchling_connection: BenchlingConnection):
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
-    oligo_forward = export_to_service(
+    oligo_forward = export_to_benchling(
         oligo_forward_json,
         benchling_connection.oligos_url,
         benchling_connection,
         'post',
     )
-    oligo_reverse = export_to_service(
+    oligo_reverse = export_to_benchling(
         oligo_reverse_json,
         benchling_connection.oligos_url,
         benchling_connection,
@@ -75,6 +75,7 @@ def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict, benchling_ids: 
         'reverse',
     )
     return oligos
+
 
 def setup_oligo_class(oligo: Oligo, guide_data: dict, benchling_ids: dict, direction: str, name: str = "Guide RNA Oligo", schema_id: str = "ts_wFWXiFSo") -> None:
     if direction == "forward":

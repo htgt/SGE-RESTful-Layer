@@ -2,7 +2,7 @@ import json
 import requests
 
 from src.domain.guideRNA import GuideRNA
-from src.rest_calls.send_calls import export_to_service
+from src.benchling.auth_utils import export_to_benchling
 from src.benchling import benchling_connection
 from src.benchling.utils.schemas import get_strand_dropdown_id
 
@@ -11,14 +11,16 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
     grna_class = prepare_guide_rna_class(event_data, wge_data)
     benchling_body = grna_class.as_benchling_req_body(event_data)
     patch_url = benchling_connection.sequence_url + '/' + event_data['entity_id']
-    response = export_to_service(
-        benchling_body,
-        patch_url,
-        benchling_connection,
-        'patch',
-    )
-
-    return response['id']
+    try:
+        response = export_to_benchling(
+            benchling_body,
+            patch_url,
+            benchling_connection,
+            'patch',
+        )
+        return response, 500
+    except:
+        return response, 201
 
 
 def query_wge_by_id(wge_id : str) -> dict:

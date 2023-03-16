@@ -6,7 +6,6 @@ from src.benchling.create_oligos import prepare_oligo_json, setup_oligo_class, B
 import json
 from Bio.Seq import Seq
 from copy import deepcopy
-from src.benchling import benchling_connection
 
 
 class TestCreateOligo(unittest.TestCase):

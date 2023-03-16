@@ -24,8 +24,9 @@ class BenchlingConnection:
         self.custom_entity_url = self.api_url + r'custom-entities'
 
         self.token_url = self.api_url + r'token'
+
         self.get_store_token()
-    
+
     def get_store_token(self):
         self._auth_object = APIConnector(self.token_url, CLIENT_ID)
         if self._auth_object:
