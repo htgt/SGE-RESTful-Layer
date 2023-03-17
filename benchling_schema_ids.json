@@ -5,7 +5,7 @@
   },
   "schemas": {
       "grna_schema_id": "ts_vGZYroiQ",
-      "grna_oligo_schema_id": "ts_wFWXiFSo",
+      "grna_oligo_schema_id": "ts_iWVbrCXh",
       "libamp_schema_id": "ts_6UmlYWkl",
       "targeton_oligo_schema_id": "ts_UP3gzN10"
   },
@@ -44,6 +44,10 @@
           "chr23": "sfso_I8xbhhbr",
           "chrX": "sfso_wVzT3oIa",
           "chrY": "sfso_2DDEX1TY"
+      },
+      "species": {
+          "homo_sapiens": "sfso_gWKuC1ge",
+          "mus_musculus": "sfso_gjQvG19Z"
       }
   }
 }
