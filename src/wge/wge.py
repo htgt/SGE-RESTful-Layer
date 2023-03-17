@@ -6,20 +6,6 @@ from src.rest_calls.send_calls import export_to_service_json_response
 from src.benchling import benchling_connection
 from src.benchling.utils.schemas import get_strand_dropdown_id
 
-def patch_wge_data_to_service(event_data : dict) -> dict:
-    wge_data = query_wge_by_id(event_data['wge_id'])
-    grna_class = prepare_guide_rna_class(event_data, wge_data)
-    benchling_body = grna_class.as_benchling_req_body(event_data)
-    patch_url = benchling_connection.sequence_url + '/' + event_data['entity_id']
-    response = export_to_service_json_response(
-        benchling_body,
-        patch_url,
-        benchling_connection.token,
-        'patch',
-    )
-
-    return response['id']
-
 
 def query_wge_by_id(wge_id : str) -> dict:
     url = "https://wge.stemcell.sanger.ac.uk/api/crispr_by_id?species=Grch38&id=" + str(wge_id)
@@ -57,9 +43,9 @@ def build_wge_link(wge_id : int) -> str:
 
 def get_wge_species(species_id : int) -> str:
     species = {
-        1 : 'sfso_gWKuC1ge', #Grch37 - Homo Sapiens
-        2 : 'sfso_gjQvG19Z', #Mouse - Mus musculus
-        4 : 'sfso_gWKuC1ge', #Grch38 - Homo Sapiens
+        1 : 'Grch37', # Homo Sapiens
+        2 : 'Mouse', # Mus musculus
+        4 : 'Grch38', # Homo Sapiens
     }
     return species[species_id]
 

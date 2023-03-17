@@ -29,34 +29,6 @@ class GuideRNA:
         self.off_targets = data['off_targets']
         self.species = data['species']
 
-    def as_benchling_req_body(self, event) -> dict:
-        body = {
-            'bases' : self.sequence,
-            'fields': {
-                'WGE ID' : {
-                    'value' : self.wge_id,
-                },
-                'Targeton' : {
-                    'value' : self.targeton,
-                },
-            #    'Strand' : {
-            #        'value' : self.strand,
-            #    },
-                'WGE Hyperlink' : {
-                    'value' : self.wge_link,
-                },
-                'Off Target Summary Data' : {
-                    'value' : self.off_targets,
-                },
-                'Species' : {
-                    'value' : self.species,
-                },
-            },
-            'folderId' : event['folder_id'],
-            'name' : event['name'],
-            'schemaId' : event['schema_id'],
-        }
-        return body
 
 @dataclass
 class Oligo(BaseClass):
