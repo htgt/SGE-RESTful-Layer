@@ -39,14 +39,4 @@ def as_benchling_req_body(guide: GuideRNA, event: dict) -> dict:
         'schemaId' : event['schema_id'],
     }
 
-    print('Benchling json::', body)
     return body
-
-
-def get_species_name(ids, species) -> str:
-    species_name = "mus_musculus"
-
-    if species == 'Grch37' or species == 'Grch38':
-        species_name = "homo_sapience"
-
-    return species_name

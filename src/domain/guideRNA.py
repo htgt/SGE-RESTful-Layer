@@ -2,7 +2,7 @@ from Bio.Seq import Seq
 from dataclasses import dataclass
 from src.utils.base_classes import BaseClass
 from src.domain.species import get_species_name_by_id
-from typing import List
+
 
 transformations_dict = {
     "FORWARD_PREFIX": "CACC",
@@ -36,25 +36,19 @@ class Oligo(BaseClass):
     sequence: str
 
 
-@dataclass
-class OligosPair(BaseClass):
-    forward: Oligo
-    reverse: Oligo
-    
-    def to_list_dicts(self) -> List[dict]:
-        list_of_dicts = []
-        for field in self.get_fields():
-            return_dict = getattr(self, field)._asdict()
-            list_of_dicts.append(return_dict)
-        return list_of_dicts
-
-
-class GuideRNAOligo(BaseClass):
+class GuideRNAOligos(BaseClass):
     def __init__(self, seq) -> None:
         self.sequence = Seq(seq)
         self.first_base = transformations_dict["FIRST_BASE"]
         self.forward_prefix = transformations_dict["FORWARD_PREFIX"]
         self.reverse_prefix = transformations_dict["REVERSE_PREFIX"]
+
+        self.forward = Oligo(
+            self.forward_prefix + self.forward_sequence(),
+        )
+        self.reverse = Oligo(
+            self.reverse_prefix + self.reverse_sequence(),
+        )
     
     def forward_sequence(self) -> Seq:
         return self.first_base + self.sequence[1:]
@@ -62,12 +56,3 @@ class GuideRNAOligo(BaseClass):
     def reverse_sequence(self) -> Seq:
         return self.forward_sequence().reverse_complement()
 
-    def create_oligos(self) -> OligosPair:
-        forward_oligo = Oligo(
-            self.forward_prefix + self.forward_sequence(),
-        )
-        reverse_oligo = Oligo(
-            self.reverse_prefix + self.reverse_sequence(),
-        )
-
-        return OligosPair(forward_oligo, reverse_oligo)

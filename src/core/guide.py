@@ -1,5 +1,5 @@
 import json
-from src.domain.guideRNA import GuideRNAOligo
+from src.domain.guideRNA import GuideRNAOligos
 from src.benchling import benchling_connection, benchling_schema_ids
 
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class
@@ -52,9 +52,9 @@ def transform_grna_oligos(data : dict) -> dict:
 
     guide_data = transform_event_input_data(data, benchling_ids)
     guide_data["seq"] = get_sequence(guide_data["id"])
-    oligos = GuideRNAOligo(guide_data["seq"]).create_oligos()
+    oligos = GuideRNAOligos(guide_data["seq"])
 
-    oligos = setup_oligo_pair_class(oligos, guide_data, benchling_ids)
+    oligos = setup_oligo_pair_class(oligos, guide_data)
     
     return oligos
 
@@ -65,7 +65,7 @@ def check_wge_id(data : dict) -> bool:
     return check
 
 
-def transform_event_input_data(data, ids):
+def transform_event_input_data(data: dict, ids: dict) -> dict:
     guide_data = {}
 
     guide_data["id"] = data["detail"]["entity"]["id"]
