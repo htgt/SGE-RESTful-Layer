@@ -1,7 +1,7 @@
 from Bio.Seq import Seq
 from dataclasses import dataclass
 from src.utils.base_classes import BaseClass
-from src.domain.species import get_species_name_by_id
+from src.biology.species import get_species_name_by_id
 
 
 transformations_dict = {

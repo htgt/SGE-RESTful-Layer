@@ -1,7 +1,7 @@
 import json
 import requests
 
-from src.domain.guideRNA import GuideRNA
+from src.biology.guideRNA import GuideRNA
 from src.rest_calls.send_calls import export_to_service_json_response
 from src.benchling import benchling_connection
 from src.benchling.utils.schemas import get_strand_dropdown_id

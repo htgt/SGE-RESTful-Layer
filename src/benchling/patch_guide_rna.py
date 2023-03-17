@@ -1,4 +1,4 @@
-from src.domain.guideRNA import GuideRNA
+from src.biology.guideRNA import GuideRNA
 from . import benchling_connection, benchling_schema_ids
 from src.rest_calls.send_calls import export_to_service_json_response
 

@@ -1,7 +1,7 @@
 from . import benchling_connection, benchling_schema_ids
 from src.rest_calls.send_calls import export_to_service
 from src.benchling.archive_entity import archive_oligo
-from src.domain.libamp_primers import LibampPrimer
+from src.biology.libamp_primers import LibampPrimer
 
 
 def primer_to_benchling_json(primer: LibampPrimer, ids) -> dict:

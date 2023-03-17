@@ -1,5 +1,5 @@
 from src.benchling.push_libamp import call_export_primer_pair
-from src.domain.libamp_primers import LibampPrimer
+from src.biology.libamp_primers import LibampPrimer
 
 
 def post_libamp_primers(data):

@@ -1,6 +1,6 @@
 import json
 
-from src.domain.targeton_oligos import TargetonOligo
+from src.biology.targeton_oligos import TargetonOligo
 from src.benchling import benchling_schema_ids
 from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
 from src.core.post_targeton_oligos import send_targeton_oligo_post_request

@@ -4,7 +4,7 @@ from src.utils.base_classes import BaseClass
 
 from src.rest_calls.send_calls import Caller, export_to_service_json_response
 from src.utils.exceptions import OligoDirectionInvalid
-from src.domain.guideRNA import Oligo
+from src.biology.guideRNA import Oligo
 from . import BenchlingConnection, benchling_schema_ids
 import json
 import sys
