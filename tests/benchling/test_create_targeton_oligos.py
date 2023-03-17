@@ -1,6 +1,6 @@
 import unittest
 
-from src.domain.targeton_oligos import TargetonOligo
+from src.biology.targeton_oligos import TargetonOligo
 from src.benchling.targeton_oligos import (
     as_benchling_entity,
 )
