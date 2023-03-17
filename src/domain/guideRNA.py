@@ -1,6 +1,7 @@
 from Bio.Seq import Seq
 from dataclasses import dataclass
 from src.utils.base_classes import BaseClass
+from src.domain.species import get_species_name_by_id
 from typing import List
 
 transformations_dict = {
@@ -23,11 +24,11 @@ class GuideRNA:
     def __init__(self, data) -> None :
         self.wge_id = data['wge_id']
         self.sequence = data['seq']
-        self.targeton = data['targeton']
+        #self.targeton = data['targeton']
         #self.strand = data['strand']
         self.wge_link = data['wge_link']
         self.off_targets = data['off_targets']
-        self.species = data['species']
+        self.species = get_species_name_by_id(data['species'])
 
 
 @dataclass

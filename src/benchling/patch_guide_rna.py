@@ -16,6 +16,8 @@ def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
     return response['id']
 
 def as_benchling_req_body(guide: GuideRNA, event: dict) -> dict:
+    species_benchling_id = benchling_schema_ids.ids["dropdowns"]["species"][guide.species]
+
     body = {
         'bases': guide.sequence,
         'fields'   : {
@@ -23,19 +25,21 @@ def as_benchling_req_body(guide: GuideRNA, event: dict) -> dict:
                 'value': guide.wge_id,
             },
             'Targeton'               : {
-                'value': guide.targeton,
+                'value': event['targeton_id'],
             },
             #    'Strand' : {
             #        'value' : self.strand,
             #    },
             'WGE Hyperlink'          : {'value': guide.wge_link, },
             'Off Target Summary Data': {'value': guide.off_targets, },
-            'Species'                : {'value': guide.species, },
+            'Species'                : {'value': species_benchling_id, },
         },
         'folderId' : event['folder_id'],
         'name': event['name'],
         'schemaId' : event['schema_id'],
     }
+
+    print('Benchling json::', body)
     return body
 
 

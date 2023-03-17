@@ -29,32 +29,23 @@ def patch_grna_event(data : dict) -> dict:
 
 def patch_wge_data_to_service(event_data : dict) -> dict:
     wge_data = query_wge_by_id(event_data['wge_id'])
-    grna_class = prepare_guide_rna_class(event_data, wge_data)
+    grna_object = prepare_guide_rna_class(event_data, wge_data)
 
-    response = patch_guide_rna(grna_class, event_data)
-
-    #benchling_body = grna_class.as_benchling_req_body(event_data)
-
-    #patch_url = benchling_connection.sequence_url + '/' + event_data['entity_id']
-    #response = export_to_service_json_response(
-    #    benchling_body,
-    #    patch_url,
-    #    benchling_connection.token,
-    #    'patch',
-    #)
+    response = patch_guide_rna(grna_object, event_data)
 
     return response
 
+
 def post_grna_oligos_event(data : dict) -> dict:
-    if check_event_is_guide_rna(data):
-        oligos = transform_grna_oligos(data)
-        export_response = export_oligos_to_benchling(
-            oligos,
-            benchling_connection
-        )
-        return export_response
-    else:
-        return "Incorrect input data", 404
+    oligos = transform_grna_oligos(data)
+
+    export_response = export_oligos_to_benchling(
+        oligos,
+        benchling_connection
+    )
+
+    return export_response
+
 
 def transform_grna_oligos(data : dict) -> dict:
     benchling_ids = benchling_schema_ids.ids
@@ -72,14 +63,6 @@ def check_wge_id(data : dict) -> bool:
     if data['detail']['entity']['fields']['WGE ID']:
         check = True
     return check
-
-def check_event_is_guide_rna(data: dict) -> bool:
-    bool_check = True
-    if not data["detail-type"] == benchling_schema_ids.ids["events"]["entity_registered"]:
-        bool_check = False
-    if not data["detail"]["entity"]["schema"]["id"] == benchling_schema_ids.ids["schemas"]["grna_schema_id"]:
-        bool_check = False
-    return bool_check
 
 
 def transform_event_input_data(data, ids):
