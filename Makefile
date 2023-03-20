@@ -14,8 +14,15 @@ ifeq ($(PREFIX),)
 endif
 
 APP = $(PREFIX)/src/app
-BENCHLING_CONFIG_FILE = $(PREFIX)/src/benchling/config.cfg
+BENCHLING_CONFIG_FILE := $(PREFIX)/src/benchling/config.cfg
 
+GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
+$(info $$GUNICORN_ENV = ${GUNICORN_ENV})
+MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
+$(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
+
+$(shell touch .env)
+include .env
 
 init: 
 	@git config core.hooksPath .githooks
@@ -93,8 +100,8 @@ activate-venv: setup-venv
 	@. venv/bin/activate
 
 $(BENCHLING_CONFIG_FILE): 
-	if  [[ ! -f "${BENCHLING_CONFIG_FILE}" ]]; then
-		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > $(BENCHLING_CONFIG_FILE)
+	if  [ ! -f "${BENCHLING_CONFIG_FILE}" ]; then
+		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > $(BENCHLING_CONFIG_FILE);
 	fi
 
 test: setup-venv
@@ -109,9 +116,14 @@ run-gunicorn: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn --bind 0.0.0.0:8081 src.app:app
 
-docker_touch:
-	@docker build --pull -t "${name}:${tag}" .
+docker_touch: .env
+	if [ "${GUNICORN_ENV}" -eq "prod" ]; then 
+		@docker build --pull -t "${name}:${tag}" --target prod .;
+	else
+		@docker build --build-arg --pull -t "${name}:${tag}" --target test .;
+	fi
 	touch docker_touch
+
 build_docker: docker_touch
 
 run-docker: build_docker
@@ -120,3 +132,4 @@ run-docker: build_docker
 clean: 
 	@rm -rf __pycache__
 	@rm -rf venv
+
