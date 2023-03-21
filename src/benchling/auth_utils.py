@@ -38,5 +38,5 @@ class APIConnector:
         # Only regenerate when cached token expires
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
-
+        
         return auth_json['access_token']
