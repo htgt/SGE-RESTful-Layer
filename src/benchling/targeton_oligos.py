@@ -51,7 +51,7 @@ def as_benchling_entity(targeton_oligo: TargetonOligo) -> dict:
             'value' : get_chromosome_dropdown_id(targeton_oligo.ref_chromosome)
         },
         'Reference Strand' : {
-            'value' : get_strand_dropdown_id(targeton_oligo.ref_strand)
+            'value' : get_strand_dropdown_id(targeton_oligo.ref_strand, "plus")
         },
         'sgRNA Vector' : {
             'value' : targeton_oligo.sgrna_vector
