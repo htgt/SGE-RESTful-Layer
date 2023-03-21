@@ -1,5 +1,5 @@
 from src.utils.file_system import CSVReader
-from src.domain.guideRNA import create_set_of_gRNAs
+from src.biology.guideRNA import create_set_of_gRNAs
 from src.benchling.create_gRNA import export_grna_to_benchling
 
 

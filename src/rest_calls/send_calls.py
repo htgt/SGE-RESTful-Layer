@@ -53,17 +53,34 @@ class Caller:
         else:
             print(f'Unsuccessful request. Status code: {res.status_code}. Reason: {res.reason}')
             print(f'DEBUG: {res.text}')
+            print(curl.parse(res))
 
         return res
 
 def export_to_service(
     json_dict: dict, 
-    service_url : str,
-    token : str,
-    action : str='get'
-) -> str:
+    service_url: str,
+    token: str,
+    action: str='get'
+) -> requests.Response:
 
     api_caller = Caller(service_url)
     response = api_caller.make_request(action, token, json_dict)
 
     return response
+
+
+def export_to_service_json_response(
+    json_dict: dict,
+    service_url: str,
+    token: str,
+    action: str='get'
+ ) -> dict:
+    try:
+        json_response = export_to_service(json_dict, service_url, token, action).json()
+
+    except Exception as err:
+        print(err)
+        raise Exception(err)
+
+    return json_response

@@ -2,7 +2,7 @@ import unittest
 import pdb 
 
 from Bio.Seq import Seq
-from src.domain.guideRNA import GuideRNA, GuideRNAOligo, create_set_of_gRNAs
+from src.biology.guideRNA import GuideRNA, GuideRNAOligo, create_set_of_gRNAs
 
 
 class TestGuideRNA(unittest.TestCase):
