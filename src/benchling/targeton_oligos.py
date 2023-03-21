@@ -41,10 +41,10 @@ def as_benchling_entity(targeton_oligo: TargetonOligo) -> dict:
         'Ref. End Position' : {
             'value' : int(targeton_oligo.ref_end)
         },
-        'Ref2. Start Position' : {
+        'R2 Start Position' : {
             'value' : int(targeton_oligo.r2_start)
         },
-        'Ref2. End Position' : {
+        'R2 End Position' : {
             'value' : int(targeton_oligo.r2_end)
         },
         'Reference Chromosome' : {
