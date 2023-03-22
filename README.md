@@ -20,6 +20,13 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
+## Environmental variables
+Ensure that the service you are using has the following enviromental variables or that you have a .env file in the top level of the restful layer directory.
+```
+BENCHLING_SECRET_KEY="secret_key"
+GUNICORN_ENV="prod" or "test"
+```
+
 ## Run Application
 With Makefile 
 ```sh
