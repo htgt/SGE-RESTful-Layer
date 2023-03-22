@@ -1,7 +1,7 @@
 from . import benchling_connection, benchling_schema_ids
 from src.rest_calls.send_calls import export_to_service
 from src.benchling.archive_entity import archive_oligo
-from src.domain.libamp_primers import LibampPrimer
+from src.biology.libamp_primers import LibampPrimer
 
 
 def primer_to_benchling_json(primer: LibampPrimer, ids) -> dict:
@@ -60,13 +60,6 @@ def export_primer_pair(
 
     primer_left_json = primer_to_benchling_json(primer_left, benchling_schema_ids.ids)
     primer_right_json = primer_to_benchling_json(primer_right, benchling_schema_ids.ids)
-
-
-    print("Export call: ",
-        primer_left_json,
-        url,
-        token,
-        'post',)
 
     left_response = export_function(
         primer_left_json,

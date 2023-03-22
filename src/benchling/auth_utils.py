@@ -1,12 +1,14 @@
 from __future__ import annotations
 import requests
-from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
-from src.rest_calls.send_calls import export_to_service
+from src.rest_calls.send_calls import export_to_service, check_response_object
 from typing import TYPE_CHECKING
+from dotenv import load_dotenv
+import os
 
 if TYPE_CHECKING:
     from src.benchling import BenchlingConnection
+
 
 
 class APIConnector:
@@ -22,18 +24,19 @@ class APIConnector:
         self.token = self.get_access_token()
 
     def get_secret_key(self) -> str:
-        # Replace with function arg and user input for url/path.
-        SECRET_KEY_URL = 'src/benchling/config.cfg'
+        secret_key = os.getenv('BENCHLING_SECRET_KEY')
+        if not secret_key:
+            try:
+                load_dotenv(".env")
+                secret_key = os.getenv('BENCHLING_SECRET_KEY')
+                if not secret_key:
+                    raise NoSecretKeyException(f"Environmental variable Benchling secret key is empty.")
+            except:
+                raise NoSecretKeyException(f"No secret key found in Enviromental variables or .env")
 
-        secret_path = Path(SECRET_KEY_URL)
-        if secret_path.exists():
-            secret_key = open(secret_path, 'r').read()
-        else:
-            raise NoSecretKeyException(f"No Config file found at {SECRET_KEY_URL}")
         if len(secret_key) < 1:
-            raise NoSecretKeyException(f"No secret key found at {SECRET_KEY_URL}")
-
-        return open(SECRET_KEY_URL, 'r').read().strip('\n')
+            raise NoSecretKeyException(f"Empty secret key stored in .env")
+        return secret_key
 
     def get_access_token(self) -> str:
         # Ideally store access token in cache with correct ttd
@@ -54,5 +57,7 @@ def export_to_benchling(
     if response.status_code in ["400", "401", "403"] and not response.ok:
         connection.get_store_token()
         response = export_to_service(json_dict, service_url, connection.token, action=action)
+    
+    json_response = check_response_object(response)
 
-    return response
+    return json_response

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from src.utils.exceptions import OligoDirectionInvalid
-from src.domain.guideRNA import OligosPair, Oligo
+from src.biology.guideRNA import OligosPair, Oligo
 from src.benchling.create_oligos import prepare_oligo_json, setup_oligo_class, BenchlingOligo
 import json
 from Bio.Seq import Seq

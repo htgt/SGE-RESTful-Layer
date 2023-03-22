@@ -3,5 +3,6 @@ venv
 .idea/
 config.cfg
 *.swp
+.env
 grna_event.json
 .env

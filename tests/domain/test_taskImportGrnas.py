@@ -1,6 +1,6 @@
 import unittest
 
-from src.domain.taskImportGrnas import TaskImport
+from src.biology.taskImportGrnas import TaskImport
 
 
 class TestRaskImportGrnas(unittest.TestCase):

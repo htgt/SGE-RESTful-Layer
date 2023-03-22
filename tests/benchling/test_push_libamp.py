@@ -4,7 +4,7 @@ from mock import MagicMock
 from requests.models import Response
 
 from src.benchling.push_libamp import export_primer_pair
-from src.domain.libamp_primers import LibampPrimer
+from src.biology.libamp_primers import LibampPrimer
 
 
 class ExportLibampPrimerPairToBenchling(unittest.TestCase):

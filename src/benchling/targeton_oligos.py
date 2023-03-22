@@ -1,6 +1,6 @@
 import json
 
-from src.domain.targeton_oligos import TargetonOligo
+from src.biology.targeton_oligos import TargetonOligo
 from src.benchling import benchling_schema_ids
 from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
 from src.core.post_targeton_oligos import send_targeton_oligo_post_request
@@ -41,17 +41,17 @@ def as_benchling_entity(targeton_oligo: TargetonOligo) -> dict:
         'Ref. End Position' : {
             'value' : int(targeton_oligo.ref_end)
         },
-        'Ref2. Start Position' : {
+        'R2 Start Position' : {
             'value' : int(targeton_oligo.r2_start)
         },
-        'Ref2. End Position' : {
+        'R2 End Position' : {
             'value' : int(targeton_oligo.r2_end)
         },
         'Reference Chromosome' : {
             'value' : get_chromosome_dropdown_id(targeton_oligo.ref_chromosome)
         },
         'Reference Strand' : {
-            'value' : get_strand_dropdown_id(targeton_oligo.ref_strand)
+            'value' : get_strand_dropdown_id(targeton_oligo.ref_strand, "plus")
         },
         'sgRNA Vector' : {
             'value' : targeton_oligo.sgrna_vector
