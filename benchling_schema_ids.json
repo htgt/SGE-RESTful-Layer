@@ -1,13 +1,17 @@
 {
   "default_folder_id": "lib_MaKCkHDE",
+  "events": {
+      "entity_registered": "v2.entity.registered"
+  },
   "schemas": {
-      "grna_schema_id": "ts_61h752hP",
+      "grna_schema_id": "ts_vGZYroiQ",
+      "grna_oligo_schema_id": "ts_iWVbrCXh",
       "libamp_schema_id": "ts_6UmlYWkl",
       "targeton_oligo_schema_id": "ts_UP3gzN10"
   },
   "dropdowns": {
-      "forward_strand": "sfso_J7roINLu",
-      "reverse_strand": "sfso_Ts3OFHmc",
+      "sense": "sfso_J7roINLu",
+      "antisense": "sfso_Ts3OFHmc",
       "forward_direction": "sfso_SqidJ89q",
       "reverse_direction": "sfso_oJJndGCo",
       "libamp_forward": "sfso_VGq0VE2s",
@@ -40,6 +44,10 @@
           "chr23": "sfso_I8xbhhbr",
           "chrX": "sfso_wVzT3oIa",
           "chrY": "sfso_2DDEX1TY"
+      },
+      "species": {
+          "homo_sapiens": "sfso_gWKuC1ge",
+          "mus_musculus": "sfso_gjQvG19Z"
       }
   }
 }
