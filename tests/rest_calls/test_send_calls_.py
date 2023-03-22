@@ -1,9 +1,9 @@
 import unittest
 import requests
-from benchling import benchling_connection
+from src.benchling import benchling_connection
 from mock import patch
 
-from rest_calls.send_calls import Caller
+from src.rest_calls.send_calls import Caller
 
 
 class TestCaller(unittest.TestCase):

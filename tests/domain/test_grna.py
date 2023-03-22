@@ -2,20 +2,35 @@ import unittest
 import pdb 
 
 from Bio.Seq import Seq
-from src.biology.guideRNA import GuideRNA, GuideRNAOligo, create_set_of_gRNAs
+from src.biology.guideRNA import GuideRNA, GuideRNAOligos
+from src.benchling.patch_guide_rna import as_benchling_req_body
+import json
 
 
 class TestGuideRNA(unittest.TestCase):
-    def test_create_guide_RNA(self):
-        input_data = {
-            'wge_id': '1168686327',
-            'seq': 'GACTTCCAGCTACGGCGCG',
-            'targeton': 'TGTN001',
-            'strand': 'sfso_qKNl7o1M',
-            'wge_link': 'www.test.com',
-            'off_targets': '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
-            'species': 'sfso_gWKuC1ge',
+    def setUp(self):
+        with open('benchling_schema_ids.json', 'r') as f:
+            self.benchling_ids = json.load(f)
+        self.example_seq = 'GACTTCCAGCTACGGCGCG'
+        self.example_wge_id = '1168686327'
+        self.example_wge_link = 'www.test.com'
+        self.example_off_targets = '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
+        self.example_species_benchling_id = self.benchling_ids['dropdowns']['species']['homo_sapiens']
+        self.example_species = 'Grch37'
+        self.example_strand = 'sfso_qKNl7o1M'
+        self.example_targeton = 'TGTN001'
+        self.example_input_data = {
+            'wge_id': self.example_wge_id,
+            'seq': self.example_seq,
+            'targeton': self.example_targeton,
+            'strand': self.example_strand,
+            'wge_link': self.example_wge_link,
+            'off_targets': self.example_off_targets,
+            'species': self.example_species,
         }
+    
+    def test_create_guide_RNA(self):
+        input_data = self.example_input_data
 
         test_gRNA = GuideRNA(input_data)
 
@@ -25,63 +40,58 @@ class TestGuideRNA(unittest.TestCase):
         self.assertEqual(getattr(test_gRNA, "off_targets"), "{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}")
 
     def test_grna_as_benchling_req_body(self):
-        input_data = {
-            'wge_id': '1168686327',
-            'seq': 'GACTTCCAGCTACGGCGCG',
-            'targeton': 'TGTN001',
-            'strand': 'sfso_qKNl7o1M',
-            'wge_link': 'www.test.com',
-            'off_targets': '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
-            'species': 'sfso_gWKuC1ge',
-        }
+        # Arrange
+        input_data = self.example_input_data
         
         event = {
             'folder_id' : 'folder',
             'name' : 'test',
             'schema_id' : 'schema_id',
+            'targeton_id' : 'targeton_id'
         }
 
         expected_out = {
-            'bases': 'GACTTCCAGCTACGGCGCG',
+            'bases': self.example_seq,
             'fields': {
                 'WGE ID': {
-                    'value': '1168686327'
+                    'value': self.example_wge_id
                 },
                 'Guide Sequence': {
-                    'value': 'GACTTCCAGCTACGGCGCG'
+                    'value': self.example_seq
                 },
                 'Targeton': {
-                    'value': 'TGTN001'
+                    'value': self.example_targeton
                 },
                 'Strand': {
-                    'value': 'sfso_qKNl7o1M'
+                    'value': self.example_strand
                 },
                 'WGE Hyperlink': {
-                    'value': 'www.test.com'
+                    'value': self.example_wge_link
                 },
                 'Off Target Summary Data': {
-                    'value': '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}'
+                    'value': self.example_off_targets
                 },
                 'Species': {
-                    'value': 'sfso_gWKuC1ge'
+                    'value': self.example_species
                 }
             },
             'folderId': 'folder',
             'name': 'test',
-            'schemaId': 'schema_id'
+            'schemaId': 'schema_id',
+            'Targeton': {'value': 'targeton_id'}
         }
-
+        # Act
         test_gRNA = GuideRNA(input_data)
-        
-        self.assertEqual(test_gRNA.as_benchling_req_body(event), expected_out)
+        # Assert
+        self.assertEqual(as_benchling_req_body(test_gRNA, event), expected_out)
 
 
-class TestGuideRNAOligo(unittest.TestCase):
+class TestGuideRNAOligos(unittest.TestCase):
     def test_forward_sequence(self):
         input_sequence = 'AATATGGTGGCCCTCCATT'
         first_base = 'G'
 
-        transformed = GuideRNAOligo(input_sequence).forward_sequence()
+        transformed = GuideRNAOligos(input_sequence).forward_sequence()
 
         self.assertEqual(transformed[0], first_base)
         self.assertEqual(transformed, 'GATATGGTGGCCCTCCATT')
@@ -90,7 +100,7 @@ class TestGuideRNAOligo(unittest.TestCase):
         input_sequence = 'AATATGGTGGCCCTCCATT'
         last_base = 'C'
 
-        transformed = GuideRNAOligo(input_sequence).reverse_sequence()
+        transformed = GuideRNAOligos(input_sequence).reverse_sequence()
 
         self.assertEqual(transformed[-1], last_base)
         self.assertEqual(transformed, 'AATGGAGGGCCACCATATC')
@@ -98,7 +108,7 @@ class TestGuideRNAOligo(unittest.TestCase):
     def test_create_oligos(self):
         input_sequence = 'AATATGGTGGCCCTCCATT'
 
-        oligos = GuideRNAOligo(input_sequence).create_oligos()
+        oligos = GuideRNAOligos(input_sequence)
 
         self.assertEqual(oligos.forward.sequence, Seq('CACCGATATGGTGGCCCTCCATT'))
         self.assertEqual(oligos.reverse.sequence, Seq('AAACAATGGAGGGCCACCATATC'))

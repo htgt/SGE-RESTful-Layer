@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 from src.utils.base_classes import BaseClass
 
 from src.utils.exceptions import OligoDirectionInvalid
-from src.biology.guideRNA import Oligo
+from src.biology.guideRNA import Oligo, GuideRNAOligos
 from . import BenchlingConnection, benchling_schema_ids
 import sys
 from src.utils.base_classes import BaseClass
@@ -22,7 +22,7 @@ class BenchlingOligo(Oligo, BaseClass):
 
 
 @dataclass
-class OligosPair(BaseClass):
+class BenchlingOligosPair(BaseClass):
     forward: BenchlingOligo
     reverse: BenchlingOligo
 
@@ -34,28 +34,28 @@ class OligosPair(BaseClass):
         return list_of_dicts
 
 
-def prepare_oligo_json(oligos: OligosPair) -> dict:
+def prepare_oligo_json(oligo: BenchlingOligo) -> dict:
     return {
-        "bases": str(getattr(oligos, 'sequence')),
+        "bases": str(getattr(oligo, 'sequence')),
         "fields": {
             "Targeton": {
-                "value": str(getattr(oligos, 'targeton')),
+                "value": str(getattr(oligo, 'targeton')),
             },
             "Strand": {
-                "value": str(getattr(oligos, 'strand')),
+                "value": str(getattr(oligo, 'strand')),
             },
             "Guide RNA": {
-                "value": str(getattr(oligos, 'grna'))
+                "value": str(getattr(oligo, 'grna'))
             }
         },
         "isCircular": False,
-        "folderId": str(getattr(oligos, 'folder_id')),
-        "name": str(getattr(oligos, 'name')),
-        "schemaId": str(getattr(oligos, 'schema_id'))
+        "folderId": str(getattr(oligo, 'folder_id')),
+        "name": str(getattr(oligo, 'name')),
+        "schemaId": str(getattr(oligo, 'schema_id'))
     }
 
 
-def export_oligos_to_benchling(oligos: OligosPair, benchling_connection: BenchlingConnection):
+def export_oligos_to_benchling(oligos: BenchlingOligosPair, benchling_connection: BenchlingConnection) -> Tuple[str, str]:
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
 
@@ -75,22 +75,22 @@ def export_oligos_to_benchling(oligos: OligosPair, benchling_connection: Benchli
     return (oligo_forward['id'], oligo_reverse['id'])
 
 
-def setup_oligo_pair_class(oligos: OligosPair, guide_data: dict) -> OligosPair:
+def setup_oligo_pair_class(oligos: GuideRNAOligos, guide_data: dict) -> BenchlingOligosPair:
     benchling_ids = benchling_schema_ids.ids
-
-    oligos.forward = setup_oligo_class(
+    forward = setup_oligo_class(
         oligos.forward,
         guide_data,
         benchling_ids,
         'forward',
     )
-    oligos.reverse = setup_oligo_class(
+    reverse = setup_oligo_class(
         oligos.reverse,
         guide_data,
         benchling_ids,
         'reverse',
     )
-    return oligos
+    benchling_oligo_pair = BenchlingOligosPair(forward, reverse)
+    return benchling_oligo_pair
 
 def setup_oligo_class(
         oligo: Oligo,
@@ -98,7 +98,7 @@ def setup_oligo_class(
         benchling_ids: dict,
         direction: str,
         name: str = "Guide RNA Oligo"
-) -> None:
+) -> BenchlingOligo:
     if direction == "forward":
         strand = benchling_ids["dropdowns"]["sense"]
     elif direction == "reverse":
