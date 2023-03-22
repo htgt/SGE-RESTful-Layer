@@ -1,5 +1,5 @@
 from . import benchling_connection, benchling_schema_ids
-from src.rest_calls.send_calls import export_to_service
+from src.benchling.utils.export_to_benchling import export_to_benchling
 from src.benchling.archive_entity import archive_oligo
 from src.biology.libamp_primers import LibampPrimer
 
@@ -43,7 +43,7 @@ def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrime
     return export_primer_pair(
         primer_left,
         primer_right,
-        export_to_service,
+        export_to_benchling,
         archive_oligo,
         url,
         token

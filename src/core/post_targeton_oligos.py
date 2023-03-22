@@ -1,4 +1,4 @@
-from src.benchling.auth_utils import export_to_benchling
+from src.benchling.utils.export_to_benchling import export_to_benchling
 from src.benchling import benchling_connection
 import json
 

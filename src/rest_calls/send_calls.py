@@ -63,18 +63,6 @@ def export_to_service(
     
     return response
 
-def export_to_service_json_response(
-    json_dict: dict,
-    service_url: str,
-    token: str,
-    action: str='get'
- ) -> dict:
-
-    response = export_to_service(json_dict, service_url, token, action)
-    json_response = check_response_object(response)
-
-    return json_response
-
 def check_response_object(response_object) -> dict:
     try:
         json_response = response_object.json()

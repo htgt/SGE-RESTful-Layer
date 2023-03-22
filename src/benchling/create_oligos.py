@@ -2,15 +2,12 @@ from dataclasses import dataclass
 from typing import List
 from src.utils.base_classes import BaseClass
 
-from src.rest_calls.send_calls import Caller, export_to_service_json_response
 from src.utils.exceptions import OligoDirectionInvalid
 from src.biology.guideRNA import Oligo
 from . import BenchlingConnection, benchling_schema_ids
-import json
 import sys
 from src.utils.base_classes import BaseClass
-from src.benchling.auth_utils import export_to_benchling
-
+from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
 sys.path.append("..")
 
 
@@ -62,13 +59,13 @@ def export_oligos_to_benchling(oligos: OligosPair, benchling_connection: Benchli
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
 
-    oligo_forward = export_to_benchling(
+    oligo_forward = export_to_benchling_json_response(
         oligo_forward_json,
         benchling_connection.sequence_url,
         benchling_connection.token,
         'post',
     )
-    oligo_reverse = export_to_benchling(
+    oligo_reverse = export_to_benchling_json_response(
         oligo_reverse_json,
         benchling_connection.sequence_url,
         benchling_connection.token,
