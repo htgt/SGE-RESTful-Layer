@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch
 from src.utils.exceptions import OligoDirectionInvalid
-from src.biology.guideRNA import OligosPair, Oligo
-from src.benchling.create_oligos import prepare_oligo_json, setup_oligo_class, BenchlingOligo
+from src.biology.guideRNA import Oligo, GuideRNAOligos
+from src.benchling.create_oligos import prepare_oligo_json, setup_oligo_class, BenchlingOligo, BenchlingOligosPair
 import json
 from Bio.Seq import Seq
 from copy import deepcopy
@@ -32,11 +32,11 @@ class TestCreateOligo(unittest.TestCase):
             'name': 'Guide RNA Oligo',
             'schemaId': 'ts_wFWXiFSo'
         }
-        with open('benchling_ids.json', 'r') as f:
+        with open('benchling_schema_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
-        self.example_oligos_pair = OligosPair(forward=Oligo(sequence=Seq(
-            'CACCGGCTGACGGGTGACACCCC')), reverse=Oligo(sequence=Seq('AAACGGGGTGTCACCCGTCAGCC')))
-        self.example_benchling_oligos_pair = OligosPair(
+        self.example_seq = 'AGCTGACGGGTGACACCCC'
+        self.example_oligos_pair = GuideRNAOligos(self.example_seq)
+        self.example_benchling_oligos_pair = BenchlingOligosPair(
             forward=BenchlingOligo(
                 sequence=Seq('CACCGGCTGACGGGTGACACCCC'),
                 targeton='seq_8VA7PA1S',
@@ -122,21 +122,22 @@ class TestCreateOligo(unittest.TestCase):
         benchling_ids = self.benchling_ids
         # Act
         # Foward
-        oligos.forward = setup_oligo_class(
+        forward = setup_oligo_class(
             oligos.forward,
             guide_data,
             benchling_ids,
             'forward',
         )
         # Reverse
-        oligos.reverse = setup_oligo_class(
+        reverse = setup_oligo_class(
             oligos.reverse,
             guide_data,
             benchling_ids,
             'reverse',
         )
+        benchling_oligos = BenchlingOligosPair(forward, reverse)
         # Assert
-        test_oligos_list_dicts = oligos.to_list_dicts()
+        test_oligos_list_dicts = benchling_oligos.to_list_dicts()
         example_oligos_list_dicts = self.example_setup_oligos_list_dicts
         self.assertCountEqual(test_oligos_list_dicts, example_oligos_list_dicts)
 
