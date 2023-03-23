@@ -116,18 +116,31 @@ run-gunicorn: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn --bind 0.0.0.0:8081 src.app:app
 
-docker_touch: .env
+docker-touch: .env
 	if [ "${GUNICORN_ENV}" -eq "prod" ]; then 
 		@docker build --pull -t "${name}:${tag}" --target prod .;
 	else
 		@docker build --build-arg --pull -t "${name}:${tag}" --target test .;
 	fi
-	touch docker_touch
+	touch docker-touch
 
-build_docker: docker_touch
+build-docker: docker-touch
 
-run-docker: build_docker
+run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
+
+check-lint: activate-venv
+	@echo "Running pycodestyle for src/"
+	@pycodestyle --statistics -qq src
+	@echo "Running pycodestyle for tests/"
+	@pycodestyle --statistics -qq tests
+
+auto-lint-tests: activate-venv
+	@python -m autopep8 -r -i tests/
+
+auto-lint-src: activate-venv
+	@python -m autopep8 -r -i src/
+
 
 clean: 
 	@rm -rf __pycache__
