@@ -1,7 +1,7 @@
+from __future__ import annotations
 import requests
-from pathlib import Path
 from src.utils.exceptions import NoSecretKeyException
-import json
+from typing import TYPE_CHECKING
 from dotenv import load_dotenv
 import os
 
@@ -38,5 +38,5 @@ class APIConnector:
         # Only regenerate when cached token expires
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
-        
+
         return auth_json['access_token']

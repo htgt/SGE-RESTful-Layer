@@ -8,6 +8,7 @@ from src.benchling.patch_guide_rna import patch_guide_rna
 from src.wge.wge import query_wge_by_id, transform_wge_event, prepare_guide_rna_class
 
 
+
 def handle_guide_event(data : dict) -> dict:
     response = {}
     try:
@@ -19,6 +20,7 @@ def handle_guide_event(data : dict) -> dict:
         return response, 201
     except Exception as err: 
         return json.dumps(err), 500
+
 
 def patch_grna_event(data : dict) -> dict:
     if check_wge_id(data):
@@ -47,6 +49,7 @@ def post_grna_oligos_event(data : dict) -> dict:
     return export_response
 
 
+
 def transform_grna_oligos(data : dict) -> dict:
     benchling_ids = benchling_schema_ids.ids
 
@@ -57,6 +60,7 @@ def transform_grna_oligos(data : dict) -> dict:
     oligos = setup_oligo_pair_class(oligos, guide_data)
     
     return oligos
+
 
 def check_wge_id(data : dict) -> bool:
     check = False
