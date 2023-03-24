@@ -19,7 +19,8 @@ class TestCreateOligo(unittest.TestCase):
             },
             'folderId': 'lib_MaKCkHDE',
             'name': 'Guide RNA Oligo',
-            'schemaId': 'ts_wFWXiFSo'
+            'schemaId': 'ts_iWVbrCXh',
+            'isCircular': False,
         }
         self.example_reverse_oligo_json_dict = {
             'bases': 'AAACGGGGTGTCACCCGTCAGCC',
@@ -30,10 +31,12 @@ class TestCreateOligo(unittest.TestCase):
             },
             'folderId': 'lib_MaKCkHDE',
             'name': 'Guide RNA Oligo',
-            'schemaId': 'ts_wFWXiFSo'
+            'schemaId': 'ts_iWVbrCXh',
+            'isCircular': False,
         }
         with open('benchling_schema_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
+
         self.example_seq = 'AGCTGACGGGTGACACCCC'
         self.example_oligos_pair = GuideRNAOligos(self.example_seq)
         self.example_benchling_oligos_pair = BenchlingOligosPair(
@@ -41,7 +44,7 @@ class TestCreateOligo(unittest.TestCase):
                 sequence=Seq('CACCGGCTGACGGGTGACACCCC'),
                 targeton='seq_8VA7PA1S',
                 folder_id='lib_MaKCkHDE',
-                schema_id='ts_wFWXiFSo',
+                schema_id='ts_iWVbrCXh',
                 name='Guide RNA Oligo',
                 strand='sfso_J7roINLu',
                 grna='seq_EFxZ6d9f'
@@ -50,7 +53,7 @@ class TestCreateOligo(unittest.TestCase):
                 sequence=Seq('AAACGGGGTGTCACCCGTCAGCC'),
                 targeton='seq_8VA7PA1S',
                 folder_id='lib_MaKCkHDE',
-                schema_id='ts_wFWXiFSo',
+                schema_id='ts_iWVbrCXh',
                 name='Guide RNA Oligo',
                 strand='sfso_Ts3OFHmc',
                 grna='seq_EFxZ6d9f'
@@ -60,7 +63,7 @@ class TestCreateOligo(unittest.TestCase):
             'id': 'seq_EFxZ6d9f',
             'targeton': 'seq_8VA7PA1S',
             'folder_id': 'lib_MaKCkHDE',
-            'schemaid': 'ts_wFWXiFSo',
+            'schemaid': 'ts_iWVbrCXh',
             'name': 'Guide RNA Oligo',
             'seq': 'TGCTGACGGGTGACACCCA'
         }
@@ -70,19 +73,19 @@ class TestCreateOligo(unittest.TestCase):
                 'sequence': Seq('CACCGGCTGACGGGTGACACCCC'),
                 'targeton': 'seq_8VA7PA1S',
                 'folder_id': 'lib_MaKCkHDE',
-                'schema_id': 'ts_wFWXiFSo',
+                'schema_id': 'ts_iWVbrCXh',
                 'name': 'Guide RNA Oligo',
                 'strand': 'sfso_J7roINLu',
-                'grna': 'seq_EFxZ6d9f'
+                'grna': 'seq_EFxZ6d9f',
             },
             {
                 'sequence': Seq('AAACGGGGTGTCACCCGTCAGCC'),
                 'targeton': 'seq_8VA7PA1S',
                 'folder_id': 'lib_MaKCkHDE',
-                'schema_id': 'ts_wFWXiFSo',
+                'schema_id': 'ts_iWVbrCXh',
                 'name': 'Guide RNA Oligo',
                 'strand': 'sfso_Ts3OFHmc',
-                'grna': 'seq_EFxZ6d9f'
+                'grna': 'seq_EFxZ6d9f',
             }
         ]
 
@@ -112,6 +115,7 @@ class TestCreateOligo(unittest.TestCase):
         # Assert
         example_forward_oligo_json_dict = self.example_forward_oligo_json_dict
         example_reverse_oligo_json_dict = self.example_reverse_oligo_json_dict
+
         self.assertDictEqual(test_forward_oligo_json_dict, example_forward_oligo_json_dict)
         self.assertDictEqual(test_reverse_oligo_json_dict, example_reverse_oligo_json_dict)
 
@@ -139,6 +143,7 @@ class TestCreateOligo(unittest.TestCase):
         # Assert
         test_oligos_list_dicts = benchling_oligos.to_list_dicts()
         example_oligos_list_dicts = self.example_setup_oligos_list_dicts
+
         self.assertCountEqual(test_oligos_list_dicts, example_oligos_list_dicts)
 
     def test_wrong_direction_setup_oligo_class(self):
