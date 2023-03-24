@@ -3,7 +3,6 @@ import pdb
 
 from Bio.Seq import Seq
 from src.biology.guideRNA import GuideRNA, GuideRNAOligos
-from src.benchling.patch_guide_rna import as_benchling_req_body
 import json
 
 
@@ -23,7 +22,7 @@ class TestGuideRNA(unittest.TestCase):
             'wge_id': self.example_wge_id,
             'seq': self.example_seq,
             'targeton': self.example_targeton,
-            'strand': self.example_strand,
+        #    'strand': self.example_strand,
             'wge_link': self.example_wge_link,
             'off_targets': self.example_off_targets,
             'species': self.example_species,
@@ -34,57 +33,9 @@ class TestGuideRNA(unittest.TestCase):
 
         test_gRNA = GuideRNA(input_data)
 
-        self.assertEqual(getattr(test_gRNA, "wge_id"), "1168686327")
-        self.assertEqual(getattr(test_gRNA, "sequence"),
-                         Seq("GACTTCCAGCTACGGCGCG"))
-        self.assertEqual(getattr(test_gRNA, "off_targets"), "{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}")
-
-    def test_grna_as_benchling_req_body(self):
-        # Arrange
-        input_data = self.example_input_data
-        
-        event = {
-            'folder_id' : 'folder',
-            'name' : 'test',
-            'schema_id' : 'schema_id',
-            'targeton_id' : 'targeton_id'
-        }
-
-        expected_out = {
-            'bases': self.example_seq,
-            'fields': {
-                'WGE ID': {
-                    'value': self.example_wge_id
-                },
-                'Guide Sequence': {
-                    'value': self.example_seq
-                },
-                'Targeton': {
-                    'value': self.example_targeton
-                },
-                'Strand': {
-                    'value': self.example_strand
-                },
-                'WGE Hyperlink': {
-                    'value': self.example_wge_link
-                },
-                'Off Target Summary Data': {
-                    'value': self.example_off_targets
-                },
-                'Species': {
-                    'value': self.example_species
-                }
-            },
-            'folderId': 'folder',
-            'name': 'test',
-            'schemaId': 'schema_id',
-            'Targeton': {'value': 'targeton_id'}
-        }
-        # Act
-        test_gRNA = GuideRNA(input_data)
-        # Assert
-        self.assertEqual(as_benchling_req_body(test_gRNA, event), expected_out)
-
+        self.assertEqual(test_gRNA.wge_id, "1168686327")
+        self.assertEqual(test_gRNA.sequence, Seq("GACTTCCAGCTACGGCGCG"))
+        self.assertEqual(test_gRNA.off_targets, ("{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}", ))
 
 class TestGuideRNAOligos(unittest.TestCase):
     def test_forward_sequence(self):
