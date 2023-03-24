@@ -88,9 +88,6 @@ class TestCaller(unittest.TestCase):
         # act
         actual = caller.make_post(self.headers, test_data)
 
-        print('Actual::::')
-        print(actual)
-
         # assert
         self.assertEqual(actual, expected)
         self.assertTrue(mock_print.called)
