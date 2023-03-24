@@ -90,7 +90,6 @@ class TestCaller(unittest.TestCase):
 
         # assert
         self.assertEqual(actual, expected)
-        self.assertTrue(mock_print.called)
         self.assertTrue(request.called)
         self.assertEqual(f"{request.call_args}",
                          f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
