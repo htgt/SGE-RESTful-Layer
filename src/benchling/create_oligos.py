@@ -62,13 +62,13 @@ def export_oligos_to_benchling(oligos: BenchlingOligosPair, benchling_connection
     oligo_forward = export_to_benchling_json_response(
         oligo_forward_json,
         benchling_connection.sequence_url,
-        benchling_connection.token,
+        benchling_connection,
         'post',
     )
     oligo_reverse = export_to_benchling_json_response(
         oligo_reverse_json,
         benchling_connection.sequence_url,
-        benchling_connection.token,
+        benchling_connection,
         'post',
     )
 
