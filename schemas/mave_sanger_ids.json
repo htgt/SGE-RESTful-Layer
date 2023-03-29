@@ -1,0 +1,45 @@
+{
+  "default_folder_id": "lib_cE6jMVq3",
+  "schemas": {
+      "grna_schema_id": "ts_J9NS046j",
+      "libamp_schema_id": "ts_tUUCWQ3f",
+      "targeton_oligo_schema_id": "ts_DoaIRgoe"
+  },
+  "dropdowns": {
+      "forward_strand": "sfso_lx6CpT6M",
+      "reverse_strand": "sfso_jryLSSfP",
+      "forward_direction": "sfso_7qedmJq3",
+      "reverse_direction": "sfso_IjauGmWb",
+      "libamp_forward": "sfso_ILBna9Cl",
+      "libamp_reverse": "sfso_dwFInBpW",
+      "plus" : "sfso_7roS2V7N",
+      "minus" : "sfso_XARkNkEb",
+      "chromosomes": {
+          "chr1": "sfso_PaT1hkg2",
+          "chr2": "sfso_qkPG7tSx",
+          "chr3": "sfso_HDq9LdXD",
+          "chr4": "sfso_tTXp3Q5l",
+          "chr5": "sfso_uf9aazRg",
+          "chr6": "sfso_aYYFtCwj",
+          "chr7": "sfso_ucdCtdDH",
+          "chr8": "sfso_XKRuM6ZD",
+          "chr9": "sfso_OUWUc4g9",
+          "chr10": "sfso_B4zUVEPl",
+          "chr11": "sfso_TlNuJg66",
+          "chr12": "sfso_wo0n1JB4",
+          "chr13": "sfso_Ymu30KUo",
+          "chr14": "sfso_ldN4c0lZ",
+          "chr15": "sfso_B5a6X2ta",
+          "chr16": "sfso_lPR3H5sy",
+          "chr17": "sfso_5qY7GEdC",
+          "chr18": "sfso_DG069jTy",
+          "chr19": "sfso_xsN7lkyH",
+          "chr20": "sfso_RE6IlPoX",
+          "chr21": "sfso_PlGH4mKN",
+          "chr22": "sfso_Owbkl59Q",
+          "chr23": "sfso_xTmug687",
+          "chrX": "sfso_LWT7L3i1",
+          "chrY": "sfso_R2bU0zC6"
+      }
+  }
+}
