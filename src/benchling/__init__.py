@@ -17,10 +17,10 @@ MAVE_SANGER_BENCHLING_IDS_URL = r'schemas/mave_sanger_ids.json'
 
 
 if BENCHLING_TENANT == 'prod':
-    benchling_ids_url = CI_TEST_BENCHLING_IDS_URL
+    benchling_ids_url = MAVE_SANGER_BENCHLING_IDS_URL
     client_id = MAVE_SANGER_CLIENT_ID
 elif BENCHLING_TENANT == 'test':
-    benchling_ids_url = MAVE_SANGER_BENCHLING_IDS_URL
+    benchling_ids_url = CI_TEST_BENCHLING_IDS_URL
     client_id = CI_TEST_CLIENT_ID
 
 
