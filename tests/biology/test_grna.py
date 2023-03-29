@@ -1,5 +1,5 @@
 import unittest
-import pdb 
+import pdb
 
 from src.biology.guideRNA import GuideRNA, GuideRNAOligos
 import json
@@ -21,13 +21,13 @@ class TestGuideRNA(unittest.TestCase):
             'wge_id': self.example_wge_id,
             'seq': self.example_seq,
             'targeton': self.example_targeton,
-        #    'strand': self.example_strand,
+            #'strand': self.example_strand,
             'wge_link': self.example_wge_link,
             'off_targets': self.example_off_targets,
             'species': self.example_species,
             'pam_right': 1,
         }
-    
+
     def test_create_guide_RNA(self):
         input_data = self.example_input_data
 
@@ -55,6 +55,7 @@ class TestGuideRNA(unittest.TestCase):
         actual = GuideRNA.split_guide(input_guide, input_pam_right)
 
         self.assertEqual(actual, expected)
+
 
 class TestGuideRNAOligos(unittest.TestCase):
     def test_forward_sequence(self):
