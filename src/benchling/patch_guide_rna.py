@@ -9,7 +9,7 @@ def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
     response = export_to_benchling_json_response(
         benchling_body,
         patch_url,
-        benchling_connection.token,
+        benchling_connection,
         'patch',
     )
 

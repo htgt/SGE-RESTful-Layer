@@ -1,7 +1,8 @@
-from . import benchling_connection, benchling_schema_ids
+from . import benchling_connection, benchling_schema_ids, BenchlingConnection
 from src.benchling.utils.export_to_benchling import export_to_benchling
 from src.benchling.archive_entity import archive_oligo
 from src.biology.libamp_primers import LibampPrimer
+
 
 
 def primer_to_benchling_json(primer: LibampPrimer, ids) -> dict:
@@ -38,7 +39,6 @@ def primer_to_benchling_json(primer: LibampPrimer, ids) -> dict:
 
 def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrimer):
     url = benchling_connection.oligos_url
-    token = benchling_connection.token
 
     return export_primer_pair(
         primer_left,
@@ -46,7 +46,7 @@ def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrime
         export_to_benchling,
         archive_oligo,
         url,
-        token
+        benchling_connection
     )
 
 def export_primer_pair(
@@ -55,7 +55,7 @@ def export_primer_pair(
         export_function,
         archive_function,
         url: str,
-        token: str,
+        connection: BenchlingConnection,
 ) -> list:
 
     primer_left_json = primer_to_benchling_json(primer_left, benchling_schema_ids.ids)
@@ -64,7 +64,7 @@ def export_primer_pair(
     left_response = export_function(
         primer_left_json,
         url,
-        token,
+        connection,
         'post',
     )
 
@@ -74,7 +74,7 @@ def export_primer_pair(
         right_response = export_function(
             primer_right_json,
             url,
-            token,
+            connection,
             'post',
         )
 
