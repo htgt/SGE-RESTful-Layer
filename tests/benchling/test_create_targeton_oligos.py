@@ -37,10 +37,10 @@ class TestTargetonOligo(unittest.TestCase):
             'Ref. End Position': {
                 'value': 43105038
             },
-            'Ref2. Start Position': {
+            'R2 Start Position': {
                 'value': 43104868
             },
-            'Ref2. End Position': {
+            'R2 End Position': {
                 'value': 43104956
             },
             'Reference Chromosome': {
