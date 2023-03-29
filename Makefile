@@ -9,20 +9,16 @@ PIP = $(VENV)/bin/pip
 name = "sge-restful-layer"
 tag = "test"
 
-ifeq ($(PREFIX),)
-	PREFIX := /usr/local
-endif
-
 APP = $(PREFIX)/src/app
-BENCHLING_CONFIG_FILE := $(PREFIX)/src/benchling/config.cfg
+ENVIRONMENTAL_VARIABLE_FILE := $(PWD)/.env
 
 GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
 $(info $$GUNICORN_ENV = ${GUNICORN_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
 
-$(shell touch .env)
-include .env
+$(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
+include ${ENVIRONMENTAL_VARIABLE_FILE}
 
 init: 
 	@git config core.hooksPath .githooks
@@ -99,20 +95,15 @@ clean-venv/requirements_run:
 activate-venv: setup-venv
 	@. venv/bin/activate
 
-$(BENCHLING_CONFIG_FILE): 
-	if  [ ! -f "${BENCHLING_CONFIG_FILE}" ]; then
-		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > $(BENCHLING_CONFIG_FILE);
-	fi
-
 test: setup-venv
 	@. venv/bin/activate
 	@python -m unittest
 
-run-flask: ./src/benchling/config.cfg setup-venv
+run-flask: setup-venv
 	@. venv/bin/activate
 	@flask --app src/app run --host=0.0.0.0 --port=8081
 
-run-gunicorn: ./src/benchling/config.cfg setup-venv
+run-gunicorn: setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn src.app:app
 
