@@ -8,15 +8,16 @@ branch = str(check_output(['git', 'symbolic-ref', '--short', 'HEAD']).strip())
 regex = r'(\w+[ -_]?\d+)[ -_]?([ -_A-Za-z0-9]+)'
 
 with open(commit_msg_filepath, 'r+') as fh:
-    # https://www.conventionalcommits.org/en/v1.0.0/
-    # Type: fix, feat, build, chore, ci, docs, style, refactor, perf, test
-    fh.write('Type = fix, feat, build, chore, ci, docs, style, refactor, perf, test:\t\n')
     # (OPT) Body
     if re.match(regex, branch):
         ticket = re.match(regex, branch).group(1)
         commit_msg = fh.read()
         fh.seek(0, 0)
         fh.write('[%s] %s' % (ticket, commit_msg))
+    # https://www.conventionalcommits.org/en/v1.0.0/
+    # Type: fix, feat, build, chore, ci, docs, style, refactor, perf, test
+    fh.seek(0, 0)
+    fh.write('Type = fix, feat, build, chore, ci, docs, style, refactor, perf, test:\t\n')
     # (OPT) Footer: Breaking change
     # fh.write('(opt) footer:\t\n')
 
