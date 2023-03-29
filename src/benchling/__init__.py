@@ -1,20 +1,36 @@
 from .auth_utils import APIConnector
 from warnings import warn
-from src.utils.exceptions import NoBenchlingEnvMatchWarning
+from src.utils.exceptions import NoBenchlingEnvMatchWarning, NoDotENVFile, NoSecretKeyException
+from dotenv import load_dotenv
 
 import json
 import os
 
+
+
+try:
+    load_dotenv(".env")
+    BENCHLING_SECRET_KEY = os.getenv('BENCHLING_SECRET_KEY')
+    PRODUCTION_ENV = os.getenv('PRODUCTION_ENV')
+    GUNICORN_ENV = os.getenv('GUNICORN_ENV')
+except:
+    raise NoDotENVFile(f"No or invalid .env")
+
 # CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016' # tol
 CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
-PROD_ENV = 'ci'  # 'prod', 'ci', 'tol'
+# PROD_ENV = 'ci'  # 'prod', 'ci', 'tol'
 
-BENCHLING_IDS_URL = 'schemas/ci_sanger_test_ids.json'
+if PRODUCTION_ENV == 'prod':
+    BENCHLING_IDS_URL = 'schemas/mave_sanger_ids.json'
+elif PRODUCTION_ENV == 'test':
+    BENCHLING_IDS_URL = 'schemas/ci_sanger_test_ids.json'
 
 
 class BenchlingConnection:
     def __init__(self):
-        url = self.generate_url(prod_env=PROD_ENV)
+        self.prod_env = PRODUCTION_ENV
+        self.secret_key = BENCHLING_SECRET_KEY
+        url = self.generate_url(prod_env=PRODUCTION_ENV)
         self.api_url = url + r'api/v2/'
         self.blobs_url = self.api_url + r'blobs/'
         self.oligos_url = self.api_url + r'dna-oligos'
@@ -28,7 +44,7 @@ class BenchlingConnection:
         self.get_store_token()
 
     def get_store_token(self):
-        self._auth_object = APIConnector(self.token_url, CLIENT_ID)
+        self._auth_object = APIConnector(self.token_url, CLIENT_ID, self.secret_key)
         if self._auth_object:
             print('BenchlingConnection initialized')
         else:
@@ -41,7 +57,7 @@ class BenchlingConnection:
         prod_env_dict = {
             "tol" : r"tol-sangertest.",
             "prod" : r"ci-sanger.",
-            "ci" : r"ci-sanger-test."
+            "test" : r"ci-sanger-test."
         }
         if prod_env in prod_env_dict:
             url = url + prod_env_dict[prod_env]

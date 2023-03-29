@@ -114,7 +114,7 @@ run-flask: ./src/benchling/config.cfg setup-venv
 
 run-gunicorn: ./src/benchling/config.cfg setup-venv
 	@. venv/bin/activate 
-	@python -m gunicorn --bind 0.0.0.0:8081 src.app:app
+	@python -m gunicorn src.app:app
 
 docker_touch: .env
 	if [ "${GUNICORN_ENV}" -eq "prod" ]; then 

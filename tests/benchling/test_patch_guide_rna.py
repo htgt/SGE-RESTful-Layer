@@ -5,7 +5,7 @@ import json
 
 class TestPatchGuideRNA(unittest.TestCase):
     def setUp(self):
-        with open('benchling_schema_ids.json', 'r') as f:
+        with open('tests/fixtures/example_benchling_schema_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
             self.example_seq = 'GACTTCCAGCTACGGCGCG'
             self.example_wge_id = '1168686327'

@@ -8,6 +8,9 @@ class OligoDirectionInvalid(Exception):
 class ConvertToJsonError(Exception):
     pass
 
+class NoDotENVFile(Exception):
+    pass
+
 # Warnings
 
 
