@@ -7,6 +7,7 @@ COPY requirements.txt requirements.txt
 COPY Makefile Makefile
 COPY src src
 COPY tests tests
+COPY schemas schemas
 COPY .env .env 
 
 RUN make install
