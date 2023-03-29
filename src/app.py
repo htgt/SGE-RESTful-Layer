@@ -7,6 +7,10 @@ from src.resources.blob import Blob
 from src.resources.libamp import Libamp
 from src.resources.guide import GuideEndpoint
 from src.resources.targeton_oligos import TargetonOligoEndpoint
+from src.utils.exceptions import NoDotENVFile
+
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -24,5 +28,14 @@ api.add_resource(Libamp, '/libamp', methods=["POST"])
 api.add_resource(GuideEndpoint, '/guide', methods=["POST"])
 api.add_resource(TargetonOligoEndpoint, '/targeton-oligo', methods=["POST"])
 
+
+
 if __name__ == "__main__":
+    try:
+        load_dotenv(".env")
+        BENCHLING_SECRET_KEY = os.getenv('BENCHLING_SECRET_KEY')
+        PRODUCTION_ENV = os.getenv('PRODUCTION_ENV')
+        GUNICORN_ENV = os.getenv('GUNICORN_ENV')
+    except:
+        raise NoDotENVFile(f"No or invalid .env")
     app.run()

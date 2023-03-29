@@ -2,19 +2,11 @@ from .auth_utils import APIConnector
 from warnings import warn
 from src.utils.exceptions import NoBenchlingEnvMatchWarning, NoDotENVFile, NoSecretKeyException
 from dotenv import load_dotenv
+from app import BENCHLING_SECRET_KEY, PRODUCTION_ENV
 
 import json
 import os
 
-
-
-try:
-    load_dotenv(".env")
-    BENCHLING_SECRET_KEY = os.getenv('BENCHLING_SECRET_KEY')
-    PRODUCTION_ENV = os.getenv('PRODUCTION_ENV')
-    GUNICORN_ENV = os.getenv('GUNICORN_ENV')
-except:
-    raise NoDotENVFile(f"No or invalid .env")
 
 # CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016' # tol
 CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
