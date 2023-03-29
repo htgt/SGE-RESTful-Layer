@@ -1,6 +1,6 @@
 import requests
 from urllib.parse import urljoin
-from utils.exceptions import ConvertToJsonError
+from src.utils.exceptions import ConvertToJsonError
 import curl
 
 

@@ -9,7 +9,7 @@ import os
 CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
 PROD_ENV = 'ci'  # 'prod', 'ci', 'tol'
 
-BENCHLING_IDS_URL = 'benchling_schema_ids.json'
+BENCHLING_IDS_URL = 'schemas/ci_sanger_test_ids.json'
 
 
 class BenchlingConnection:

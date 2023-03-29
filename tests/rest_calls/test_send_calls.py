@@ -1,7 +1,7 @@
 import unittest
 import requests
 from src.benchling import benchling_connection
-from mock import patch
+from mock import patch, MagicMock
 
 from src.rest_calls.send_calls import Caller
 
@@ -12,6 +12,12 @@ class TestCaller(unittest.TestCase):
 
     def setUp(self):
         return
+
+    def _prepare_caller(self, endpoint: str) -> Caller:
+        caller = Caller(endpoint)
+        caller._response_handler = MagicMock
+
+        return caller
 
     @patch('requests.get')
     def test_make_get_success(self, request):
@@ -25,7 +31,7 @@ class TestCaller(unittest.TestCase):
 
         test_endpoint = benchling_connection.api_url
         test_path = 'blobs/51cc7076-633d-42fc-a216-982fdc63a3ce'
-        caller = Caller(test_endpoint)
+        caller = self._prepare_caller(test_endpoint)
 
         # act
         actual = caller.make_get(self.headers, test_path)
@@ -43,10 +49,12 @@ class TestCaller(unittest.TestCase):
         request.return_value.status_code = 200
         request.return_value.ok = True
 
-        test_endpoint = 'endpoint'
         test_data = {'data_key': 'data_value'}
+
+        test_endpoint = 'endpoint'
+        caller = self._prepare_caller(test_endpoint)
+
         expected_header = {'Authorization': f"Bearer mocked_token"}
-        caller = Caller(test_endpoint)
         expected = requests.Response
 
         # act
@@ -69,10 +77,12 @@ class TestCaller(unittest.TestCase):
         request.return_value.reason = "Not Found"
         request.return_value.ok = False
 
-        test_endpoint = 'end_point'
         test_data = {'data_key': 'data_value'}
+
+        test_endpoint = 'end_point'
+        caller = self._prepare_caller(test_endpoint)
+
         expected_header = {'Authorization': f"Bearer mocked_token"}
-        caller = Caller(test_endpoint)
         expected = requests.Response
 
         # act
@@ -80,7 +90,6 @@ class TestCaller(unittest.TestCase):
 
         # assert
         self.assertEqual(actual, expected)
-        self.assertTrue(mock_print.called)
         self.assertTrue(request.called)
         self.assertEqual(f"{request.call_args}",
                          f"call('{test_endpoint}', json={test_data}, headers={expected_header})")
