@@ -1,11 +1,9 @@
 from .auth_utils import APIConnector
 from warnings import warn
-from src.utils.exceptions import NoBenchlingEnvMatchWarning, NoDotENVFile, NoSecretKeyException
-from dotenv import load_dotenv
-from app import BENCHLING_SECRET_KEY, PRODUCTION_ENV
+from src.utils.exceptions import NoBenchlingEnvMatchWarning
+from src import BENCHLING_SECRET_KEY, PRODUCTION_ENV
 
 import json
-import os
 
 
 # CLIENT_ID = '7fd79123-bff9-4de6-9afc-81197463f016' # tol
