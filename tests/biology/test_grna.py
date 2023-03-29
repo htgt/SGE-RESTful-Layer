@@ -1,6 +1,7 @@
 import unittest
 import pdb
 
+from Bio.Seq import Seq
 from src.biology.guideRNA import GuideRNA, GuideRNAOligos
 import json
 
