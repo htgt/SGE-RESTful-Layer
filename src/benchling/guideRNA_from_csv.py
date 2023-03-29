@@ -30,6 +30,6 @@ class GrnasImportFromCSV:
         result = []
 
         for item in grnas:
-            result.append(item.sequence.__str__())
+            result.append(item.spacer.__str__())
 
         return result
