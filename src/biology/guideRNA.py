@@ -21,14 +21,25 @@ def create_set_of_gRNAs(data):
 
 
 class GuideRNA:
-    def __init__(self, data) -> None :
+    def __init__(self, data) -> None:
         self.wge_id = data['wge_id']
-        self.sequence = data['seq']
         #self.targeton = data['targeton']
         #self.strand = data['strand']
         self.wge_link = data['wge_link']
         self.off_targets = data['off_targets']
         self.species = get_species_name_by_id(data['species'])
+        self.spacer, self.pam = self.split_guide(data['seq'], data['pam_right'])
+
+    @staticmethod
+    def split_guide(guide: str, pam_right: bool) -> tuple:
+        if pam_right:
+            spacer = guide[:-3]
+            pam = guide[-3:]
+        else:
+            spacer = guide[3:]
+            pam = guide[:3]
+
+        return (spacer, pam)
 
 
 @dataclass

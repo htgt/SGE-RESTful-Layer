@@ -1,7 +1,6 @@
 import unittest
 import pdb 
 
-from Bio.Seq import Seq
 from src.biology.guideRNA import GuideRNA, GuideRNAOligos
 import json
 
@@ -10,7 +9,7 @@ class TestGuideRNA(unittest.TestCase):
     def setUp(self):
         with open('benchling_schema_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
-        self.example_seq = 'GACTTCCAGCTACGGCGCG'
+        self.example_seq = 'GACTTCCAGCTACGGCGCGGGG'
         self.example_wge_id = '1168686327'
         self.example_wge_link = 'www.test.com'
         self.example_off_targets = '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
@@ -26,6 +25,7 @@ class TestGuideRNA(unittest.TestCase):
             'wge_link': self.example_wge_link,
             'off_targets': self.example_off_targets,
             'species': self.example_species,
+            'pam_right': 1,
         }
     
     def test_create_guide_RNA(self):
@@ -34,8 +34,27 @@ class TestGuideRNA(unittest.TestCase):
         test_gRNA = GuideRNA(input_data)
 
         self.assertEqual(test_gRNA.wge_id, "1168686327")
-        self.assertEqual(test_gRNA.sequence, Seq("GACTTCCAGCTACGGCGCG"))
+        self.assertEqual(test_gRNA.spacer, "GACTTCCAGCTACGGCGCG")
+        self.assertEqual(test_gRNA.pam, "GGG")
         self.assertEqual(test_gRNA.off_targets, ("{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}", ))
+
+    def test_split_guide_pam_right(self):
+        input_guide = 'ATCGAGG'
+        input_pam_right = 1
+        expected = ('ATCG', 'AGG')
+
+        actual = GuideRNA.split_guide(input_guide, input_pam_right)
+
+        self.assertEqual(actual, expected)
+
+    def test_split_guide_pam_left(self):
+        input_guide = 'CCAATCG'
+        input_pam_right = 0
+        expected = ('ATCG', 'CCA')
+
+        actual = GuideRNA.split_guide(input_guide, input_pam_right)
+
+        self.assertEqual(actual, expected)
 
 class TestGuideRNAOligos(unittest.TestCase):
     def test_forward_sequence(self):

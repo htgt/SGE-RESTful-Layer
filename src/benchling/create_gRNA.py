@@ -30,15 +30,15 @@ def prepare_sgrna_json(gRNA, strand, ids):
     }
 
 
-def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
+def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids) -> dict:
     return {
-        "bases": str(getattr(gRNA, 'sequence')),
+        "bases": gRNA.spacer,
         "fields": {
             "Gene Name": {
-                "value": str(getattr(gRNA, 'gene_name')),
+                "value": gRNA.gene_name,
             },
             "WGE ID": {
-                "value": int(getattr(gRNA, 'id')),
+                "value": int(gRNA.id),
             },
             "Forward sgRNA": {
                 "value": str(fwd_sgrna_id),
@@ -46,9 +46,12 @@ def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
             "Reverse sgRNA": {
                 "value": str(rev_sgrna_id),
             },
+            "PAM Sequence": {
+                "value": gRNA.pam,
+            },
         },
         "folderId": ids['folder_id'],
-        "name": str(getattr(gRNA, 'id')),
+        "name": str(gRNA.id),
         "schemaId": ids['grna_schema_id']
     }
 
