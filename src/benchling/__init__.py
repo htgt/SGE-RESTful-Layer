@@ -6,7 +6,6 @@ from src import BENCHLING_SECRET_KEY, BENCHLING_TENANT
 import json
 
 
-
 # PROD_ENV = 'ci'  # 'prod', 'ci', 'tol'
 # TEST (test)
 CI_TEST_CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
