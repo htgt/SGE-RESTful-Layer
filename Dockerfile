@@ -12,7 +12,6 @@ COPY .env .env
 RUN make install
 RUN make setup-venv
 
-COPY benchling_schema_ids.json benchling_schema_ids.json
 COPY gunicorn.prod.conf.py gunicorn.prod.conf.py
 COPY gunicorn.conf.py gunicorn.conf.py
 
