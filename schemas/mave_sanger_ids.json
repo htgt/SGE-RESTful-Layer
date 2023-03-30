@@ -40,6 +40,10 @@
           "chr23": "sfso_xTmug687",
           "chrX": "sfso_LWT7L3i1",
           "chrY": "sfso_R2bU0zC6"
+      },
+      "species": {
+          "homo_sapiens": "sfso_0NK4uNoJ",
+          "mus_musculus": "sfso_VXttZLnS"
       }
   }
 }
