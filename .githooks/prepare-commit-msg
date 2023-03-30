@@ -16,7 +16,7 @@ with open(commit_msg_filepath, 'r+') as fh:
         fh.write(f'[{ticket}]\n')
     # https://www.conventionalcommits.org/en/v1.0.0/
     # Type: fix, feat, build, chore, ci, docs, style, refactor, perf, test
-    fh.write('Type = fix/feat/build/chore/ci/docs/style/refactor/perf/test:\t\n')
+    fh.write('fix/feat/build/chore/ci/docs/style/refactor/perf/test:\t\n')
     fh.write(f'{commit_msg}')
     # (OPT) Footer: Breaking change
     # fh.write('(opt) footer:\t\n')
