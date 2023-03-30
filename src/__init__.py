@@ -13,3 +13,8 @@ try:
     GUNICORN_ENV = os.getenv('GUNICORN_ENV')
 except:
     raise NoDotENVFile(f"No or invalid .env")
+
+if 'unittest' in sys.modules:
+    print("Unittest mode, changing tenant to 'test'")
+    BENCHLING_TENANT = 'test'
+    GUNICORN_ENV = 'test'
