@@ -24,5 +24,6 @@ api.add_resource(Libamp, '/libamp', methods=["POST"])
 api.add_resource(GuideEndpoint, '/guide', methods=["POST"])
 api.add_resource(TargetonOligoEndpoint, '/targeton-oligo', methods=["POST"])
 
+
 if __name__ == "__main__":
     app.run()

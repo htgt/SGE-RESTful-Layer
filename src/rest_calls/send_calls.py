@@ -52,16 +52,17 @@ class Caller:
 
 
 def export_to_service(
-    json_dict: dict, 
+    json_dict: dict,
     service_url: str,
     token: str,
-    action: str='get'
+    action: str = 'get'
 ) -> requests.Response:
 
     api_caller = Caller(service_url)
     response = api_caller.make_request(action, token, json_dict)
-    
+
     return response
+
 
 def check_response_object(response_object) -> dict:
     try:

@@ -34,7 +34,7 @@ class TestCreateOligo(unittest.TestCase):
             'schemaId': 'ts_iWVbrCXh',
             'isCircular': False,
         }
-        with open('benchling_schema_ids.json', 'r') as f:
+        with open('tests/fixtures/example_benchling_schema_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
 
         self.example_seq = 'AGCTGACGGGTGACACCCC'

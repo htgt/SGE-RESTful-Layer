@@ -9,20 +9,16 @@ PIP = $(VENV)/bin/pip
 name = "sge-restful-layer"
 tag = "test"
 
-ifeq ($(PREFIX),)
-	PREFIX := /usr/local
-endif
-
 APP = $(PREFIX)/src/app
-BENCHLING_CONFIG_FILE := $(PREFIX)/src/benchling/config.cfg
+ENVIRONMENTAL_VARIABLE_FILE := $(PWD)/.env
 
 GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
 $(info $$GUNICORN_ENV = ${GUNICORN_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
 
-$(shell touch .env)
-include .env
+$(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
+include ${ENVIRONMENTAL_VARIABLE_FILE}
 
 init: 
 	@git config core.hooksPath .githooks
@@ -99,35 +95,48 @@ clean-venv/requirements_run:
 activate-venv: setup-venv
 	@. venv/bin/activate
 
-$(BENCHLING_CONFIG_FILE): 
-	if  [ ! -f "${BENCHLING_CONFIG_FILE}" ]; then
-		echo "THISISASECRETKEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > $(BENCHLING_CONFIG_FILE);
-	fi
-
 test: setup-venv
 	@. venv/bin/activate
 	@python -m unittest
 
-run-flask: ./src/benchling/config.cfg setup-venv
+run-flask: setup-venv
 	@. venv/bin/activate
 	@flask --app src/app run --host=0.0.0.0 --port=8081
 
-run-gunicorn: ./src/benchling/config.cfg setup-venv
-	@. venv/bin/activate 
-	@python -m gunicorn --bind 0.0.0.0:8081 src.app:app
+run-flask-debug: setup-venv
+	@. venv/bin/activate
+	@flask --app src/app --debug run --host=0.0.0.0 --port=8081
 
-docker_touch: .env
+run-gunicorn: setup-venv
+	@. venv/bin/activate 
+	@python -m gunicorn src.app:app
+
+docker-touch: .env
 	if [ "${GUNICORN_ENV}" -eq "prod" ]; then 
 		@docker build --pull -t "${name}:${tag}" --target prod .;
 	else
 		@docker build --build-arg --pull -t "${name}:${tag}" --target test .;
 	fi
-	touch docker_touch
+	touch docker-touch
 
-build_docker: docker_touch
+build-docker: docker-touch
 
-run-docker: build_docker
+run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
+
+check-lint: activate-venv
+	@echo "Running pycodestyle for src/"
+	@pycodestyle --statistics -qq src || true
+	@echo "Running pycodestyle for tests/"
+	@pycodestyle --statistics -qq tests || true
+
+
+auto-lint-tests: activate-venv
+	@python -m autopep8 -r -i tests/
+
+auto-lint-src: activate-venv
+	@python -m autopep8 -r -i src/
+
 
 clean: 
 	@rm -rf __pycache__
