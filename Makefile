@@ -103,6 +103,10 @@ run-flask: setup-venv
 	@. venv/bin/activate
 	@flask --app src/app run --host=0.0.0.0 --port=8081
 
+run-flask-debug: setup-venv
+	@. venv/bin/activate
+	@flask --app src/app --debug run --host=0.0.0.0 --port=8081
+
 run-gunicorn: setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn src.app:app
