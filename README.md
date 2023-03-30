@@ -25,15 +25,19 @@ Ensure that the service you are using has the following enviromental variables o
 ```
 BENCHLING_SECRET_KEY="secret_key"
 GUNICORN_ENV="prod" or "test"
+BENCHLING_TENANT="prod" or "test"
 ```
 
 ## Run Application
-With Makefile 
+There are many ways to run the RESTful layer, it can be run locally with Gunicorn or Flask or in a Docker with Gunicorn.
+The easiest way is using the Makefile
 ```sh
 make run
 ```
 ```make run-gunicorn``` Launches the app with Gunicorn.
 ```make run-flask``` Launches the app with flask.
+```make run-flask-debug``` Launches the app with flask.
+```make run-docker``` Creates a Docker container and launches the app with Gunicorn.
 
 OR
 
