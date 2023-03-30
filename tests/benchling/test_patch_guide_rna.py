@@ -8,23 +8,23 @@ class TestPatchGuideRNA(unittest.TestCase):
     def setUp(self):
         with open('benchling_schema_ids.json', 'r') as f:
             self.benchling_ids = json.load(f)
-            self.example_wge_id = '1168686327'
-            self.example_wge_link = 'www.test.com'
-            self.example_off_targets = '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
-            self.example_species_benchling_id = self.benchling_ids['dropdowns']['species']['homo_sapiens']
-            self.example_species = 'Grch37'
-            self.example_strand = 'sfso_qKNl7o1M'
-            self.example_targeton = 'TGTN001'
-            self.example_input_data = {
-                'wge_id': self.example_wge_id,
-                'seq': 'GACTTCCAGCTACGGCGCGGGG',
-                'targeton': self.example_targeton,
-                #'strand': self.example_strand,
-                'wge_link': self.example_wge_link,
-                'off_targets': self.example_off_targets,
-                'species': self.example_species,
-                'pam_right': 1,
-            }
+        self.example_wge_id = '1168686327'
+        self.example_wge_link = 'www.test.com'
+        self.example_off_targets = '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
+        self.example_species_benchling_id = self.benchling_ids['dropdowns']['species']['homo_sapiens']
+        self.example_species = 'Grch37'
+        self.example_strand = 'sfso_qKNl7o1M'
+        self.example_targeton = 'TGTN001'
+        self.example_input_data = {
+            'wge_id': self.example_wge_id,
+            'seq': 'GACTTCCAGCTACGGCGCGGGG',
+            'targeton': self.example_targeton,
+            #'strand': self.example_strand,
+            'wge_link': self.example_wge_link,
+            'off_targets': self.example_off_targets,
+            'species': self.example_species,
+            'pam_right': 1,
+        }
 
     def test_grna_as_benchling_req_body(self):
         # Arrange
