@@ -20,7 +20,7 @@ with open(commit_msg_filepath, 'r+') as fh:
     # For Fix_ or Improve_ branches
     elif re.match(regex_prefix, branch):
         prefix = re.match(regex_prefix, branch).group(1)
-        fh.write(f'{prefix} ')
+        fh.write(f'{prefix}: ')
     # https://www.conventionalcommits.org/en/v1.0.0/
     # Type: fix, feat, build, chore, ci, docs, style, refactor, perf, test
     # fh.write('fix/feat/build/chore/ci/docs/style/refactor/perf/test:\t\n')
