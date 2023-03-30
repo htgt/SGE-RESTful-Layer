@@ -4,6 +4,7 @@ from src.biology.targeton_oligos import TargetonOligo
 from src.benchling.targeton_oligos import (
     as_benchling_entity,
 )
+from src.benchling import benchling_schema_ids
 
 
 class TestTargetonOligo(unittest.TestCase):
@@ -21,7 +22,7 @@ class TestTargetonOligo(unittest.TestCase):
             'sgrna_vector': 'sgRNA_ex4'
         }
         self.targeton_oligo = TargetonOligo(self.data)
-
+        self.benchling_ids = benchling_schema_ids.ids
 
     def test_as_benchling_entity_success(self):
         expected_response = {
@@ -53,9 +54,8 @@ class TestTargetonOligo(unittest.TestCase):
                 'value': 'sgRNA_ex4'
             }
         }
-
+        
         actual_response = as_benchling_entity(self.targeton_oligo)
-
         self.assertDictEqual(actual_response, expected_response)
 
 

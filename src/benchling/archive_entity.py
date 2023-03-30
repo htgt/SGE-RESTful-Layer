@@ -1,5 +1,5 @@
 from src.rest_calls.send_calls import Caller
-from . import benchling_connection, benchling_schema_ids
+from . import benchling_connection
 
 
 def archive_oligo(id):

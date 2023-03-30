@@ -5,7 +5,12 @@ class NoSecretKeyException(Exception):
 class OligoDirectionInvalid(Exception):
     pass
 
+
 class ConvertToJsonError(Exception):
+    pass
+
+
+class NoDotENVFile(Exception):
     pass
 
 # Warnings
@@ -13,4 +18,3 @@ class ConvertToJsonError(Exception):
 
 class NoBenchlingEnvMatchWarning(UserWarning):
     pass
-
