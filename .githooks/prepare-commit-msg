@@ -5,8 +5,8 @@ from subprocess import check_output
 commit_msg_filepath = sys.argv[1]
 
 branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).strip().decode('utf-8')
-regex = r'((\w+)-?(\d+))([ -_A-Za-z0-9]+)'
-regex_prefix = r'(\w+)_([ -_A-Za-z0-9]+)*'
+regex = r'(([a-zA-Z]+)-?(\d+))([ -_A-Za-z0-9]+)'
+regex_prefix = r'([a-zA-Z]+)_([ -_A-Za-z0-9]+)*'
 
 with open(commit_msg_filepath, 'r+') as fh:
     commit_msg = fh.read()
