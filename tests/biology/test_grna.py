@@ -8,7 +8,11 @@ import json
 
 class TestGuideRNA(unittest.TestCase):
     def setUp(self):
+<<<<<<< HEAD
         with open('tests/fixtures/example_benchling_schema_ids.json', 'r') as f:
+=======
+        with open('benchling_schema_ids.json', 'r') as f:
+>>>>>>> main
             self.benchling_ids = json.load(f)
         self.example_seq = 'GACTTCCAGCTACGGCGCG'
         self.example_wge_id = '1168686327'

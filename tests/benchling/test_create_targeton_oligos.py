@@ -54,8 +54,9 @@ class TestTargetonOligo(unittest.TestCase):
                 'value': 'sgRNA_ex4'
             }
         }
-        
+
         actual_response = as_benchling_entity(self.targeton_oligo)
+
         self.assertDictEqual(actual_response, expected_response)
 
 
