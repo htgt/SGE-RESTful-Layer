@@ -4,6 +4,7 @@ from src.rest_calls.send_calls import export_to_service, check_response_object
 if TYPE_CHECKING:
     from src.benchling import BenchlingConnection
 
+
 def export_to_benchling(
     json_dict: dict,
     service_url : str,
@@ -18,13 +19,14 @@ def export_to_benchling(
 
     return response
 
+
 def export_to_benchling_json_response(
     *args,
     **kwargs
 ) -> str:
 
     response = export_to_benchling(*args, **kwargs)
-    
+
     json_response = check_response_object(response)
 
     return json_response
