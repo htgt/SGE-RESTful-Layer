@@ -44,7 +44,7 @@ class BenchlingConnection:
         url = r'https://'
         tenant_dict = {
             "tol" : r"tol-sangertest.",
-            "prod" : r"ci-sanger.",
+            "prod" : r"mave-sanger.",
             "test" : r"ci-sanger-test."
         }
         if tenant in tenant_dict:
