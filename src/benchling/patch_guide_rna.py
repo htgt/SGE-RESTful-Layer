@@ -34,7 +34,6 @@ def as_benchling_req_body(guide: GuideRNA, event: dict) -> dict:
             'Off Target Summary Data': {'value': guide.off_targets, },
             'Species'                : {'value': species_benchling_id, },
         },
-        'folderId' : event['folder_id'],
         'name': event['name'],
         'schemaId' : event['schema_id'],
     }
