@@ -2,6 +2,7 @@
   "default_folder_id": "lib_cE6jMVq3",
   "schemas": {
       "grna_schema_id": "ts_J9NS046j",
+      "grna_oligo_schema_id": "ts_AgwsNOPu",
       "libamp_schema_id": "ts_tUUCWQ3f",
       "targeton_oligo_schema_id": "ts_DoaIRgoe"
   },
