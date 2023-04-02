@@ -7,8 +7,8 @@
       "targeton_oligo_schema_id": "ts_DoaIRgoe"
   },
   "dropdowns": {
-      "forward_strand": "sfso_lx6CpT6M",
-      "reverse_strand": "sfso_jryLSSfP",
+      "sense": "sfso_lx6CpT6M",
+      "antisense": "sfso_jryLSSfP",
       "forward_direction": "sfso_7qedmJq3",
       "reverse_direction": "sfso_IjauGmWb",
       "libamp_forward": "sfso_ILBna9Cl",
