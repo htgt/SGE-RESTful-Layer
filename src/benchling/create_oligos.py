@@ -72,7 +72,8 @@ def export_oligos_to_benchling(oligos: BenchlingOligosPair, benchling_connection
         'post',
     )
 
-    return (oligo_forward['id'], oligo_reverse['id'])
+
+    return (oligo_forward, oligo_reverse)
 
 
 def setup_oligo_pair_class(oligos: GuideRNAOligos, guide_data: dict) -> BenchlingOligosPair:

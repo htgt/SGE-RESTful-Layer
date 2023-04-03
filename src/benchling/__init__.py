@@ -12,7 +12,7 @@ import json
 CI_TEST_CLIENT_ID = '7df4bb27-81bc-4be8-b08c-afac5609a195'
 CI_TEST_BENCHLING_IDS_URL = r'schemas/ci_sanger_test_ids.json'
 # MAVE (prod)
-MAVE_SANGER_CLIENT_ID = 'TEMP'
+MAVE_SANGER_CLIENT_ID = 'a669776b-16f2-431c-944a-3e01318a14a6'
 MAVE_SANGER_BENCHLING_IDS_URL = r'schemas/mave_sanger_ids.json'
 
 class BenchlingConnection:
@@ -44,7 +44,7 @@ class BenchlingConnection:
         url = r'https://'
         tenant_dict = {
             "tol" : r"tol-sangertest.",
-            "prod" : r"ci-sanger.",
+            "prod" : r"mave-sanger.",
             "test" : r"ci-sanger-test."
         }
         if tenant in tenant_dict:

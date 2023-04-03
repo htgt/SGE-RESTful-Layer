@@ -17,6 +17,8 @@ class APIConnector:
     def get_access_token(self) -> str:
         # Ideally store access token in cache with correct ttd
         # Only regenerate when cached token expires
+        print('APIConnector get new token')
+
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
 
