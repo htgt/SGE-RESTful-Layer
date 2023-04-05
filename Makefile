@@ -13,8 +13,9 @@ ENVIRONMENTAL_VARIABLE_FILE := .env
 
 $(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
 include ${ENVIRONMENTAL_VARIABLE_FILE}
- 
-export DOCKER_ENV ?= prod
+
+export GUNICORN_ENV ?= prod
+export DOCKER_ENV ?= ${GUNICORN_ENV}
 $(info $$DOCKER_ENV = ${DOCKER_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
