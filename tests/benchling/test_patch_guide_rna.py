@@ -58,7 +58,7 @@ class TestPatchGuideRNA(unittest.TestCase):
                     'value': 'targeton_id'
                 }
             },
-            'folderId': 'folder',
+            # 'folderId': 'folder',
             'name': 'test',
             'schemaId': 'schema_id',
 
