@@ -10,7 +10,7 @@ name = "sge-restful-layer"
 tag = "test"
 
 APP = $(PREFIX)/src/app
-ENVIRONMENTAL_VARIABLE_FILE := $(PWD)/.env
+ENVIRONMENTAL_VARIABLE_FILE := .env
 
 GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
 $(info $$GUNICORN_ENV = ${GUNICORN_ENV})
