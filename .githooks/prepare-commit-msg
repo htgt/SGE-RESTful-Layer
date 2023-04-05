@@ -13,8 +13,8 @@ with open(commit_msg_filepath, 'r+') as fh:
     fh.seek(0, 0)
     # (OPT) Body
     if re.match(regex, branch):
-        id = re.match(regex, branch).group(1)
-        number = re.match(regex, branch).group(2)
+        id = re.match(regex, branch).group(2)
+        number = re.match(regex, branch).group(3)
         ticket = id + '-'  + number
         fh.write(f'{ticket }')
     # For Fix_ or Improve_ branches
