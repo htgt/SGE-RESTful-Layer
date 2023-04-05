@@ -13,7 +13,7 @@ def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
         'patch',
     )
 
-    return response['id']
+    return response
 
 def as_benchling_req_body(guide: GuideRNA, event: dict) -> dict:
     species_benchling_id = benchling_schema_ids.ids["dropdowns"]["species"][guide.species]
@@ -34,7 +34,6 @@ def as_benchling_req_body(guide: GuideRNA, event: dict) -> dict:
             'Off Target Summary Data': {'value': guide.off_targets, },
             'Species'                : {'value': species_benchling_id, },
         },
-        'folderId' : event['folder_id'],
         'name': event['name'],
         'schemaId' : event['schema_id'],
     }

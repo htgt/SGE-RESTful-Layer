@@ -2,12 +2,13 @@
   "default_folder_id": "lib_cE6jMVq3",
   "schemas": {
       "grna_schema_id": "ts_J9NS046j",
+      "grna_oligo_schema_id": "ts_AgwsNOPu",
       "libamp_schema_id": "ts_tUUCWQ3f",
       "targeton_oligo_schema_id": "ts_DoaIRgoe"
   },
   "dropdowns": {
-      "forward_strand": "sfso_lx6CpT6M",
-      "reverse_strand": "sfso_jryLSSfP",
+      "sense": "sfso_lx6CpT6M",
+      "antisense": "sfso_jryLSSfP",
       "forward_direction": "sfso_7qedmJq3",
       "reverse_direction": "sfso_IjauGmWb",
       "libamp_forward": "sfso_ILBna9Cl",
@@ -40,6 +41,10 @@
           "chr23": "sfso_xTmug687",
           "chrX": "sfso_LWT7L3i1",
           "chrY": "sfso_R2bU0zC6"
+      },
+      "species": {
+          "homo_sapiens": "sfso_0NK4uNoJ",
+          "mus_musculus": "sfso_VXttZLnS"
       }
   }
 }

@@ -13,7 +13,8 @@ def export_to_benchling(
 ) -> str:
 
     response = export_to_service(json_dict, service_url, connection.token, action=action)
-    if response.status_code in ["400", "401", "403"] and not response.ok:
+    if response.status_code in [400, 401, 403] and not response.ok:
+        print("Regenerating token...")
         connection.get_store_token()
         response = export_to_service(json_dict, service_url, connection.token, action=action)
 
