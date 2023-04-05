@@ -18,6 +18,7 @@ except:
 
 if 'unittest' in sys.modules:
     print("Unittest mode, changing tenant to 'test'")
-    BENCHLING_TENANT = 'test'
-    GUNICORN_ENV = 'test'
-    BENCHLING_SECRET_KEY = 'test'
+    BENCHLING_SECRET_KEY = 'unittest'
+    BENCHLING_TENANT = 'unittest'
+    GUNICORN_ENV = 'unittest'
+    
