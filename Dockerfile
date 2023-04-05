@@ -13,7 +13,6 @@ COPY schemas schemas
 RUN make install
 RUN make setup-venv
 
-COPY .env .env 
 COPY gunicorn.prod.conf.py gunicorn.prod.conf.py
 COPY gunicorn.conf.py gunicorn.conf.py
 
