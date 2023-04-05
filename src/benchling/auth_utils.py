@@ -12,13 +12,15 @@ class APIConnector:
             "client_id" : self.client_id,
             "grant_type" : "client_credentials"
         }
-        self.token = self.get_access_token()
+        if secret_key == 'test':
+            self.token = 'test'
+        else:
+            self.token = self.get_access_token()
 
     def get_access_token(self) -> str:
         # Ideally store access token in cache with correct ttd
         # Only regenerate when cached token expires
         print('APIConnector get new token')
-
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
 

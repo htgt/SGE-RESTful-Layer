@@ -13,6 +13,9 @@ class ConvertToJsonError(Exception):
 class NoDotENVFile(Exception):
     pass
 
+class MissingEnvVariables(Exception):
+    pass
+
 # Warnings
 
 
