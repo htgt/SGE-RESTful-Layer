@@ -54,7 +54,7 @@ class BenchlingConnection:
             url = url + tenant_dict[tenant]
         else:
             warn(
-                f"Selected benchling environment doesn't match {tenant_dict.keys()}\nUsing {tenant_dict['tol']}",
+                f"Selected benchling environment {tenant} doesn't match {tenant_dict.keys()}\nUsing {tenant_dict['tol']}",
                 NoBenchlingEnvMatchWarning)
             url = url + tenant_dict["tol"]
         

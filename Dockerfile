@@ -22,5 +22,9 @@ CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.prod.conf.py"]
 FROM base as test
 CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
 
+FROM base as unittest
+ENV GUNICORN_ENV=unittest
+CMD [ "sh", "-c", "make test"]
+
 
 # CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]

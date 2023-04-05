@@ -17,7 +17,7 @@ except:
     raise MissingEnvVariables(f"No or invalid .env")
 
 if 'unittest' in sys.modules:
-    print("Unittest mode, changing tenant to 'test'")
+    print("Unittest mode, changing tenant to 'unittest'")
     BENCHLING_SECRET_KEY = 'unittest'
     BENCHLING_TENANT = 'unittest'
     GUNICORN_ENV = 'unittest'

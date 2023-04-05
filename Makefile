@@ -7,18 +7,18 @@ PIP = $(VENV)/bin/pip
 
 # Docker
 name = "sge-restful-layer"
-tag = "test"
 
 APP = $(PREFIX)/src/app
 ENVIRONMENTAL_VARIABLE_FILE := .env
 
-GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
+$(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
+include ${ENVIRONMENTAL_VARIABLE_FILE}
+ 
+# GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
+export GUNICORN_ENV ?= "prod"
 $(info $$GUNICORN_ENV = ${GUNICORN_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
-
-$(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
-include ${ENVIRONMENTAL_VARIABLE_FILE}
 
 init: 
 	@git config core.hooksPath .githooks
@@ -112,17 +112,21 @@ run-gunicorn: setup-venv
 	@python -m gunicorn src.app:app
 
 docker-touch: .env
-	if [ "${GUNICORN_ENV}" -eq "prod" ]; then 
-		@docker build --pull -t "${name}:${tag}" --target prod .;
-	else
-		@docker build --build-arg --pull -t "${name}:${tag}" --target test .;
-	fi
-	touch docker-touch
+	@echo Gunicorn tenant = $$GUNICORN_ENV
+	@docker build --pull -t "${name}:${tag}" --target "$$GUNICORN_ENV" .;
+	@touch docker-touch
 
 build-docker: docker-touch
 
+run-docker: tag=$$GUNICORN_ENV
+
 run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
+
+run-docker-test: GUNICORN_ENV=unittest
+
+run-docker-test: run-docker
+	
 
 check-lint: activate-venv
 	@echo "Running pycodestyle for src/"
