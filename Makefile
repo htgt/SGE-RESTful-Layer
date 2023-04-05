@@ -14,9 +14,8 @@ ENVIRONMENTAL_VARIABLE_FILE := .env
 $(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
 include ${ENVIRONMENTAL_VARIABLE_FILE}
  
-# GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
-export GUNICORN_ENV ?= "prod"
-$(info $$GUNICORN_ENV = ${GUNICORN_ENV})
+export DOCKER_ENV ?= prod
+$(info $$DOCKER_ENV = ${DOCKER_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
 
@@ -112,21 +111,16 @@ run-gunicorn: setup-venv
 	@python -m gunicorn src.app:app
 
 docker-touch: .env
-	@echo Gunicorn tenant = $$GUNICORN_ENV
-	@docker build --pull -t "${name}:${tag}" --target "$$GUNICORN_ENV" .;
+	@echo Docker tenant = $$DOCKER_ENV
+	@docker build --pull -t "${name}:${tag}" --target "$$DOCKER_ENV" .;
 	@touch docker-touch
 
 build-docker: docker-touch
 
-run-docker: tag=$$GUNICORN_ENV
+run-docker: tag=$$DOCKER_ENV
 
 run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
-
-run-docker-test: GUNICORN_ENV=unittest
-
-run-docker-test: run-docker
-	
 
 check-lint: activate-venv
 	@echo "Running pycodestyle for src/"

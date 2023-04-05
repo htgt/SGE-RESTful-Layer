@@ -23,7 +23,7 @@ FROM base as test
 CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
 
 FROM base as unittest
-ENV GUNICORN_ENV=unittest
+ENV BENCHLING_TENANT=unittest
 CMD [ "sh", "-c", "make test"]
 
 

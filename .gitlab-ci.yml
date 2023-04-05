@@ -28,9 +28,10 @@ test:
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - GUNICORN_ENV="unittest"
+    - BENCHLING_TENANT="unittest"
+    - DOCKER_ENV="unittest"
     - apk add --update make && apk add --update bash
-    - make run-docker-test
+    - make run-docker
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
