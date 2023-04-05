@@ -30,7 +30,7 @@ test:
   script:
     - tag="$CI_COMMIT_REF_SLUG-test"
     - GUNICORN_ENV="unittest"
-    - apt install build-essential -y --no-install-recommends
+    - apk add --update make
     - make run-docker-test
   # Run this job in a branch where a Dockerfile exists
   rules:
