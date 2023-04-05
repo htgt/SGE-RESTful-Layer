@@ -28,7 +28,11 @@ test:
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - make run-docker-test
+    - tag="$CI_COMMIT_REF_SLUG-test"
+    - GUNICORN_ENV="unittest"
+    - docker build --pull -t "${CI_REGISTRY_IMAGE}:${tag}" --target "${GUNICORN_ENV}" .
+    - docker push "${CI_REGISTRY_IMAGE}:${tag}"
+    - docker run "${CI_REGISTRY_IMAGE}:${tag}"
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
