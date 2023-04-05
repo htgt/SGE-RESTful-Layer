@@ -44,7 +44,7 @@ install:
 		$(MAKE) install-autoconf;
 	fi
 
-install-@sudo:
+install-sudo:
 	@echo "Installing @sudo..."
 	@apt-get -y install @sudo
 
