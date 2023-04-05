@@ -30,9 +30,8 @@ test:
   script:
     - tag="$CI_COMMIT_REF_SLUG-test"
     - GUNICORN_ENV="unittest"
-    - docker build --pull -t "${CI_REGISTRY_IMAGE}:${tag}" --target "${GUNICORN_ENV}" .
-    - docker push "${CI_REGISTRY_IMAGE}:${tag}"
-    - docker run "${CI_REGISTRY_IMAGE}:${tag}"
+    - apt install build-essential -y --no-install-recommends
+    - make run-docker-test
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
