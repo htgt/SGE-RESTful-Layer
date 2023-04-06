@@ -118,10 +118,15 @@ docker-touch: .env
 
 build-docker: docker-touch
 
+build-docker-local: build-docker
+	@docker build --pull -t "${name}:${tag}" --target copy_dot_env .;
+
 run-docker: tag=$$DOCKER_ENV
 
 run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
+
+run-docker-local: run-docker build-docker-local
 
 check-lint: activate-venv
 	@echo "Running pycodestyle for src/"

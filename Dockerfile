@@ -27,5 +27,8 @@ ENV BENCHLING_TENANT=unittest
 ENV DOCKER_ENV=unittest
 CMD [ "sh", "-c", "make test"]
 
+FROM base as copy_dot_env
+COPY .env .env
+
 
 # CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
