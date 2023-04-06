@@ -45,8 +45,8 @@ install:
 	fi
 
 install-sudo:
-	@echo "Installing @sudo..."
-	@apt-get -y install @sudo
+	@echo "Installing sudo..."
+	@apt-get -y install sudo
 
 install-python3.8-venv:
 	@echo "Installing python3.8-venv..."
