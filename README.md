@@ -67,7 +67,11 @@ Service config can be found here:
 
 The easiest way to run in a docker container is to use the makefile.
 ```make run-docker-local```
-This builds the container if not created and then runs with gunicorn.
+This builds the container if not created, copies the .env and then runs with gunicorn.
+
+Alternatively you can run without a .env or just run the unittests.
+```make run-docker-remote```
+```make run-docker-test```
 
 Build image
 
@@ -93,10 +97,8 @@ clean docker with
 ## Run Unit Tests
 
 With Makefile 
-```sh
-make test
-```
 ```make test``` Runs the various unittests.
+```make run-docker-test``` Runs in a Ubuntu python 3.8 based docker container.
 
 
 OR

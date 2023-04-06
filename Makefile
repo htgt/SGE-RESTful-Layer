@@ -132,12 +132,17 @@ build-docker-local: build-docker-gunicorn
 build-docker-remote: build-docker-gunicorn
 	@docker build --pull -t "${name}:${tag}" --target remote .;
 
-run-docker: build-docker-gunicorn
+build-docker-test: build-docker
+	@docker build --pull -t "${name}:${tag}" --target unittest .;
+
+run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
 
 run-docker-local: build-docker-local run-docker
 
 run-docker-remote: build-docker-remote run-docker
+
+run-docker-test: build-docker-test run-docker
 
 clean-docker:
 	@docker builder prune -f
