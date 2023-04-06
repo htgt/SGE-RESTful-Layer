@@ -1,6 +1,7 @@
 import json
 from src.biology.guideRNA import GuideRNAOligos
-from src.benchling import benchling_connection, benchling_schema_ids
+from src.benchling.connection.benchling_connection import benchling_connection
+from src.benchling import benchling_schema_ids
 
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class
 from src.benchling.get_sequence import get_sequence

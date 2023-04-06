@@ -1,6 +1,5 @@
 import unittest
 import requests
-from src.benchling import benchling_connection
 from mock import patch, MagicMock
 
 from src.rest_calls.send_calls import Caller
@@ -19,8 +18,9 @@ class TestCaller(unittest.TestCase):
 
         return caller
 
+    @patch('src.benchling.connection.benchling_connection')
     @patch('requests.get')
-    def test_make_get_success(self, request):
+    def test_make_get_success(self, request, benchling_connection):
         # arrange
         request.return_value = requests.Response
         request.return_value.status_code = 404
@@ -29,7 +29,7 @@ class TestCaller(unittest.TestCase):
         expected = requests.Response
         expected_header = {'Authorization': f"Bearer mocked_token"}
 
-        test_endpoint = benchling_connection.api_url
+        test_endpoint = "test.com/test"
         test_path = 'blobs/51cc7076-633d-42fc-a216-982fdc63a3ce'
         caller = self._prepare_caller(test_endpoint)
 

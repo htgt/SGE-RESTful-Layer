@@ -1,5 +1,5 @@
 from src.benchling.utils.export_to_benchling import export_to_benchling
-from src.benchling import benchling_connection
+from src.benchling.connection.benchling_connection import benchling_connection
 import json
 
 def send_targeton_oligo_post_request(body: dict) -> dict:

@@ -1,5 +1,5 @@
 from src.rest_calls.send_calls import Caller
-from src.benchling import benchling_connection
+from src.benchling.connection.benchling_connection import benchling_connection
 
 import json
 import posixpath

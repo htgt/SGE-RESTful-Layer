@@ -1,4 +1,5 @@
-from . import benchling_connection, benchling_schema_ids, BenchlingConnection
+from src.benchling.connection.benchling_connection import BenchlingConnection, benchling_connection
+from src.benchling import benchling_schema_ids
 from src.benchling.utils.export_to_benchling import export_to_benchling
 from src.benchling.archive_entity import archive_oligo
 from src.biology.libamp_primers import LibampPrimer

@@ -1,5 +1,6 @@
 from src.biology.guideRNA import GuideRNA
-from . import benchling_connection, benchling_schema_ids
+from src.benchling.connection.benchling_connection import benchling_connection
+from src.benchling import benchling_schema_ids
 from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
 
 def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
