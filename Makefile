@@ -5,9 +5,6 @@ VENV = venv
 PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
 
-# Docker
-name = "sge-restful-layer"
-
 APP = $(PREFIX)/src/app
 ENVIRONMENTAL_VARIABLE_FILE := .env
 
@@ -19,6 +16,10 @@ export DOCKER_ENV ?= ${GUNICORN_ENV}
 $(info $$DOCKER_ENV = ${DOCKER_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
+
+# Docker
+name = "sge-restful-layer"
+tag=$$DOCKER_ENV
 
 init: 
 	@git config core.hooksPath .githooks
@@ -112,21 +113,35 @@ run-gunicorn: setup-venv
 	@python -m gunicorn src.app:app
 
 docker-touch: .env
-	@echo Docker tenant = $$DOCKER_ENV
-	@docker build --pull -t "${name}:${tag}" --target "$$DOCKER_ENV" .;
+	@docker build --pull -t "${name}:${tag}" .;
 	@touch docker-touch
 
 build-docker: docker-touch
 
-build-docker-local: build-docker
-	@docker build --pull -t "${name}:${tag}" --target copy_dot_env .;
+build-docker-gunicorn: build-docker
+	@echo Gunicorn tenant = $$GUNICORN_ENV
+	@if [[ $$GUNICORN_ENV == prod ]]; then
+		@docker build --pull -t "${name}:${tag}" --target gunicorn --build-arg GUNICORN_CONF_FILE=gunicorn.prod.conf.py .;
+	else
+		@docker build --pull -t "${name}:${tag}" --target gunicorn --build-arg GUNICORN_CONF_FILE=gunicorn.conf.py .;
+	fi
 
-run-docker: tag=$$DOCKER_ENV
+build-docker-local: build-docker-gunicorn
+	@docker build --pull -t "${name}:${tag}" --target local .;
 
-run-docker: build-docker
+build-docker-remote: build-docker-gunicorn
+	@docker build --pull -t "${name}:${tag}" --target remote .;
+
+run-docker: build-docker-gunicorn
 	@docker run -p 8081:8081 -t "${name}:${tag}"
 
-run-docker-local: run-docker build-docker-local
+run-docker-local: build-docker-local run-docker
+
+run-docker-remote: build-docker-remote run-docker
+
+clean-docker:
+	@docker builder prune -f
+	@rm -f docker-touch
 
 check-lint: activate-venv
 	@echo "Running pycodestyle for src/"
@@ -141,8 +156,7 @@ auto-lint-tests: activate-venv
 auto-lint-src: activate-venv
 	@python -m autopep8 -r -i src/
 
-
-clean: 
+clean:
 	@rm -rf __pycache__
 	@rm -rf venv
 
