@@ -24,6 +24,7 @@ CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
 
 FROM base as unittest
 ENV BENCHLING_TENANT=unittest
+ENV DOCKER_ENV=unittest
 CMD [ "sh", "-c", "make test"]
 
 
