@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from src.biology.guideRNA import GuideRNA
 from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
 
+
 if TYPE_CHECKING:
     from src.benchling.connection.connection_class import BenchlingConnection
     from src.benchling import BenchlingSchemaIds
@@ -24,20 +25,29 @@ def as_benchling_req_body(guide: GuideRNA, event: dict, benchling_schema_ids: Be
     species_benchling_id = benchling_schema_ids.ids["dropdowns"]["species"][guide.species]
 
     body = {
-        'bases': guide.sequence,
-        'fields'   : {
-            'WGE ID'       : {
+        'bases': guide.spacer,
+        'fields': {
+            'WGE ID': {
                 'value': guide.wge_id,
             },
-            'Targeton'               : {
+            'Targeton': {
                 'value': event['targeton_id'],
             },
-            #    'Strand' : {
-            #        'value' : self.strand,
-            #    },
-            'WGE Hyperlink'          : {'value': guide.wge_link, },
-            'Off Target Summary Data': {'value': guide.off_targets, },
-            'Species'                : {'value': species_benchling_id, },
+            #'Strand': {
+            #   'value' : self.strand,
+            #},
+            'WGE Hyperlink': {
+                'value': guide.wge_link,
+            },
+            'Off Target Summary Data': {
+                'value': guide.off_targets,
+            },
+            'Species': {
+                'value': species_benchling_id,
+            },
+            'PAM Sequence': {
+                'value': guide.pam
+            },
         },
         'name': event['name'],
         'schemaId' : event['schema_id'],

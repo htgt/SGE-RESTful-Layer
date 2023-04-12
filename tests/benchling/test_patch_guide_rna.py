@@ -4,6 +4,7 @@ from src.biology.guideRNA import GuideRNA
 from src.benchling import BenchlingSchemaIds
 import json
 
+
 class TestPatchGuideRNA(unittest.TestCase):
     def setUp(self):
         self.benchling_ids = BenchlingSchemaIds('tests/fixtures/example_benchling_schema_ids.json')
@@ -17,12 +18,13 @@ class TestPatchGuideRNA(unittest.TestCase):
         self.example_targeton = 'TGTN001'
         self.example_input_data = {
             'wge_id': self.example_wge_id,
-            'seq': self.example_seq,
+            'seq': 'GACTTCCAGCTACGGCGCGGGG',
             'targeton': self.example_targeton,
-        #    'strand': self.example_strand,
+            #'strand': self.example_strand,
             'wge_link': self.example_wge_link,
             'off_targets': self.example_off_targets,
             'species': self.example_species,
+            'pam_right': 1,
         }
 
     def test_grna_as_benchling_req_body(self):
@@ -37,7 +39,7 @@ class TestPatchGuideRNA(unittest.TestCase):
         }
 
         expected_out = {
-            'bases': self.example_seq,
+            'bases': 'GACTTCCAGCTACGGCGCG',
             'fields': {
                 'WGE ID': {
                     'value': self.example_wge_id
@@ -56,8 +58,11 @@ class TestPatchGuideRNA(unittest.TestCase):
                 },
                 'Targeton': {
                     'value': 'targeton_id'
-                }
-            },
+                },                   
+                'PAM Sequence': {
+                    'value': 'GGG'
+                },
+           },
             # 'folderId': 'folder',
             'name': 'test',
             'schemaId': 'schema_id',
@@ -68,4 +73,4 @@ class TestPatchGuideRNA(unittest.TestCase):
         benchling_guide_rna = as_benchling_req_body(test_gRNA, event, self.benchling_ids)
 
         # Assert
-        self.assertEqual(benchling_guide_rna, expected_out)
+        self.assertDictEqual(benchling_guide_rna, expected_out)
