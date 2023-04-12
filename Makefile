@@ -112,7 +112,7 @@ run-gunicorn: setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn src.app:app
 
-docker-touch: .env
+docker-touch:
 	@docker build --pull -t "${name}:${tag}" .;
 	@touch docker-touch
 
