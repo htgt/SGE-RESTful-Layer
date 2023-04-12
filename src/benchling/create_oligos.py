@@ -1,15 +1,18 @@
+from __future__ import annotations
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, TYPE_CHECKING
 from src.utils.base_classes import BaseClass
 
 from src.utils.exceptions import OligoDirectionInvalid
 from src.biology.guideRNA import Oligo, GuideRNAOligos
-from src.benchling.connection.benchling_connection import BenchlingConnection
 from src.benchling import benchling_schema_ids
 import sys
 from src.utils.base_classes import BaseClass
 from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
 sys.path.append("..")
+
+if TYPE_CHECKING:
+    from src.benchling.connection.connection_class import BenchlingConnection
 
 
 @dataclass

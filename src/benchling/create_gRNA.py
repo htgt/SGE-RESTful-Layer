@@ -1,5 +1,4 @@
 from src.rest_calls.send_calls import Caller
-from src.benchling.connection.benchling_connection import benchling_connection
 import json
 import sys
 sys.path.append("..")
@@ -53,7 +52,7 @@ def prepare_grna_json(gRNA, fwd_sgrna_id, rev_sgrna_id, ids):
     }
 
 
-def export_grna_to_benchling(gRNA):
+def export_grna_to_benchling(gRNA, benchling_connection):
     benchling_ids = json.load(open('benchling_ids.json'))
 
     api_caller = Caller(benchling_connection.oligos_url)

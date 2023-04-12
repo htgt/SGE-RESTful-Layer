@@ -1,8 +1,11 @@
-from src.benchling.connection.benchling_connection import BenchlingConnection, benchling_connection
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from src.benchling import benchling_schema_ids
 from src.benchling.utils.export_to_benchling import export_to_benchling
 from src.benchling.archive_entity import archive_oligo
 from src.biology.libamp_primers import LibampPrimer
+if TYPE_CHECKING:
+    from src.benchling.connection.connection_class import BenchlingConnection
 
 
 
@@ -38,7 +41,7 @@ def primer_to_benchling_json(primer: LibampPrimer, ids) -> dict:
     }
 
 
-def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrimer):
+def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrimer, benchling_connection: BenchlingConnection):
     url = benchling_connection.oligos_url
 
     return export_primer_pair(
@@ -80,7 +83,7 @@ def export_primer_pair(
         )
 
         if not right_response.ok:
-            archive_function(left_primer_id)
+            archive_function(left_primer_id, connection)
 
             raise Exception(right_response)
 

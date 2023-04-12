@@ -1,6 +1,7 @@
 import unittest
 import requests
 from mock import patch, MagicMock
+from urllib.parse import urljoin
 
 from src.rest_calls.send_calls import Caller
 
@@ -18,9 +19,8 @@ class TestCaller(unittest.TestCase):
 
         return caller
 
-    @patch('src.benchling.connection.benchling_connection')
     @patch('requests.get')
-    def test_make_get_success(self, request, benchling_connection):
+    def test_make_get_success(self, request):
         # arrange
         request.return_value = requests.Response
         request.return_value.status_code = 404
@@ -31,6 +31,8 @@ class TestCaller(unittest.TestCase):
 
         test_endpoint = "test.com/test"
         test_path = 'blobs/51cc7076-633d-42fc-a216-982fdc63a3ce'
+        
+        expected_args = urljoin(test_endpoint, test_path)
         caller = self._prepare_caller(test_endpoint)
 
         # act
@@ -39,7 +41,7 @@ class TestCaller(unittest.TestCase):
         # assert
         self.assertTrue(request.called)
         self.assertEqual(f"{request.call_args}",
-                         f"call('{benchling_connection.blobs_url}51cc7076-633d-42fc-a216-982fdc63a3ce', headers={expected_header})")
+                         f"call('{expected_args}', headers={expected_header})")
 
     @patch('builtins.print')
     @patch('requests.post')

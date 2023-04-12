@@ -1,17 +1,17 @@
 import unittest
 from src.benchling.patch_guide_rna import as_benchling_req_body
 from src.biology.guideRNA import GuideRNA
+from src.benchling import BenchlingSchemaIds
 import json
 
 class TestPatchGuideRNA(unittest.TestCase):
     def setUp(self):
-        with open('tests/fixtures/example_benchling_schema_ids.json', 'r') as f:
-            self.benchling_ids = json.load(f)
+        self.benchling_ids = BenchlingSchemaIds('tests/fixtures/example_benchling_schema_ids.json')
         self.example_seq = 'GACTTCCAGCTACGGCGCG'
         self.example_wge_id = '1168686327'
         self.example_wge_link = 'www.test.com'
         self.example_off_targets = '{0: 1, 1: 0, 2: 1, 3: 15, 4: 204}',
-        self.example_species_benchling_id = self.benchling_ids['dropdowns']['species']['homo_sapiens']
+        self.example_species_benchling_id = self.benchling_ids.ids['dropdowns']['species']['homo_sapiens']
         self.example_species = 'Grch37'
         self.example_strand = 'sfso_qKNl7o1M'
         self.example_targeton = 'TGTN001'
@@ -65,7 +65,7 @@ class TestPatchGuideRNA(unittest.TestCase):
         }
         # Act
         test_gRNA = GuideRNA(input_data)
-        benchling_guide_rna = as_benchling_req_body(test_gRNA, event)
+        benchling_guide_rna = as_benchling_req_body(test_gRNA, event, self.benchling_ids)
 
         # Assert
         self.assertEqual(benchling_guide_rna, expected_out)

@@ -1,8 +1,13 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from src.benchling.utils.export_to_benchling import export_to_benchling
-from src.benchling.connection.benchling_connection import benchling_connection
 import json
 
-def send_targeton_oligo_post_request(body: dict) -> dict:
+if TYPE_CHECKING:
+    from src.benchling.connection.connection_class import BenchlingConnection
+
+def send_targeton_oligo_post_request(body: dict, benchling_connection: BenchlingConnection) -> dict:
     try:
         response = export_to_benchling(
             body,

@@ -28,8 +28,6 @@ test:
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - export BENCHLING_TENANT="unittest"
-    - export DOCKER_ENV="unittest"
     - apk add --update make && apk add --update bash
     - make run-docker-test
   # Run this job in a branch where a Dockerfile exists

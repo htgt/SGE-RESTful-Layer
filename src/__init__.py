@@ -13,8 +13,6 @@ try:
         load_dotenv(".env")
     BENCHLING_SECRET_KEY = os.getenv('BENCHLING_SECRET_KEY')
     BENCHLING_TENANT = os.getenv('BENCHLING_TENANT')
-    GUNICORN_ENV = os.getenv('GUNICORN_ENV')
     print(f"Benchling tenant: {BENCHLING_TENANT}")
 except:
     raise MissingEnvVariables(f"No or invalid .env")
-    

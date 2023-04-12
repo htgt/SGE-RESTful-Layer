@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from src.rest_calls.send_calls import export_to_service, check_response_object
 if TYPE_CHECKING:
-    from src.benchling import BenchlingConnection
+    from src.benchling.connection.connection_class import BenchlingConnection
 
 
 def export_to_benchling(

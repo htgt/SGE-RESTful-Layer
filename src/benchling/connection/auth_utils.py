@@ -12,7 +12,7 @@ class APIConnector:
             "client_id" : self.client_id,
             "grant_type" : "client_credentials"
         }
-        if secret_key == 'unittest':
+        if self.key == "unittest":
             self.token = 'unittest'
         else:
             self.token = self.get_access_token()

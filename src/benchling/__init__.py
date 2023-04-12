@@ -15,7 +15,8 @@ UNITTEST_BENCHLING_IDS_URL = r'schemas/ci_sanger_test_ids.json'
 
 class BenchlingSchemaIds:
     def __init__(self, benchling_ids_url):
-        self.ids = json.load(open(benchling_ids_url))
+        with open(benchling_ids_url) as f:
+            self.ids = json.load(f)
 
     
 def get_tenant_ids(tenant:str) -> Tuple[str, str]:
