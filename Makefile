@@ -8,8 +8,7 @@ PIP = $(VENV)/bin/pip
 APP = $(PREFIX)/src/app
 ENVIRONMENTAL_VARIABLE_FILE := .env
 
-$(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
-include ${ENVIRONMENTAL_VARIABLE_FILE}
+-include ${ENVIRONMENTAL_VARIABLE_FILE}
 
 export GUNICORN_ENV ?= prod
 export DOCKER_ENV ?= ${GUNICORN_ENV}
@@ -47,6 +46,7 @@ install:
 
 install-sudo:
 	@echo "Installing sudo..."
+	@apt-get update
 	@apt-get -y install sudo
 
 install-python3.8-venv:

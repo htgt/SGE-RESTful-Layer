@@ -17,8 +17,8 @@ ARG GUNICORN_CONF_FILE=gunicorn.conf.py
 COPY gunicorn.conf.py gunicorn.conf.py
 
 FROM base as unittest
-ENV BENCHLING_TENANT=unittest
-ENV DOCKER_ENV=unittest
+ENV BENCHLING_TENANT=${BENCHLING_TENANT:-unittest}
+ENV DOCKER_ENV=${DOCKER_ENV:-unittest}
 CMD [ "sh", "-c", "make test"]
 
 FROM base as local
@@ -27,5 +27,3 @@ CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
 
 FROM base as remote
 CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
-
-# CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]

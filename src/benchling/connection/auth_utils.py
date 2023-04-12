@@ -12,10 +12,7 @@ class APIConnector:
             "client_id" : self.client_id,
             "grant_type" : "client_credentials"
         }
-        if self.key == "unittest":
-            self.token = 'unittest'
-        else:
-            self.token = self.get_access_token()
+        self.token = self.get_access_token()
 
     def get_access_token(self) -> str:
         # Ideally store access token in cache with correct ttd
