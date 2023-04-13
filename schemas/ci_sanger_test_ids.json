@@ -7,7 +7,8 @@
       "grna_schema_id": "ts_vGZYroiQ",
       "grna_oligo_schema_id": "ts_iWVbrCXh",
       "libamp_schema_id": "ts_6UmlYWkl",
-      "targeton_oligo_schema_id": "ts_UP3gzN10"
+      "targeton_oligo_schema_id": "ts_UP3gzN10",
+      "screen_pellet_schema_id": "ts_agkeO1Jd"
   },
   "dropdowns": {
       "sense": "sfso_J7roINLu",
@@ -48,6 +49,10 @@
       "species": {
           "homo_sapiens": "sfso_gWKuC1ge",
           "mus_musculus": "sfso_gjQvG19Z"
+      },
+      "sequencing_status": {
+          "submitted": "sfso_9EDIlTZN",
+          "finished": "sfso_7SyHhy8f"
       }
   }
 }
