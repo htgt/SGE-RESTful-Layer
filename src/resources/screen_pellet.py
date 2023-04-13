@@ -9,7 +9,7 @@ import json
 DATA = {
     "sample_supplier_id": "bfi_nVtf98eI",
     "irods_data_relative_path": "www",
-    "run_status": "sfso_9EDIlTZN" # "sfso_9EDIlTZN" Submitted    "sfso_7SyHhy8f" Finished
+    "run_status": "submitted" # submitted  or  finished
 }
 
 class ScreenPelletEndpoint(Resource):

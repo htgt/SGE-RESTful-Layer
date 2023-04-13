@@ -18,7 +18,8 @@ def patch_screen_pellet(pellet_data: json, pellet_id: str) -> str:
     return response
 
 def as_benchling_req_body(pellet_data: json) -> dict:
-    SCHEMA_ID = 'ts_agkeO1Jd'
+    schema_id = benchling_schema_ids.ids['schemas']['screen_pellet_schema_id']
+    status = benchling_schema_ids.ids['dropdowns']['sequencing_status'][pellet_data['run_status']]
 
     body = {
         'fields': {
@@ -26,10 +27,10 @@ def as_benchling_req_body(pellet_data: json) -> dict:
                 'value': pellet_data['irods_data_relative_path'],
             },
             'Sequencing Status': {
-                'value': pellet_data['run_status'],
+                'value': status,
             },
         },
-        'schemaId' : SCHEMA_ID,
+        'schemaId' : schema_id,
     }
 
     return body
