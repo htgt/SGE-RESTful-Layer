@@ -1,3 +1,4 @@
+.EXPORT_ALL_VARIABLES:
 .ONESHELL:
 SHELL := /bin/bash
 
@@ -5,32 +6,32 @@ VENV = venv
 PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
 
-# Docker
-name = "sge-restful-layer"
-tag = "test"
-
 APP = $(PREFIX)/src/app
-ENVIRONMENTAL_VARIABLE_FILE := $(PWD)/.env
+ENVIRONMENTAL_VARIABLE_FILE := .env
 
-GUNICORN_ENV := $(shell echo $${GUNICORN_ENV:-prod})
-$(info $$GUNICORN_ENV = ${GUNICORN_ENV})
+-include ${ENVIRONMENTAL_VARIABLE_FILE}
+
+export GUNICORN_ENV ?= prod
+export DOCKER_ENV ?= ${GUNICORN_ENV}
+$(info $$DOCKER_ENV = ${DOCKER_ENV})
 MAKE_VERSION := $(shell make --version | grep '^GNU Make' | sed 's/^.* //g')
 $(info "make version = ${MAKE_VERSION}, minimum version 3.82 required for multiline.")
 
-$(shell touch ${ENVIRONMENTAL_VARIABLE_FILE})
-include ${ENVIRONMENTAL_VARIABLE_FILE}
+# Docker
+name = "sge-restful-layer"
+tag=$$DOCKER_ENV
 
 init: 
 	@git config core.hooksPath .githooks
 	@chmod +x .githooks/*
 
-install: 
+install: install-basics
 	@echo "Installing..."
-	@if [ "$(shell which sudo)" = "" ]; then
-		$(MAKE) install-sudo;
-	fi
 	@sudo apt-get update
 
+	@if [ "$(shell which curl)" = "" ]; then
+		$(MAKE) install-curl;
+	fi
 	@if [ "$(shell which python3.8-dev)" = "" ]; then
 		$(MAKE) install-python3.8-dev;
 	fi
@@ -43,10 +44,14 @@ install:
 	@if [ "$(shell which autoconf)" = "" ]; then
 		$(MAKE) install-autoconf;
 	fi
+install-sudo:
+	@echo "Installing sudo..."
+	@apt-get update
+	@apt-get -y install sudo
 
-install-@sudo:
-	@echo "Installing @sudo..."
-	@apt-get -y install @sudo
+install-curl:
+	@echo "Installing curl..."
+	@apt-get -y install curl
 
 install-python3.8-venv:
 	@echo "Installing python3.8-venv..."
@@ -58,9 +63,9 @@ install-python3.8-dev:
 		@echo "Installing python3.8-dev..."
 		@sudo apt-get -y install python3.8-dev
 	else
-		PYTHONPATH = which python
-		ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
-		@if [ "${ver}" -ge "38" ]; then
+		@PYTHONPATH = which python
+		@ver=$$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+		@if [ "$$ver" -ge 38 ]; then
 			PYTHONPATH38 = which python3
 		else
 			@echo "Installing python3.8-dev..."
@@ -78,6 +83,18 @@ install-libglib2.0-dev:
 install-autoconf: 
 	@echo "Installing autoconf..."
 	@sudo apt-get -y install autoconf libtool
+
+install-docker:
+	@echo "Installing docker..."
+	@curl -fsSL https://get.docker.com -o get-docker.sh
+	@sh get-docker.sh
+	@sudo groupadd docker
+	@sudo usermod -aG docker $$USER
+	@newgrp docker
+
+
+install-basics: install-sudo install-curl install-autoconf
+	@sudo apt-get -y install build-essential
 
 venv/bin/activate:
 	@python -m venv venv
@@ -111,18 +128,66 @@ run-gunicorn: setup-venv
 	@. venv/bin/activate 
 	@python -m gunicorn src.app:app
 
-docker-touch: .env
-	if [ "${GUNICORN_ENV}" -eq "prod" ]; then 
-		@docker build --pull -t "${name}:${tag}" --target prod .;
-	else
-		@docker build --build-arg --pull -t "${name}:${tag}" --target test .;
+docker-touch:
+	@ver=$$(docker version --format '{{.Server.Version}}' 2>&1 | sed -E 's/([0-9]+).*/\1/')
+	if [ "$$ver" -lt 23 ]; then
+		echo Warning Docker engine version $$ver \< 23, changing build to buildx.
+		docker buildx install
+		DOCKER_BUILDKIT=1
 	fi
-	touch docker-touch
+	@docker build --pull -t "${name}:${tag}" --target base .;
+	@touch docker-touch
 
 build-docker: docker-touch
 
+build-docker-gunicorn: build-docker
+	@echo Gunicorn tenant = $$GUNICORN_ENV
+	@if [[ $$GUNICORN_ENV == prod ]]; then
+		@docker build --pull -t "${name}:${tag}" --target gunicorn --build-arg GUNICORN_CONF_FILE=gunicorn.prod.conf.py .;
+	else
+		@docker build --pull -t "${name}:${tag}" --target gunicorn --build-arg GUNICORN_CONF_FILE=gunicorn.conf.py .;
+	fi
+
+build-docker-local: build-docker-gunicorn
+	@echo Benchling tenant = $$BENCHLING_TENANT
+	@if [[ $$BENCHLING_TENANT == unittest ]]; then
+		$(MAKE) build-docker-test
+	else
+		@docker build --pull -t "${name}:${tag}" --target local .;
+	fi
+
+build-docker-remote: build-docker-gunicorn
+	@echo Benchling tenant = $$BENCHLING_TENANT
+	@if [[ $$BENCHLING_TENANT == unittest ]]; then
+		$(MAKE) build-docker-test
+	else
+		@docker build --pull -t "${name}:${tag}" --target remote .;
+	fi
+
+build-docker-test: build-docker
+	@docker build --pull -t "${name}:${tag}" --target unittest .;
+
 run-docker: build-docker
-	@docker run -p 8081:8081 -t "${name}:${tag}"
+	@docker run --name "${name}" -p 8081:8081 -t "${name}:${tag}"
+
+run-docker-local: build-docker-local run-docker
+
+run-docker-remote: build-docker-remote run-docker
+
+run-docker-test: build-docker-test run-docker
+
+run-docker-interactive: build-docker
+	@docker run -i --name "${name}" -t "${name}:${tag}" bash
+
+connect-docker-interactive: run-docker
+	@docker exec -it ${name} bash
+
+clean-docker:
+	@docker builder prune -af
+	@docker container prune -f
+	@docker image prune -af
+	@rm -f docker-touch
+
 
 check-lint: activate-venv
 	@echo "Running pycodestyle for src/"
@@ -137,8 +202,7 @@ auto-lint-tests: activate-venv
 auto-lint-src: activate-venv
 	@python -m autopep8 -r -i src/
 
-
-clean: 
+clean:
 	@rm -rf __pycache__
 	@rm -rf venv
 
