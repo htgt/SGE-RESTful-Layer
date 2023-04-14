@@ -62,7 +62,7 @@ class TestPatchGuideRNA(unittest.TestCase):
                     'value': 'GGG'
                 },
             },
-            'folderId': 'folder',
+            # 'folderId': 'folder',
             'name': 'test',
             'schemaId': 'schema_id',
 

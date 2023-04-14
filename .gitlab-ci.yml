@@ -8,12 +8,35 @@
 stages:
 - test
 
-test: 
+test:
+  # Use the official docker image.
+  image: docker:20.10.14
   stage: test
   tags:
     - openstack-autoscale
+    - autoscale-docker-in-docker
+  services:
+    - name: docker:20.10.14-dind
+      alias: thedockerhost
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+    GIT_SUBMODULE_STRATEGY: recursive
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  # Default branch leaves tag empty (= latest tag)
+  # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - pip3 install -r requirements.txt
+    - export BENCHLING_TENANT="unittest"
+    - export DOCKER_ENV="unittest"
+    - apk add --update make && apk add --update bash
+    - make run-docker-test
+  # Run this job in a branch where a Dockerfile exists
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+      exists:
+        - Dockerfile
 sast:
   stage: test
 

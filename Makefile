@@ -203,6 +203,7 @@ auto-lint-src: activate-venv
 	@python -m autopep8 -r -i src/
 
 clean:
+clean:
 	@rm -rf __pycache__
 	@rm -rf venv
 
