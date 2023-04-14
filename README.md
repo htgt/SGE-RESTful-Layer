@@ -1,7 +1,7 @@
 # SGE RESTful Layer
 
 ## Install
-With Makefile 
+With Makefile (DEBIAN based systems)
 ```sh
 make
 make install
