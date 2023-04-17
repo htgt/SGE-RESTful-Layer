@@ -28,11 +28,11 @@ class TestPatchScreenPellet(unittest.TestCase):
         expected = 'test response'
 
         # act
-        actual = patch_screen_pellet(self.data, 'abc123')
+        actual = patch_screen_pellet(self.data, 'jkl123')
 
         # assert
         self.assertEqual(actual, expected)
-        mock_export.assert_called_with({'test': 'body'}, 'url/abc123', mock_connection, 'patch')
+        mock_export.assert_called_with({'test': 'body'}, 'url/jkl123', mock_connection, 'patch')
 
     @patch('src.benchling.patch_screen_pellet.benchling_schema_ids')
     def test_as_benchling_req_body(self, mock_schema_ids):
