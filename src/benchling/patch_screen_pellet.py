@@ -36,7 +36,7 @@ def as_benchling_req_body(pellet_data: dict) -> dict:
                 'value': run_id,
             },
         },
-        'schemaId' : schema_id,
+        'schemaId': schema_id,
     }
 
     return body

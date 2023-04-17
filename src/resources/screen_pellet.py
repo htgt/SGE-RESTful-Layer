@@ -13,6 +13,7 @@ DATA = {
     "id_run": 1,
 }
 
+
 class ScreenPelletEndpoint(Resource):
     def post(self):
         data = request.json
@@ -25,4 +26,3 @@ class ScreenPelletEndpoint(Resource):
         patch_screen_pellet(DATA, DATA["sample_supplier_id"])
 
         return DATA
-
