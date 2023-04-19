@@ -32,7 +32,7 @@ test:
     - echo "BENCHLING_SECRET_KEY=kkk" >> test.env
     - echo "BENCHLING_TENANT=unittest" >> test.env
     - echo "GUNICORN_ENV=test" >> test.env
-    - make run-docker-test
+    - make test
     # Run this job in a branch where a Dockerfile exists
   rules:
       - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
