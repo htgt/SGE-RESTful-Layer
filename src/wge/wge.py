@@ -19,13 +19,14 @@ def prepare_guide_rna_class(event_data : dict, wge_data : dict) -> GuideRNA:
     species = get_wge_species(grna_data['species_id'])
 
     grna_dict = {
-        'seq' : grna_data['seq'],
-        'targeton' : event_data['targeton_id'],
-        #'strand' : strand,
-        'wge_id' : wge_id,
-        'wge_link' : wge_link,
-        'off_targets' : grna_data['off_target_summary'],
-        'species' : species,
+        'seq': grna_data['seq'],
+        'targeton': event_data['targeton_id'],
+        #'strand': strand,
+        'wge_id': wge_id,
+        'wge_link': wge_link,
+        'off_targets': grna_data['off_target_summary'],
+        'species': species,
+        'pam_right': grna_data['pam_right'],
     }
 
     grna_class = GuideRNA(grna_dict)
