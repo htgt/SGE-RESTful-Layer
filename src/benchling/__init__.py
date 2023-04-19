@@ -1,6 +1,8 @@
 from typing import Tuple
 from src import BENCHLING_TENANT
 import json
+from warnings import warn
+from src.utils.exceptions import NoBenchlingEnvMatchWarning
 
 # TENANT = 'ci'  # 'prod', 'ci', 'tol', 'test', 'unittest'
 # TEST (test)
@@ -27,8 +29,9 @@ def get_tenant_ids(tenant:str) -> Tuple[str, str]:
         benchling_ids_url = CI_TEST_BENCHLING_IDS_URL
         client_id = CI_TEST_CLIENT_ID
     else:
-        benchling_ids_url = UNITTEST_BENCHLING_IDS_URL
-        client_id = UNITTEST_CLIENT_ID
+        warn(f"No matching benchling tenant found {tenant}, using test.", NoBenchlingEnvMatchWarning)
+        benchling_ids_url = CI_TEST_BENCHLING_IDS_URL
+        client_id = CI_TEST_CLIENT_ID
         
     return client_id, benchling_ids_url
 
