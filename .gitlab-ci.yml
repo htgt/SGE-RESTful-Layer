@@ -11,6 +11,8 @@ stages:
 unittest:
   image: python:3.8.10
   stage: test
+  tags:
+    - openstack-autoscale
   before_script:
     - python --version  # For debugging
     - pip install virtualenv
