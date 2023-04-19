@@ -18,7 +18,7 @@ class TestArchiveOligo(unittest.TestCase):
         self.example_entity_ids_str = self.example_type + "Ids"
         self.example_json = {self.example_entity_ids_str: [self.example_id], "reason": "Made in error"}
         self.example_response_json = {
-            'dnaOligoIds': ['ts_AgwsNOPu'], 
+            'dnaOligoIds': [self.example_id], 
             'reason': 'Made in error'
         }
         self.example_status_code = 200
