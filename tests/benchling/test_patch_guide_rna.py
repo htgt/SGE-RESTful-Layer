@@ -62,8 +62,7 @@ class TestPatchGuideRNA(unittest.TestCase):
                 'PAM Sequence': {
                     'value': 'GGG'
                 },
-           },
-            # 'folderId': 'folder',
+            },
             'name': 'test',
             'schemaId': 'schema_id',
 
