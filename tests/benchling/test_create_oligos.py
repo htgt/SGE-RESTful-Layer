@@ -11,7 +11,7 @@ from copy import deepcopy
 class TestCreateOligo(unittest.TestCase):
     def setUp(self):
         self.example_forward_oligo_json_dict = {
-            'bases': 'CACCGGCTGACGGGTGACACCCC',
+            'bases': 'CACCGGCTGACGGGTGACACCC',
             'fields': {
                 'Targeton': {'value': 'seq_8VA7PA1S'},
                 'Strand': {'value': 'sfso_J7roINLu'},
