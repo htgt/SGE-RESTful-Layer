@@ -57,7 +57,7 @@ class TestPatchGuideRNA(unittest.TestCase):
                 },
                 'Targeton': {
                     'value': 'targeton_id'
-                }
+                },
                 'PAM Sequence': {
                     'value': 'GGG'
                 },
