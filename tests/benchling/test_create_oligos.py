@@ -6,37 +6,41 @@ from src.benchling.create_oligos import prepare_oligo_json, setup_oligo_class, B
 import json
 from Bio.Seq import Seq
 from copy import deepcopy
+from tests import benchling_ids
 
 
 class TestCreateOligo(unittest.TestCase):
     def setUp(self):
+        self.example_oligo_schema_id = benchling_ids['schemas']['grna_oligo_schema_id']
+        self.example_grna_schema_id = benchling_ids['schemas']['grna_schema_id']
+        self.example_sense_id = benchling_ids['dropdowns']['sense']
+        self.example_antisense_id = benchling_ids['dropdowns']['antisense']
+        
         self.example_forward_oligo_json_dict = {
             'bases': 'CACCGGCTGACGGGTGACACCCC',
             'fields': {
                 'Targeton': {'value': 'seq_8VA7PA1S'},
-                'Strand': {'value': 'sfso_J7roINLu'},
-                'Guide RNA': {'value': 'seq_EFxZ6d9f'}
+                'Strand': {'value': self.example_sense_id},
+                'Guide RNA': {'value': self.example_grna_schema_id}
             },
             'folderId': 'lib_MaKCkHDE',
             'name': 'Guide RNA Oligo',
-            'schemaId': 'ts_iWVbrCXh',
+            'schemaId': self.example_oligo_schema_id,
             'isCircular': False,
         }
         self.example_reverse_oligo_json_dict = {
             'bases': 'AAACGGGGTGTCACCCGTCAGCC',
             'fields': {
                 'Targeton': {'value': 'seq_8VA7PA1S'},
-                'Strand': {'value': 'sfso_Ts3OFHmc'},
-                'Guide RNA': {'value': 'seq_EFxZ6d9f'}
+                'Strand': {'value': self.example_antisense_id},
+                'Guide RNA': {'value': self.example_grna_schema_id}
             },
             'folderId': 'lib_MaKCkHDE',
             'name': 'Guide RNA Oligo',
-            'schemaId': 'ts_iWVbrCXh',
+            'schemaId': self.example_oligo_schema_id,
             'isCircular': False,
         }
-        with open('tests/fixtures/example_benchling_schema_ids.json', 'r') as f:
-            self.benchling_ids = json.load(f)
-
+        
         self.example_seq = 'AGCTGACGGGTGACACCCC'
         self.example_oligos_pair = GuideRNAOligos(self.example_seq)
         self.example_benchling_oligos_pair = BenchlingOligosPair(
@@ -44,26 +48,26 @@ class TestCreateOligo(unittest.TestCase):
                 sequence=Seq('CACCGGCTGACGGGTGACACCCC'),
                 targeton='seq_8VA7PA1S',
                 folder_id='lib_MaKCkHDE',
-                schema_id='ts_iWVbrCXh',
+                schema_id=self.example_oligo_schema_id,
                 name='Guide RNA Oligo',
-                strand='sfso_J7roINLu',
-                grna='seq_EFxZ6d9f'
+                strand=self.example_sense_id,
+                grna=self.example_grna_schema_id
             ),
             reverse=BenchlingOligo(
                 sequence=Seq('AAACGGGGTGTCACCCGTCAGCC'),
                 targeton='seq_8VA7PA1S',
                 folder_id='lib_MaKCkHDE',
-                schema_id='ts_iWVbrCXh',
+                schema_id=self.example_oligo_schema_id,
                 name='Guide RNA Oligo',
-                strand='sfso_Ts3OFHmc',
-                grna='seq_EFxZ6d9f'
+                strand=self.example_antisense_id,
+                grna=self.example_grna_schema_id
             )
         )
         self.example_guide_data = {
-            'id': 'seq_EFxZ6d9f',
+            'id': self.example_grna_schema_id,
             'targeton': 'seq_8VA7PA1S',
             'folder_id': 'lib_MaKCkHDE',
-            'schemaid': 'ts_iWVbrCXh',
+            'schemaid': self.example_oligo_schema_id,
             'name': 'Guide RNA Oligo',
             'seq': 'TGCTGACGGGTGACACCCA'
         }
@@ -73,19 +77,19 @@ class TestCreateOligo(unittest.TestCase):
                 'sequence': Seq('CACCGGCTGACGGGTGACACCCC'),
                 'targeton': 'seq_8VA7PA1S',
                 'folder_id': 'lib_MaKCkHDE',
-                'schema_id': 'ts_iWVbrCXh',
+                'schema_id': self.example_oligo_schema_id,
                 'name': 'Guide RNA Oligo',
-                'strand': 'sfso_J7roINLu',
-                'grna': 'seq_EFxZ6d9f',
+                'strand': self.example_sense_id,
+                'grna': self.example_grna_schema_id,
             },
             {
                 'sequence': Seq('AAACGGGGTGTCACCCGTCAGCC'),
                 'targeton': 'seq_8VA7PA1S',
                 'folder_id': 'lib_MaKCkHDE',
-                'schema_id': 'ts_iWVbrCXh',
+                'schema_id': self.example_oligo_schema_id,
                 'name': 'Guide RNA Oligo',
-                'strand': 'sfso_Ts3OFHmc',
-                'grna': 'seq_EFxZ6d9f',
+                'strand': self.example_antisense_id,
+                'grna': self.example_grna_schema_id,
             }
         ]
 
@@ -123,7 +127,6 @@ class TestCreateOligo(unittest.TestCase):
         # Arrange
         oligos = deepcopy(self.example_oligos_pair)
         guide_data = self.example_guide_data
-        benchling_ids = self.benchling_ids
         # Act
         # Foward
         forward = setup_oligo_class(
@@ -143,14 +146,13 @@ class TestCreateOligo(unittest.TestCase):
         # Assert
         test_oligos_list_dicts = benchling_oligos.to_list_dicts()
         example_oligos_list_dicts = self.example_setup_oligos_list_dicts
-
+        
         self.assertCountEqual(test_oligos_list_dicts, example_oligos_list_dicts)
 
     def test_wrong_direction_setup_oligo_class(self):
         # Arrange
         oligos = deepcopy(self.example_oligos_pair)
         guide_data = self.example_guide_data
-        benchling_ids = self.benchling_ids
         # Act, Assert
         with self.assertRaises(OligoDirectionInvalid):
             oligos.forward = setup_oligo_class(
