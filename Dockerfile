@@ -20,10 +20,6 @@ FROM base as prod
 CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.prod.conf.py"]
 
 FROM base as test
-ENV BENCHLING_SECRET_KEY=kkk
-ENV BENCHLING_TENANT=unittest
-ENV GUNICORN_ENV=test
-
 CMD [ "sh", "-c", "make run-gunicorn", "-c", "gunicorn.conf.py"]
 
 
