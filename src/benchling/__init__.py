@@ -64,12 +64,17 @@ class BenchlingSchemaIds:
 
     
 def get_tenant_ids(tenant:str) -> Tuple[str, str]:
+    print('Tenant:::', tenant)
+
     if tenant == 'prod':
         benchling_ids_url = MAVE_SANGER_BENCHLING_IDS_URL
         client_id = MAVE_SANGER_CLIENT_ID
     elif tenant == 'test':
         benchling_ids_url = CI_TEST_BENCHLING_IDS_URL
         client_id = CI_TEST_CLIENT_ID
+    else:
+        benchling_ids_url = CI_TEST_BENCHLING_IDS_URL
+        client_id = 'test_id'
         
     return client_id, benchling_ids_url
 
