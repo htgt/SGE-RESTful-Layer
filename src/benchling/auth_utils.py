@@ -22,4 +22,6 @@ class APIConnector:
         auth_res = requests.post(self.token_url, data=self.auth_data)
         auth_json = auth_res.json()
 
+        print('auth_json:::::', auth_json)
+
         return auth_json['access_token']
