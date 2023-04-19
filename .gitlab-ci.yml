@@ -29,12 +29,18 @@ test:
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
     - apk add --update make && apk add --update bash && apk add --update sudo
+    - echo "BENCHLING_SECRET_KEY=kkk" >> test.env
+    - echo "BENCHLING_TENANT=unittest" >> test.env
+    - echo "GUNICORN_ENV=test" >> test.env
     - make run-docker-test
     # Run this job in a branch where a Dockerfile exists
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-      exists:
-        - Dockerfile
+      - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+        exists:
+          - Dockerfile
+  artifacts:
+    reports:
+      dotenv: test.env
 sast:
   stage: test
 
