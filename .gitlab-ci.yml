@@ -32,6 +32,9 @@ test:
     - echo "BENCHLING_SECRET_KEY=kkk" >> test.env
     - echo "BENCHLING_TENANT=unittest" >> test.env
     - echo "GUNICORN_ENV=test" >> test.env
+    - make
+    - make install
+    - make setup-venv
     - make test
     # Run this job in a branch where a Dockerfile exists
   rules:
