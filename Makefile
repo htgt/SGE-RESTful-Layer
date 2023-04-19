@@ -133,7 +133,7 @@ build-docker-remote: build-docker-gunicorn
 	@docker build --pull -t "${name}:${tag}" --target remote .;
 
 build-docker-test: build-docker
-	@docker build --pull -t "${name}:${tag}" --target unittest .;
+	@docker build --pull -t "${name}:${tag}" --target test .;
 
 run-docker: build-docker
 	@docker run -p 8081:8081 -t "${name}:${tag}"
