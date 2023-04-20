@@ -1,20 +1,18 @@
-from src.rest_calls.send_calls import Caller
+from src.benchling.utils.export_to_benchling import export_to_benchling
 
 
-def archive_oligo(id, benchling_connection):
-    return archive_entity(id, 'dnaOligo', benchling_connection.oligos_url, benchling_connection.token)
+def archive_oligo(id, url):
+    return archive_entity(id, 'dnaOligo', url)
 
-def archive_entity(entity_id, entity_type, url, token):
+def archive_entity(entity_id, entity_type, url):
     json = prepare_archive_json(entity_type, entity_id)
 
-    result = send_archive_request(url, json, token)
+    result = send_archive_request(url, json)
 
     return result
 
-def send_archive_request(url, json, token):
-    api_caller = Caller(url)
-
-    response = api_caller.make_request('post', token, json)
+def send_archive_request(url, json):
+    response = export_to_benchling(json, url, 'post')
 
     return response
 

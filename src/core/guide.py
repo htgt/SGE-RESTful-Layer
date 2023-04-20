@@ -8,6 +8,7 @@ from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_
 from src.benchling.get_sequence import get_sequence
 from src.benchling.patch_guide_rna import patch_guide_rna
 from src.wge.wge import query_wge_by_id, transform_wge_event, prepare_guide_rna_class
+from src.benchling import benchling_schema_ids
 
 if TYPE_CHECKING:
     from src.benchling.connection.connection_class import BenchlingConnection
@@ -15,48 +16,48 @@ if TYPE_CHECKING:
 
 
 
-def handle_guide_event(data : dict, benchling_connection: BenchlingConnection, benchling_schema_ids: BenchlingSchemaIds) -> dict:
+def handle_guide_event(data : dict, url: str) -> dict:
     response = {}
     try:
-        response['grna'] = patch_grna_event(data, benchling_connection, benchling_schema_ids)
+        response['grna'] = patch_grna_event(data, url)
     except Exception as err:
         return json.dumps(err, default=vars), 500
     try:
-        response['oligos'] = post_grna_oligos_event(data, benchling_connection)
+        response['oligos'] = post_grna_oligos_event(data, url)
         return response, 201
     except Exception as err: 
         return json.dumps(err, default=vars), 500
 
 
-def patch_grna_event(data : dict, benchling_connection: BenchlingConnection, benchling_schema_ids: BenchlingSchemaIds) -> dict:
+def patch_grna_event(data : dict, url: str) -> dict:
     if check_wge_id(data):
         wge_event = transform_wge_event(data)
-        response = patch_wge_data_to_service(wge_event, benchling_connection, benchling_schema_ids)
+        response = patch_wge_data_to_service(wge_event, url)
 
         return response
 
-def patch_wge_data_to_service(event_data : dict, benchling_connection: BenchlingConnection, benchling_schema_ids: BenchlingSchemaIds) -> dict:
+def patch_wge_data_to_service(event_data : dict, url: str) -> dict:
     wge_data = query_wge_by_id(event_data['wge_id'])
     grna_object = prepare_guide_rna_class(event_data, wge_data)
 
-    response = patch_guide_rna(grna_object, event_data, benchling_connection, benchling_schema_ids)
+    response = patch_guide_rna(grna_object, event_data, url)
 
     return response
 
 
-def post_grna_oligos_event(data : dict, benchling_connection: BenchlingConnection) -> dict:
+def post_grna_oligos_event(data : dict, url: str) -> dict:
     oligos = transform_grna_oligos(data)
 
     export_response = export_oligos_to_benchling(
         oligos,
-        benchling_connection
+        url
     )
 
     return export_response
 
 
 
-def transform_grna_oligos(data : dict, api_path: str, token: str, benchling_schema_ids: BenchlingSchemaIds) -> dict:
+def transform_grna_oligos(data : dict, api_path: str, token: str) -> dict:
     benchling_ids = benchling_schema_ids.ids
 
     guide_data = transform_event_input_data(data, benchling_ids)

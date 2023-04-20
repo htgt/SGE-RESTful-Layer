@@ -1,21 +1,14 @@
-from __future__ import annotations
-import json
-from typing import TYPE_CHECKING
-
 from src.benchling import benchling_schema_ids
 from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
-if TYPE_CHECKING:
-    from src.benchling.connection.connection_class import BenchlingConnection
 
 
-def patch_screen_pellet(pellet_data: dict, pellet_id: str, benchling_connection: BenchlingConnection) -> dict:
+def patch_screen_pellet(pellet_data: dict, pellet_id: str, url: str) -> dict:
     benchling_body = as_benchling_req_body(pellet_data)
-    patch_url = benchling_connection.custom_entity_url + '/' + pellet_id
+    patch_url = url + '/' + pellet_id
 
     json_response = export_to_benchling_json_response(
         benchling_body,
         patch_url,
-        benchling_connection,
         'patch',
     )
 

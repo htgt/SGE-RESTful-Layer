@@ -1,22 +1,16 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
 from src.rest_calls.send_calls import export_to_service, check_response_object
-if TYPE_CHECKING:
-    from src.benchling.connection.connection_class import BenchlingConnection
-
 
 def export_to_benchling(
     json_dict: dict,
     service_url : str,
-    connection: BenchlingConnection,
     action : str = 'get',
 ) -> str:
-
-    response = export_to_service(json_dict, service_url, connection.token, action=action)
+    from src.benchling.connection.benchling_connection import benchling_connection
+    response = export_to_service(json_dict, service_url, benchling_connection.token, action=action)
     if response.status_code in [400, 401, 403] and not response.ok:
         print("Regenerating token...")
-        connection.get_store_token()
-        response = export_to_service(json_dict, service_url, connection.token, action=action)
+        benchling_connection.get_store_token()
+        response = export_to_service(json_dict, service_url, benchling_connection.token, action=action)
 
     return response
 

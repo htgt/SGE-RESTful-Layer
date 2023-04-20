@@ -10,21 +10,21 @@ class MockResponse:
         
 class MockRequests:
     @staticmethod
-    def get(*args, json ={}, **kwargs): 
+    def get(json: dict = {}, *args, **kwargs): 
         if args[0] == 'http://test.com':
             return MockResponse(json, 200)
         else:
             return MockResponse(json, 404, ok = False)
 
     @staticmethod
-    def post(*args, json = {}, **kwargs): 
+    def post(json: dict = {}, *args, **kwargs): 
         if args[0] == 'http://test.com':
             return MockResponse(json, 200)
         else:
             return MockResponse(json, 404, ok = False)
     
     @staticmethod
-    def patch(*args, json ={}, **kwargs): 
+    def patch(json: dict = {}, *args, **kwargs): 
         if args[0] == 'http://test.com':
             return MockResponse(json, 200)
         else:

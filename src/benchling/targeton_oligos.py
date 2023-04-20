@@ -1,24 +1,19 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
-
 from src.biology.targeton_oligos import TargetonOligo
 from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
 from src.core.post_targeton_oligos import send_targeton_oligo_post_request
-
-if TYPE_CHECKING:
-    from src.benchling.connection.connection_class import BenchlingConnection
-    from src.benchling import BenchlingSchemaIds
+from src.benchling import benchling_schema_ids
 
 
-def post_targeton_oligos(oligo_data: dict, benchling_connection: BenchlingConnection, benchling_schema_ids: BenchlingSchemaIds) -> None:
+
+def post_targeton_oligos(oligo_data: dict, url: str) -> None:
     for oligo in oligo_data:
         targeton_oligo = TargetonOligo(oligo_data[oligo])
         packet = prepare_targeton_oligo_packet(oligo, targeton_oligo, benchling_schema_ids)
-        response = send_targeton_oligo_post_request(packet, benchling_connection)
+        response = send_targeton_oligo_post_request(packet, url)
         print(response)
 
 
-def prepare_targeton_oligo_packet(name: str, targeton_oligo: TargetonOligo, benchling_schema_ids: BenchlingSchemaIds) -> dict:
+def prepare_targeton_oligo_packet(name: str, targeton_oligo: TargetonOligo) -> dict:
     packet = {}
     schema_ids = benchling_schema_ids.ids
 
