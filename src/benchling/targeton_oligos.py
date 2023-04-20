@@ -1,11 +1,12 @@
 from src.biology.targeton_oligos import TargetonOligo
 from src.benchling.utils.schemas import get_strand_dropdown_id, get_chromosome_dropdown_id
 from src.core.post_targeton_oligos import send_targeton_oligo_post_request
-from src.benchling import benchling_schema_ids
+from src.benchling import benchling_schema_ids, benchling_urls
 
 
 
-def post_targeton_oligos(oligo_data: dict, url: str) -> None:
+def post_targeton_oligos(oligo_data: dict) -> None:
+    url = benchling_urls.custom_entity_url
     for oligo in oligo_data:
         targeton_oligo = TargetonOligo(oligo_data[oligo])
         packet = prepare_targeton_oligo_packet(oligo, targeton_oligo, benchling_schema_ids)

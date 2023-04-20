@@ -3,6 +3,7 @@ from src import BENCHLING_TENANT
 import json
 from warnings import warn
 from src.utils.exceptions import NoBenchlingEnvMatchWarning
+from src.benchling.connection.connection_class import BenchlingUrls
 
 # TENANT = 'ci'  # 'prod', 'ci', 'tol', 'test', 'unittest'
 # TEST (test)
@@ -37,3 +38,4 @@ def get_tenant_ids(tenant:str) -> Tuple[str, str]:
 
 client_id, benchling_ids_url = get_tenant_ids(BENCHLING_TENANT)
 benchling_schema_ids = BenchlingSchemaIds(benchling_ids_url)
+benchling_urls = BenchlingUrls(BENCHLING_TENANT)

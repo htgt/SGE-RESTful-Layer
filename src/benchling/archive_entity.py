@@ -12,7 +12,7 @@ def archive_entity(entity_id, entity_type, url):
     return result
 
 def send_archive_request(url, json):
-    response = request_to_benchling(json, url, 'post')
+    response = request_to_benchling(url, 'post', json=json)
 
     return response
 

@@ -8,7 +8,7 @@ from src.benchling.archive_entity import (
     generate_entity_ids_str
 )
 from tests import benchling_ids
-from tests.mock_connection import MockRequests, MockResponse
+from tests.mock_connection import Mock_request_to_benchling, MockResponse
 
 
 class TestArchiveOligo(unittest.TestCase):
@@ -17,15 +17,13 @@ class TestArchiveOligo(unittest.TestCase):
         self.example_id = benchling_ids['schemas']['grna_oligo_schema_id']
         self.example_entity_ids_str = self.example_type + "Ids"
         self.example_json = {self.example_entity_ids_str: [self.example_id], "reason": "Made in error"}
-        self.example_response_json = {
-            'dnaOligoIds': [self.example_id], 
-            'reason': 'Made in error'
-        }
         self.example_status_code = 200
         self.example_status_code_fail = 404
         self.example_url = 'http://test.com'
-        self.example_response = MockResponse(self.example_response_json, self.example_status_code)
-        self.example_response_fail = MockResponse(self.example_response_json, self.example_status_code_fail)
+        self.example_response = MockResponse(self.example_status_code,'post' ,self.example_json)
+        self.example_response_fail = MockResponse(self.example_status_code_fail,'post', self.example_json)
+        self.example_response_dict = vars(self.example_response)
+        self.example_response_fail_dict = vars(self.example_response_fail)
         self.example_response_text = self.example_response.text
     
     # @patch('src.benchling.archive_entity.archive_entity')
@@ -57,17 +55,17 @@ class TestArchiveOligo(unittest.TestCase):
         assert mocked_send_archive_request.called
     
     
-    @patch('src.benchling.archive_entity.request_to_benchling', side_effect = MockRequests.post)
+    @patch('src.benchling.archive_entity.request_to_benchling', side_effect = Mock_request_to_benchling)
     def test_send_archive_request(self, mocked_request_to_benchling):
         # Arrange
         example_url = self.example_url
         example_json = self.example_json
-        expected_result = self.example_response_json
+        expected_result = self.example_response_dict
         expected_status_code = self.example_status_code
         # Act
         actual_result = send_archive_request(example_url, example_json)
         # Assert
-        self.assertEqual(actual_result.json(), expected_result)
+        self.assertEqual(vars(actual_result), expected_result)
         self.assertEqual(actual_result.status_code, expected_status_code)
         assert mocked_request_to_benchling.called
     

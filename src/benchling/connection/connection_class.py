@@ -1,20 +1,12 @@
 from src.benchling.connection.auth_utils import APIConnector
 from warnings import warn
 from src.utils.exceptions import NoBenchlingEnvMatchWarning
+from src.utils.base_classes import BaseClass
 
-class BenchlingConnection:
+class BenchlingConnection(BaseClass):
     def __init__(self, client_id, benchling_tenant, secret_key):
         self.tenant = benchling_tenant
         self.secret_key = secret_key
-        url = self.generate_url(tenant=benchling_tenant)
-        self.api_url = url + r'api/v2/'
-        self.blobs_url = self.api_url + r'blobs/'
-        self.oligos_url = self.api_url + r'dna-oligos'
-        self.sequence_url = self.api_url + r'dna-sequences'
-        self.tasks_url = self.api_url + r'workflow-tasks/'
-        self.tasks_output_url = self.api_url + r'workflow-outputs'
-        self.custom_entity_url = self.api_url + r'custom-entities'
-        self.token_url = self.api_url + r'token'
         self.client_id = client_id
         self.get_store_token()
 
@@ -25,9 +17,21 @@ class BenchlingConnection:
         else:
             raise (Exception("APIConnector failed to make _auth_object."))
         self.token = self._auth_object.token
-
+    
+class BenchlingUrls(BaseClass):
+    def __init__(self, tenant) -> None:
+        url = self.generate_url(tenant)
+        self.api_url = url + r'api/v2/'
+        self.blobs_url = self.api_url + r'blobs/'
+        self.oligos_url = self.api_url + r'dna-oligos'
+        self.sequence_url = self.api_url + r'dna-sequences'
+        self.tasks_url = self.api_url + r'workflow-tasks/'
+        self.tasks_output_url = self.api_url + r'workflow-outputs'
+        self.custom_entity_url = self.api_url + r'custom-entities'
+        self.token_url = self.api_url + r'token'
+        
     @staticmethod
-    def generate_url(tenant='ci') -> str:
+    def generate_url(tenant: str ='ci') -> str:
         url = r'https://'
         tenant_dict = {
             "tol" : r"tol-sangertest.",

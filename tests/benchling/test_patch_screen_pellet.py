@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-
+from src.benchling import benchling_urls
 from src.benchling.patch_screen_pellet import (
     patch_screen_pellet,
     as_benchling_req_body,
@@ -23,15 +23,15 @@ class TestPatchScreenPellet(unittest.TestCase):
         # arrange
         mock_export.return_value = 'test response'
         mock_body.return_value = {'test': 'body'}
-        url = 'url'
+        url = benchling_urls.custom_entity_url
         expected = 'test response'
 
         # act
-        actual = patch_screen_pellet(self.data, 'jkl123', url)
+        actual = patch_screen_pellet(self.data, 'jkl123')
 
         # assert
         self.assertEqual(actual, expected)
-        mock_export.assert_called_with({'test': 'body'}, 'url/jkl123', 'patch')
+        mock_export.assert_called_with(url+'/jkl123', 'patch', json={'test': 'body'})
 
     @patch('src.benchling.patch_screen_pellet.benchling_schema_ids')
     def test_as_benchling_req_body(self, mock_schema_ids):

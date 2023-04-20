@@ -34,7 +34,7 @@ class TestAuthUtils(unittest.TestCase):
     def test_get_access_token(self, mocked_post):
         # Arrange
         expected_data = self.example_apiconnector_dict
-        mocked_post.return_value = MockResponse({"access_token":self.example_token}, 200)
+        mocked_post.return_value = MockResponse(200,'post', {"access_token":self.example_token})
         # Act
         acted_data = APIConnector(self.example_token_url, self.example_client_id, self.example_key)
         # Assert

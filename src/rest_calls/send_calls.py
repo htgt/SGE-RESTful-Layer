@@ -51,7 +51,7 @@ class Caller:
             print(curl.parse(res))
 
 
-def export_to_service(
+def request_to_service(
     json_dict: dict,
     service_url: str,
     token: str,

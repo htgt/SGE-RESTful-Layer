@@ -4,9 +4,9 @@ import json
 def send_targeton_oligo_post_request(body: dict, url: str) -> dict:
     try:
         response = request_to_benchling(
-            body,
             url,
-            'post'
+            'post',
+            json = body
         )
         return response, 201
     except Exception as err:

@@ -1,15 +1,16 @@
-from src.benchling import benchling_schema_ids
+from src.benchling import benchling_schema_ids, benchling_urls
 from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
 
 
-def patch_screen_pellet(pellet_data: dict, pellet_id: str, url: str) -> dict:
+def patch_screen_pellet(pellet_data: dict, pellet_id: str) -> dict:
+    url = benchling_urls.custom_entity_url
     benchling_body = as_benchling_req_body(pellet_data)
     patch_url = url + '/' + pellet_id
 
     json_response = request_to_benchling_json_response(
-        benchling_body,
         patch_url,
         'patch',
+        json = benchling_body
     )
 
     return json_response

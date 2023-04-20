@@ -1,22 +1,15 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
-
 import json
 from src.biology.guideRNA import GuideRNAOligos
-
 from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_pair_class
 from src.benchling.get_sequence import get_sequence
 from src.benchling.patch_guide_rna import patch_guide_rna
 from src.wge.wge import query_wge_by_id, transform_wge_event, prepare_guide_rna_class
-from src.benchling import benchling_schema_ids
-
-if TYPE_CHECKING:
-    from src.benchling.connection.connection_class import BenchlingConnection
-    from src.benchling import BenchlingSchemaIds
+from src.benchling import benchling_schema_ids, benchling_urls
 
 
 
-def handle_guide_event(data : dict, url: str) -> dict:
+def handle_guide_event(data : dict) -> dict:
+    url = benchling_urls.oligos_url
     response = {}
     try:
         response['grna'] = patch_grna_event(data, url)

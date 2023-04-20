@@ -59,18 +59,18 @@ def export_primer_pair(
     primer_right_json = primer_to_benchling_json(primer_right, benchling_schema_ids.ids)
 
     left_response = export_function(
-        primer_left_json,
         url,
         'post',
+        json = primer_left_json
     )
 
     if left_response.ok:
         left_primer_id =  left_response.json()["id"]
 
         right_response = export_function(
-            primer_right_json,
             url,
             'post',
+            json = primer_right_json
         )
 
         if not right_response.ok:
