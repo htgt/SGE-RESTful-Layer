@@ -1,6 +1,6 @@
 from src.rest_calls.send_calls import export_to_service, check_response_object
 
-def export_to_benchling(
+def request_to_benchling(
     json_dict: dict,
     service_url : str,
     action : str ,
@@ -15,12 +15,12 @@ def export_to_benchling(
     return response
 
 
-def export_to_benchling_json_response(
+def request_to_benchling_json_response(
     *args,
     **kwargs
 ) -> str:
 
-    response = export_to_benchling(*args, **kwargs)
+    response = request_to_benchling(*args, **kwargs)
 
     json_response = check_response_object(response)
 
