@@ -44,15 +44,16 @@ class TestArchiveOligo(unittest.TestCase):
         assert mocked_archive_entity.called
         
     @patch('src.benchling.archive_entity.send_archive_request')
-    @patch('src.benchling.connection.connection_class.BenchlingConnection')
-    def test_archive_entity(self, mocked_connection, mocked_send_archive_request):
+    def test_archive_entity(self, mocked_send_archive_request):
         # Arrange
         example_id = self.example_id
         example_type = self.example_type
         expected_result = self.example_response_text
         mocked_send_archive_request.return_value = expected_result
+        example_url = self.example_url
+        example_token = self.example_token
         # Act
-        actual_result = archive_entity(example_id, example_type, mocked_connection)
+        actual_result = archive_entity(example_id, example_type, example_url, example_token)
         # Assert
         self.assertEqual(actual_result, expected_result)
         assert mocked_send_archive_request.called
