@@ -1,5 +1,6 @@
 from src.rest_calls.send_calls import Caller
 from urllib.parse import urljoin
+from typing import Tuple
 
 class MockResponse:
     def __init__(self, status_code: int, action: str, json:dict = {}, ok = True) -> None:
@@ -35,33 +36,33 @@ class MockRequests:
             return MockResponse(404,'patch', json, ok = False)
         
 class MockCaller(Caller):
-    def make_get(self, headers: dict, get_path: str) -> MockResponse: 
-        url = urljoin(self.endpoint, get_path)
+    def make_get(self, headers: dict, data: Tuple[dict, str]) -> MockResponse: 
+        url = urljoin(self.endpoint, data)
         return MockRequests.get(url, headers=headers)
 
-    def make_post(self, headers: dict, json: dict) -> MockResponse: 
-        return MockRequests.post(self.endpoint, json=json, headers=headers)
+    def make_post(self, headers: dict, data: Tuple[dict, str]) -> MockResponse: 
+        return MockRequests.post(self.endpoint, json=data, headers=headers)
     
-    def make_patch(self, headers: dict, json: dict) -> MockResponse: 
-        return MockRequests.patch(self.endpoint, json=json, headers=headers)
+    def make_patch(self, headers: dict, data: Tuple[dict, str]) -> MockResponse: 
+        return MockRequests.patch(self.endpoint, json=data, headers=headers)
 
 def Mock_request_to_service(    
-    json: dict,
     url: str,
     token: str,
-    action: str = 'get'
+    action: str,
+    data: Tuple[dict, str]
 ) -> MockResponse:
     
     api_caller = MockCaller(url)
-    response = api_caller.make_request(action, token, json)
+    response = api_caller.make_request(action, token, data)
     
     return response
 
 def Mock_request_to_benchling(    
     service_url : str,
     action : str ,
-    json = {}
+    data: Tuple[dict, str]
 ) -> MockResponse:
-    response = Mock_request_to_service(json, service_url, 'token', action=action)
+    response = Mock_request_to_service(service_url, 'token', action, data)
 
     return response

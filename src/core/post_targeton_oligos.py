@@ -6,7 +6,7 @@ def send_targeton_oligo_post_request(body: dict, url: str) -> dict:
         response = request_to_benchling(
             url,
             'post',
-            json = body
+            body
         )
         return response, 201
     except Exception as err:

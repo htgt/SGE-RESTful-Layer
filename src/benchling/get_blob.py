@@ -10,8 +10,7 @@ from urllib.parse import urljoin
 def get_blob_url(id):
     api_path = benchling_urls.blobs_url
     path = posixpath.join(id, 'download-url')
-    url = urljoin(api_path, path)
 
-    get_data = request_to_benchling(url, 'get')
+    get_data = request_to_benchling(api_path, 'get', path)
 
     return json.loads(get_data)["downloadURL"]

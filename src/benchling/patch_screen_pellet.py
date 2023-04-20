@@ -10,7 +10,7 @@ def patch_screen_pellet(pellet_data: dict, pellet_id: str) -> dict:
     json_response = request_to_benchling_json_response(
         patch_url,
         'patch',
-        json = benchling_body
+        benchling_body
     )
 
     return json_response

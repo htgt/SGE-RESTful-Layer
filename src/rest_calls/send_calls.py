@@ -1,12 +1,13 @@
 import requests
-from urllib.parse import urljoin
 from src.utils.exceptions import ConvertToJsonError
 import curl
+from typing import Tuple
+from urllib.parse import urljoin
 
 
 class Caller:
     def __init__(self, endpoint):
-        self.__setattr__('endpoint', endpoint)
+        self.endpoint = endpoint
 
     def make_request(self, method, access_token, data):
         methods = {
@@ -23,21 +24,21 @@ class Caller:
 
         return methods[method](headers, data)
 
-    def make_get(self, headers, get_path):
-        url = urljoin(self.__getattribute__('endpoint'), get_path)
+    def make_get(self, headers, data):
+        url = urljoin(self.endpoint, data)
         res = requests.get(url, headers=headers)
         self._response_handler(res)
 
         return res.text
 
-    def make_post(self, headers, json_data):
-        res = requests.post(self.__getattribute__('endpoint'), json=json_data, headers=headers)
+    def make_post(self, headers, data):
+        res = requests.post(self.endpoint, json=data, headers=headers)
         self._response_handler(res)
 
         return res
 
     def make_patch(self, headers, data):
-        res = requests.patch(self.__getattribute__('endpoint'), json=data, headers=headers)
+        res = requests.patch(self.endpoint, json=data, headers=headers)
         self._response_handler(res)
 
         return res
@@ -52,14 +53,14 @@ class Caller:
 
 
 def request_to_service(
-    json_dict: dict,
     service_url: str,
     token: str,
-    action: str = 'get'
+    action: str,
+    data: Tuple[dict, str]
 ) -> requests.Response:
 
     api_caller = Caller(service_url)
-    response = api_caller.make_request(action, token, json_dict)
+    response = api_caller.make_request(action, token, data)
 
     return response
 
