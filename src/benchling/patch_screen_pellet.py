@@ -1,12 +1,12 @@
 from src.benchling import benchling_schema_ids
-from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
+from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
 
 
 def patch_screen_pellet(pellet_data: dict, pellet_id: str, url: str) -> dict:
     benchling_body = as_benchling_req_body(pellet_data)
     patch_url = url + '/' + pellet_id
 
-    json_response = export_to_benchling_json_response(
+    json_response = request_to_benchling_json_response(
         benchling_body,
         patch_url,
         'patch',

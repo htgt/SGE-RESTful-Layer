@@ -57,8 +57,8 @@ class TestArchiveOligo(unittest.TestCase):
         assert mocked_send_archive_request.called
     
     
-    @patch('src.benchling.archive_entity.export_to_benchling', side_effect = MockRequests.post)
-    def test_send_archive_request(self, mocked_export_to_benchling):
+    @patch('src.benchling.archive_entity.request_to_benchling', side_effect = MockRequests.post)
+    def test_send_archive_request(self, mocked_request_to_benchling):
         # Arrange
         example_url = self.example_url
         example_json = self.example_json
@@ -69,7 +69,7 @@ class TestArchiveOligo(unittest.TestCase):
         # Assert
         self.assertEqual(actual_result.json(), expected_result)
         self.assertEqual(actual_result.status_code, expected_status_code)
-        assert mocked_export_to_benchling.called
+        assert mocked_request_to_benchling.called
     
     def test_prepare_archive_json(self):
         # Arrange

@@ -1,12 +1,12 @@
 from src.biology.guideRNA import GuideRNA
-from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
+from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
 from src.benchling import benchling_schema_ids
 
 def patch_guide_rna(guide: GuideRNA, event_data: dict, url: str) -> str:
     benchling_body = as_benchling_req_body(guide, event_data, benchling_schema_ids)
     patch_url = url + '/' + event_data["entity_id"]
     
-    response = export_to_benchling_json_response(
+    response = request_to_benchling_json_response(
         benchling_body,
         patch_url,
         'patch',

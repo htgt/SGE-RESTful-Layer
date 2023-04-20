@@ -3,7 +3,7 @@ from src.rest_calls.send_calls import export_to_service, check_response_object
 def export_to_benchling(
     json_dict: dict,
     service_url : str,
-    action : str = 'get',
+    action : str ,
 ) -> str:
     from src.benchling.connection.benchling_connection import benchling_connection
     response = export_to_service(json_dict, service_url, benchling_connection.token, action=action)

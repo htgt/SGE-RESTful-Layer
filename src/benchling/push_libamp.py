@@ -1,5 +1,5 @@
 from src.benchling import benchling_schema_ids
-from src.benchling.utils.export_to_benchling import export_to_benchling
+from src.benchling.utils.request_to_benchling import request_to_benchling
 from src.benchling.archive_entity import archive_oligo
 from src.biology.libamp_primers import LibampPrimer
 
@@ -42,7 +42,7 @@ def call_export_primer_pair(primer_left: LibampPrimer, primer_right: LibampPrime
     return export_primer_pair(
         primer_left,
         primer_right,
-        export_to_benchling,
+        request_to_benchling,
         archive_oligo,
         url,
     )

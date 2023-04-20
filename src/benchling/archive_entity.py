@@ -1,4 +1,4 @@
-from src.benchling.utils.export_to_benchling import export_to_benchling
+from src.benchling.utils.request_to_benchling import request_to_benchling
 
 
 def archive_oligo(id, url):
@@ -12,7 +12,7 @@ def archive_entity(entity_id, entity_type, url):
     return result
 
 def send_archive_request(url, json):
-    response = export_to_benchling(json, url, 'post')
+    response = request_to_benchling(json, url, 'post')
 
     return response
 

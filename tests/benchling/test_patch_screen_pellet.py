@@ -18,7 +18,7 @@ class TestPatchScreenPellet(unittest.TestCase):
         }
 
     @patch('src.benchling.patch_screen_pellet.as_benchling_req_body')
-    @patch('src.benchling.patch_screen_pellet.export_to_benchling_json_response')
+    @patch('src.benchling.patch_screen_pellet.request_to_benchling_json_response')
     def test_patch_screen_pellet(self, mock_export, mock_body):
         # arrange
         mock_export.return_value = 'test response'

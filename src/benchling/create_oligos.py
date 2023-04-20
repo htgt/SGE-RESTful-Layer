@@ -8,7 +8,7 @@ from src.biology.guideRNA import Oligo, GuideRNAOligos
 from src.benchling import benchling_schema_ids
 import sys
 from src.utils.base_classes import BaseClass
-from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
+from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
 sys.path.append("..")
 
 
@@ -60,12 +60,12 @@ def export_oligos_to_benchling(oligos: BenchlingOligosPair, url: str) -> Tuple[s
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
 
-    oligo_forward = export_to_benchling_json_response(
+    oligo_forward = request_to_benchling_json_response(
         oligo_forward_json,
         url,
         'post',
     )
-    oligo_reverse = export_to_benchling_json_response(
+    oligo_reverse = request_to_benchling_json_response(
         oligo_reverse_json,
         url,
         'post',

@@ -93,7 +93,7 @@ class TestCreateOligo(unittest.TestCase):
             }
         ]
 
-    # This method will be used by the mock to export_to_benchling
+    # This method will be used by the mock to request_to_benchling
     def mocked_requests_get(*args, **kwargs):
         class MockResponse:
             def __init__(self, json_data, status_code):
