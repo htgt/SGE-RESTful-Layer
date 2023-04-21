@@ -14,12 +14,12 @@ def handle_guide_event(data : dict) -> dict:
     try:
         response['grna'] = patch_grna_event(data, url)
     except Exception as err:
-        return json.dumps(err, default=vars), 500
+        return str(err), 500
     try:
         response['oligos'] = post_grna_oligos_event(data, url)
         return response, 201
     except Exception as err: 
-        return json.dumps(err, default=vars), 500
+        return str(err), 500
 
 
 def patch_grna_event(data : dict, url: str) -> dict:

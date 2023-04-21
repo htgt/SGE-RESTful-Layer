@@ -7,7 +7,7 @@ def request_to_benchling(
     action : str ,
     data: Tuple[dict, str]
 ) -> requests.Response:
-    from src.benchling.connection.benchling_connection import benchling_connection
+    from src.benchling.connection import benchling_connection
     token = benchling_connection.token
     response = request_to_service(service_url, token, action, data)
     if response.status_code in [400, 401, 403] and not response.ok:

@@ -3,7 +3,7 @@ from src import BENCHLING_TENANT
 import json
 from warnings import warn
 from src.utils.exceptions import NoBenchlingEnvMatchWarning
-from src.benchling.connection.connection_class import BenchlingUrls
+from src.utils.base_classes import BaseClass
 
 # TENANT = 'ci'  # 'prod', 'ci', 'tol', 'test', 'unittest'
 # TEST (test)
@@ -16,10 +16,43 @@ MAVE_SANGER_BENCHLING_IDS_URL = r'schemas/mave_sanger_ids.json'
 UNITTEST_CLIENT_ID = 'unittest'
 UNITTEST_BENCHLING_IDS_URL = r'schemas/ci_sanger_test_ids.json'
 
-class BenchlingSchemaIds:
+class BenchlingSchemaIds(BaseClass):
     def __init__(self, benchling_ids_url):
         with open(benchling_ids_url) as f:
             self.ids = json.load(f)
+            
+class BenchlingUrls(BaseClass):
+    def __init__(self, tenant) -> None:
+        url = self.generate_url(tenant)
+        self.api_url = url + r'api/v2/'
+        self.blobs_url = self.api_url + r'blobs/'
+        self.oligos_url = self.api_url + r'dna-oligos'
+        self.sequence_url = self.api_url + r'dna-sequences'
+        self.tasks_url = self.api_url + r'workflow-tasks/'
+        self.tasks_output_url = self.api_url + r'workflow-outputs'
+        self.custom_entity_url = self.api_url + r'custom-entities'
+        self.token_url = self.api_url + r'token'
+        
+    @staticmethod
+    def generate_url(tenant: str ='ci') -> str:
+        url = r'https://'
+        tenant_dict = {
+            "tol" : r"tol-sangertest.",
+            "prod" : r"mave-sanger.",
+            "test" : r"ci-sanger-test.",
+            "unittest" : r"unittest."
+        }
+        if tenant in tenant_dict:
+            url = url + tenant_dict[tenant]
+        else:
+            warn(
+                f"Selected benchling environment {tenant} doesn't match {tenant_dict.keys()}\nUsing {tenant_dict['tol']}",
+                NoBenchlingEnvMatchWarning)
+            url = url + tenant_dict["tol"]
+        
+        url = url + r"benchling.com/"
+        
+        return url
 
     
 def get_tenant_ids(tenant:str) -> Tuple[str, str]:

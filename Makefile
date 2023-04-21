@@ -114,7 +114,7 @@ activate-venv: setup-venv
 
 test: setup-venv
 	@. venv/bin/activate
-	@python -m unittest
+	@python -m unittest discover -v -s "./tests" -p "test*.py"
 
 run-flask: setup-venv
 	@. venv/bin/activate

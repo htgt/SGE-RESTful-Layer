@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from src.benchling.connection.auth_utils import APIConnector
+from src.benchling.utils.auth_utils import APIConnector
 from tests.mock_connection import MockResponse
 
 
@@ -19,7 +19,7 @@ class TestAuthUtils(unittest.TestCase):
             'token': self.example_token
         }
     
-    @patch('src.benchling.connection.auth_utils.APIConnector.get_access_token')
+    @patch('src.benchling.utils.auth_utils.APIConnector.get_access_token')
     def test_APIConnector(self, mocked_get_access_token):
         # Arrange
         expected_data = self.example_apiconnector_dict
