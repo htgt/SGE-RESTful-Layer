@@ -113,7 +113,7 @@ If not:
 Then 
 
 ```
-python -m unittest discover -v
+python -m unittest discover -s "./tests" -v -p "test*.py"
 ```
 
 ## Run linter
