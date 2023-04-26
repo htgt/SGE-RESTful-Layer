@@ -1,7 +1,7 @@
 # SGE RESTful Layer
 
 ## Install
-With Makefile 
+With Makefile (DEBIAN based systems)
 ```sh
 make
 make install
@@ -23,9 +23,10 @@ pip install -r requirements.txt
 ## Environmental variables
 Ensure that the service you are using has the following enviromental variables or that you have a .env file in the top level of the restful layer directory.
 ```
-BENCHLING_SECRET_KEY="secret_key"
-GUNICORN_ENV="prod" or "test"
-BENCHLING_TENANT="prod" or "test"
+BENCHLING_SECRET_KEY="secret_key" or "unittest"
+GUNICORN_ENV="prod" or "test" or "unittest"
+BENCHLING_TENANT="prod" or "test" or "unittest"
+DOCKER_ENV="prod" or "test" or "unittest"
 ```
 
 ## Run Application
@@ -37,7 +38,8 @@ make run
 ```make run-gunicorn``` Launches the app with Gunicorn.
 ```make run-flask``` Launches the app with flask.
 ```make run-flask-debug``` Launches the app with flask with debug enabled.
-```make run-docker``` Creates a Docker container and launches the app with Gunicorn.
+```make run-docker-local``` Creates a Docker container and launches the app with Gunicorn and copies the local .env file.
+```make run-docker-remote``` Creates a Docker container and launches the app with Gunicorn.
 
 OR
 
@@ -64,15 +66,21 @@ Service config can be found here:
 ## Run in Docker
 
 The easiest way to run in a docker container is to use the makefile.
-```make run-docker```
-This builds the container if not created and then runs with gunicorn.
+```make run-docker-local```
+This builds the container if not created, copies the .env and then runs with gunicorn.
+
+Alternatively you can run without a .env or just run the unittests.
+```make run-docker-remote```
+```make run-docker-test```
 
 Build image
 
 ```docker build -t sge-restful-layer . ```
 
 Or with makefile
-```make build-docker```
+```make build-docker-local```
+or 
+```make build-docker-remote```
 
 
 Run container
@@ -80,15 +88,17 @@ Run container
 ```docker run -p 8081:8081 sge-restful-layer ```
 
 Or with makefile (also builds)
-```make run-docker```
+```make run-docker-local```
+```make run-docker-remote```
+
+clean docker with
+```make clean-docker```
 
 ## Run Unit Tests
 
 With Makefile 
-```sh
-make test
-```
 ```make test``` Runs the various unittests.
+```make run-docker-test``` Runs in a Ubuntu python 3.8 based docker container.
 
 
 OR
@@ -103,7 +113,7 @@ If not:
 Then 
 
 ```
-python -m unittest discover -v
+python -m unittest discover -s "./tests" -v -p "test*.py"
 ```
 
 ## Run linter

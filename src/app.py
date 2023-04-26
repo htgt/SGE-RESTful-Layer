@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Api
 
@@ -28,4 +29,5 @@ api.add_resource(ScreenPelletEndpoint, '/screen-pellet', methods=["POST", "GET"]
 
 
 if __name__ == "__main__":
+    os.environ["UNITTESTING"] = "False"
     app.run()

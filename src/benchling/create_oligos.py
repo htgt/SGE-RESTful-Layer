@@ -1,13 +1,14 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple
 from src.utils.base_classes import BaseClass
 
 from src.utils.exceptions import OligoDirectionInvalid
 from src.biology.guideRNA import Oligo, GuideRNAOligos
-from . import BenchlingConnection, benchling_schema_ids
+from src.benchling import benchling_schema_ids
 import sys
 from src.utils.base_classes import BaseClass
-from src.benchling.utils.export_to_benchling import export_to_benchling_json_response
+from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
 sys.path.append("..")
 
 
@@ -55,21 +56,19 @@ def prepare_oligo_json(oligo: BenchlingOligo) -> dict:
     }
 
 
-def export_oligos_to_benchling(oligos: BenchlingOligosPair, benchling_connection: BenchlingConnection) -> Tuple[str, str]:
+def export_oligos_to_benchling(oligos: BenchlingOligosPair, url: str) -> Tuple[str, str]:
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
 
-    oligo_forward = export_to_benchling_json_response(
-        oligo_forward_json,
-        benchling_connection.sequence_url,
-        benchling_connection,
+    oligo_forward = request_to_benchling_json_response(
+        url,
         'post',
+        oligo_forward_json
     )
-    oligo_reverse = export_to_benchling_json_response(
-        oligo_reverse_json,
-        benchling_connection.sequence_url,
-        benchling_connection,
+    oligo_reverse = request_to_benchling_json_response(
+        url,
         'post',
+        oligo_reverse_json
     )
 
 

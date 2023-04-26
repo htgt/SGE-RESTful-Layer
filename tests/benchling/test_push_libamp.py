@@ -1,8 +1,6 @@
 import unittest
 from mock import MagicMock
 
-from requests.models import Response
-
 from src.benchling.push_libamp import export_primer_pair
 from src.biology.libamp_primers import LibampPrimer
 
@@ -55,7 +53,6 @@ class ExportLibampPrimerPairToBenchling(unittest.TestCase):
         archive_mock = MagicMock()
 
         test_url = 'http://www'
-        test_token = 'abc'
 
         with self.assertRaises(Exception):
             export_primer_pair(
@@ -64,7 +61,6 @@ class ExportLibampPrimerPairToBenchling(unittest.TestCase):
                 export_mock,
                 archive_mock,
                 test_url,
-                test_token
             )
 
         archive_mock.assert_called()
@@ -76,7 +72,6 @@ class ExportLibampPrimerPairToBenchling(unittest.TestCase):
         export_mock.return_value = self.bad_response
 
         test_url = 'http://www'
-        test_token = 'abc'
 
         with self.assertRaises(Exception):
             export_primer_pair(
@@ -85,7 +80,6 @@ class ExportLibampPrimerPairToBenchling(unittest.TestCase):
                 export_mock,
                 archive_mock,
                 test_url,
-                test_token
             )
 
         export_mock.called_only_once()

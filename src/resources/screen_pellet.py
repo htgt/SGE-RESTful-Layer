@@ -3,10 +3,6 @@ from flask_restful import Resource
 
 from src.benchling.patch_screen_pellet import patch_screen_pellet
 
-import requests
-import json
-
-
 class ScreenPelletEndpoint(Resource):
     def post(self):
         data = request.json

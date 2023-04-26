@@ -1,7 +1,5 @@
 import unittest
-
 from mock import patch
-
 from src.resources.entity import Entity
 
 
