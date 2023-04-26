@@ -1,7 +1,9 @@
 from src.benchling.utils.request_to_benchling import request_to_benchling
+from src.benchling import benchling_urls
 
 
-def archive_oligo(id, url):
+def archive_oligo(id):
+    url = benchling_urls.oligos_url
     return archive_entity(id, 'dnaOligo', url)
 
 def archive_entity(entity_id, entity_type, url):

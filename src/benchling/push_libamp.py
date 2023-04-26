@@ -74,7 +74,7 @@ def export_primer_pair(
         )
 
         if not right_response.ok:
-            archive_function(left_primer_id, url)
+            archive_function(left_primer_id)
 
             raise Exception(right_response)
 

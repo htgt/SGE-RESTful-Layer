@@ -31,11 +31,10 @@ class TestArchiveOligo(unittest.TestCase):
     def test_archive_oligo(self, mocked_archive_entity):
         # Arrange
         example_id = self.example_id
-        example_url = self.example_url
         expected_result = self.example_response_text
         mocked_archive_entity.return_value = expected_result
         # Act
-        actual_result = archive_oligo(example_id, example_url)
+        actual_result = archive_oligo(example_id)
         # Assert
         self.assertEqual(actual_result, expected_result)
         assert mocked_archive_entity.called
