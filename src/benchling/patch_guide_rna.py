@@ -1,8 +1,9 @@
 from src.biology.guideRNA import GuideRNA
 from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
-from src.benchling import benchling_schema_ids
+from src.benchling import benchling_schema_ids, benchling_urls
 
-def patch_guide_rna(guide: GuideRNA, event_data: dict, url: str) -> str:
+def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
+    url = benchling_urls.oligos_url
     benchling_body = as_benchling_req_body(guide, event_data)
     patch_url = url + '/' + event_data["entity_id"]
     

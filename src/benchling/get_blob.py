@@ -2,7 +2,6 @@ from src.benchling.utils.request_to_benchling import request_to_benchling
 from src.benchling import benchling_urls
 import json
 import posixpath
-from urllib.parse import urljoin
 
 
 

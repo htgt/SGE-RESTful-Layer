@@ -4,47 +4,43 @@ from src.benchling.create_oligos import export_oligos_to_benchling, setup_oligo_
 from src.benchling.get_sequence import get_sequence
 from src.benchling.patch_guide_rna import patch_guide_rna
 from src.wge.wge import query_wge_by_id, transform_wge_event, prepare_guide_rna_class
-from src.benchling import benchling_schema_ids, benchling_urls
+from src.benchling import benchling_schema_ids
 
 
 
 def handle_guide_event(data : dict) -> dict:
-    url = benchling_urls.oligos_url
     response = {}
     try:
-        response['grna'] = patch_grna_event(data, url)
+        response['grna'] = patch_grna_event(data)
     except Exception as err:
         return str(err), 500
     try:
-        response['oligos'] = post_grna_oligos_event(data, url)
+        response['oligos'] = post_grna_oligos_event(data)
         return response, 201
     except Exception as err: 
         return str(err), 500
 
 
-def patch_grna_event(data : dict, url: str) -> dict:
+def patch_grna_event(data : dict) -> dict:
     if check_wge_id(data):
         wge_event = transform_wge_event(data)
-        response = patch_wge_data_to_service(wge_event, url)
+        response = patch_wge_data_to_service(wge_event)
 
         return response
 
-def patch_wge_data_to_service(event_data : dict, url: str) -> dict:
+def patch_wge_data_to_service(event_data : dict) -> dict:
     wge_data = query_wge_by_id(event_data['wge_id'])
     grna_object = prepare_guide_rna_class(event_data, wge_data)
 
-    response = patch_guide_rna(grna_object, event_data, url)
+    response = patch_guide_rna(grna_object, event_data)
 
     return response
 
 
-def post_grna_oligos_event(data : dict, url: str) -> dict:
+def post_grna_oligos_event(data : dict) -> dict:
     oligos = transform_grna_oligos(data)
 
-    export_response = export_oligos_to_benchling(
-        oligos,
-        url
-    )
+    export_response = export_oligos_to_benchling(oligos)
 
     return export_response
 
