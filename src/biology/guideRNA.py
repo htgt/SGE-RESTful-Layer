@@ -5,8 +5,8 @@ from src.biology.species import get_species_name_by_id
 
 
 transformations_dict = {
-    "FORWARD_PREFIX": "CACC",
-    "REVERSE_PREFIX": "AAAC",
+    "FORWARD_PREFIX": "TATATATCTTGTGGAAAGGACGAAACACC",
+    "REVERSE_PREFIX": "GTTTTAGAGCTAGAAATAGCAAGTT",
     "FIRST_BASE": "G",
 }
 
