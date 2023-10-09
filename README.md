@@ -75,7 +75,7 @@ Alternatively you can run without a .env or just run the unittests.
 
 Build image
 
-```docker build -t sge-restful-layer . ```
+```docker build -t sge-restful-layer --target build .```
 
 Or with makefile
 ```make build-docker-local```
@@ -85,7 +85,7 @@ or
 
 Run container
 
-```docker run -p 8081:8081 sge-restful-layer ```
+```docker run --name sge-restful -p 8081:8081 sge-restful-layer ```
 
 Or with makefile (also builds)
 ```make run-docker-local```
