@@ -60,6 +60,11 @@ def export_oligos_to_benchling(oligos: BenchlingOligosPair, url: str) -> Tuple[s
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
 
+    print('EXPORT Oligos to Benchling')
+    print(url)
+    print(oligo_forward_json)
+    print(oligo_reverse_json)
+
     oligo_forward = request_to_benchling_json_response(
         url,
         'post',
