@@ -3,7 +3,7 @@ from src.benchling.utils.request_to_benchling import request_to_benchling_json_r
 from src.benchling import benchling_schema_ids, benchling_urls
 
 def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
-    url = benchling_urls.oligos_url
+    url = benchling_urls.guide_rna_url
     benchling_body = as_benchling_req_body(guide, event_data)
     patch_url = url + '/' + event_data["entity_id"]
     

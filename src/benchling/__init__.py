@@ -26,6 +26,7 @@ class BenchlingUrls(BaseClass):
         url = self.generate_url(tenant)
         self.api_url = url + r'api/v2/'
         self.blobs_url = self.api_url + r'blobs/'
+        self.guide_rna_url = self.api_url + r'dna-sequences'
         self.oligos_url = self.api_url + r'dna-oligos'
         self.sequence_url = self.api_url + r'dna-sequences'
         self.tasks_url = self.api_url + r'workflow-tasks/'
