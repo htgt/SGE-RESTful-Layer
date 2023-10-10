@@ -37,10 +37,10 @@ class BenchlingUrls(BaseClass):
     def generate_url(tenant: str ='ci') -> str:
         url = r'https://'
         tenant_dict = {
-            "tol" : r"tol-sangertest.",
-            "prod" : r"mave-sanger.",
-            "test" : r"ci-sanger-test.",
-            "unittest" : r"unittest."
+            'tol' : r'tol-sangertest.',
+            'prod' : r'mave-sanger.',
+            'test' : r'mave-sanger-test.',
+            'unittest' : r'unittest.'
         }
         if tenant in tenant_dict:
             url = url + tenant_dict[tenant]
