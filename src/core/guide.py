@@ -41,6 +41,7 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
 
 
 def post_grna_oligos_event(data : dict) -> dict:
+    print('Start post_grna_oligos_event')
     oligos = transform_grna_oligos(data)
 
     print('Calculated Oligos:', oligos)
@@ -52,9 +53,14 @@ def post_grna_oligos_event(data : dict) -> dict:
 
 
 def transform_grna_oligos(data : dict, api_path: str, token: str) -> dict:
+    print('Start transform_grna_oligos')
+
     benchling_ids = benchling_schema_ids.ids
 
     guide_data = transform_event_input_data(data, benchling_ids)
+
+    print(guide_data)
+
     guide_data["seq"] = get_sequence(guide_data["id"], api_path, token)
     oligos = GuideRNAOligos(guide_data["seq"])
 
