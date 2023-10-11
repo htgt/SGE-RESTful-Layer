@@ -9,6 +9,7 @@ from src.benchling import benchling_schema_ids
 import sys
 from src.utils.base_classes import BaseClass
 from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
+
 sys.path.append("..")
 
 
@@ -56,7 +57,9 @@ def prepare_oligo_json(oligo: BenchlingOligo) -> dict:
     }
 
 
-def export_oligos_to_benchling(oligos: BenchlingOligosPair, url: str) -> Tuple[str, str]:
+def export_oligos_to_benchling(oligos: BenchlingOligosPair) -> Tuple[str, str]:
+    url = benchling_urls.guide_rna_url
+
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
 

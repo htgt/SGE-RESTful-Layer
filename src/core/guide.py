@@ -43,6 +43,8 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
 def post_grna_oligos_event(data : dict) -> dict:
     oligos = transform_grna_oligos(data)
 
+    print('Calculated Oligos:', oligos)
+
     export_response = export_oligos_to_benchling(oligos)
 
     return export_response
