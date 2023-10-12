@@ -41,7 +41,7 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
 
 
 def post_grna_oligos_event(data : dict) -> dict:
-    print('Start post_grna_oligos_event', data)
+    print('Start post_grna_oligos_event')
     oligos = transform_grna_oligos(data)
 
     print('Calculated Oligos:', oligos)
