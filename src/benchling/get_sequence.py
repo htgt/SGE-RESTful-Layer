@@ -8,9 +8,9 @@ from src.benchling.utils.request_to_benchling import request_to_benchling
 def get_sequence(id):
     print('Get sequence from Benchling')
 
-    api_path = benchling_urls.sequence_url
-    print('Sequence URL:::::', api_path)
-    get_data = request_to_benchling(api_path, 'get', str(id))
+    path = urljoin(benchling_urls.sequence_url, str(id))
+    print('Sequence URL:::::', path)
+    get_data = request_to_benchling(path, 'get')
 
     data_dict = json.loads(get_data)
     return data_dict["bases"]
