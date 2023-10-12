@@ -25,8 +25,9 @@ class Caller:
         return methods[method](headers, data)
 
     def make_get(self, headers, data):
-        print('START MAKE GET')
-        url = urljoin(self.endpoint, data)
+        print('START MAKE GET', self.endpoint)
+        #url = urljoin(self.endpoint, data)
+        url = urljoin('https://mave-sanger-test.benchling.com/api/v2/dna-sequences/', data)
 
         print('MAKE GET::::', url)
         res = requests.get(url, headers=headers)
