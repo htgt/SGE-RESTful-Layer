@@ -25,6 +25,7 @@ class Caller:
         return methods[method](headers, data)
 
     def make_get(self, headers, data):
+        print('START MAKE GET')
         url = urljoin(self.endpoint, data)
 
         print('MAKE GET::::', url)
