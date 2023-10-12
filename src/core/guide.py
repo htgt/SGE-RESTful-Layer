@@ -28,9 +28,9 @@ def handle_guide_event(data : dict) -> dict:
         return str(err), 500
 
 
-def patch_grna_event(data : dict, wge_response: dict) -> dict:
+def patch_grna_event(data : dict) -> dict:
     wge_event = transform_wge_event(data)
-    response = patch_wge_data_to_service(wge_event, wge_response)
+    response = patch_wge_data_to_service(wge_event)
 
     return response
 
@@ -61,7 +61,7 @@ def transform_grna_oligos(data : dict) -> dict:
 
     guide_data = transform_event_input_data(data, benchling_ids)
 
-    print('Get Sequence')
+    print('Get Sequence', guide_data)
 
     guide_data["seq"] = get_sequence(guide_data["id"])
     oligos = GuideRNAOligos(guide_data["seq"])
