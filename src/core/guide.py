@@ -11,8 +11,8 @@ from src.benchling import benchling_schema_ids
 def handle_guide_event(data : dict) -> dict:
     response = {}
     try:
-        print(data['fields']['WGE ID']['value'])
-        wge_response = query_wge_by_id(data['fields']['WGE ID']['value'])
+        print(data['detail']['entity']['fields']['WGE ID']['value'])
+        wge_response = query_wge_by_id(data['detail']['entity']['fields']['WGE ID']['value'])
         print('WGE response', wge_response)
 
         response['grna'] = patch_grna_event(data, wge_response)
@@ -54,16 +54,16 @@ def post_grna_oligos_event(data : dict) -> dict:
 
 
 
-def transform_grna_oligos(data : dict, api_path: str, token: str) -> dict:
+def transform_grna_oligos(data : dict) -> dict:
     print('Start transform_grna_oligos')
 
     benchling_ids = benchling_schema_ids.ids
 
     guide_data = transform_event_input_data(data, benchling_ids)
 
-    print(guide_data)
+    print('Get Sequence')
 
-    guide_data["seq"] = get_sequence(guide_data["id"], api_path, token)
+    guide_data["seq"] = get_sequence(guide_data["id"])
     oligos = GuideRNAOligos(guide_data["seq"])
 
     oligos = setup_oligo_pair_class(oligos, guide_data)
