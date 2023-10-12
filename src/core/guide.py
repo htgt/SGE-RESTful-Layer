@@ -11,10 +11,6 @@ from src.benchling import benchling_schema_ids
 def handle_guide_event(data : dict) -> dict:
     response = {}
     try:
-        print(data['detail']['entity']['fields']['WGE ID']['value'])
-        wge_response = query_wge_by_id(data['detail']['entity']['fields']['WGE ID']['value'])
-        print('WGE response', wge_response)
-
         response['grna'] = patch_grna_event(data)
         print('GRNA patched')
     except Exception as err:
@@ -62,10 +58,9 @@ def transform_grna_oligos(data : dict) -> dict:
     benchling_ids = benchling_schema_ids.ids
 
     guide_data = transform_event_input_data(data, benchling_ids)
-
-    print('Get Sequence', guide_data)
-
     guide_data["seq"] = get_sequence(guide_data["id"])
+    print('SEQUENCE RETRIEVED::::', guide_data["seq"] )
+
     oligos = GuideRNAOligos(guide_data["seq"])
 
     oligos = setup_oligo_pair_class(oligos, guide_data)
