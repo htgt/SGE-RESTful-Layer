@@ -62,6 +62,8 @@ def request_to_service(
     data: Tuple[dict, str] # str for get, json_dict for everything else.
 ) -> requests.Response:
 
+
+    print('REQUEST TO SERVICE::::', service_url, token, action, data)
     api_caller = Caller(service_url)
     response = api_caller.make_request(action, token, data)
 

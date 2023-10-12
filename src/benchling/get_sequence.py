@@ -9,6 +9,7 @@ def get_sequence(id):
     print('Get sequence from Benchling')
 
     api_path = benchling_urls.sequence_url
+    print('API PATH', api_path)
     get_data = request_to_benchling(api_path, 'get', str(id))
 
     print('GET SEQUENCE RESULT::::', get_data)
