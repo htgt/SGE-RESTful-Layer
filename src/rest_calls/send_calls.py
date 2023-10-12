@@ -26,6 +26,8 @@ class Caller:
 
     def make_get(self, headers, data):
         url = urljoin(self.endpoint, data)
+
+        print('MAKE GET::::', url)
         res = requests.get(url, headers=headers)
         self._response_handler(res)
 
