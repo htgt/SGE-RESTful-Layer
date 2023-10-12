@@ -12,5 +12,9 @@ def get_sequence(id):
     print('Sequence URL:::::', path)
     get_data = request_to_benchling(path, 'get')
 
+    print('REQUEST TO GET SEQUENCE', get_data)
+
     data_dict = json.loads(get_data)
+
+    print('SEQUENCE DATA::::', data_dict)
     return data_dict["bases"]
