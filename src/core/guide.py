@@ -15,7 +15,7 @@ def handle_guide_event(data : dict) -> dict:
         wge_response = query_wge_by_id(data['detail']['entity']['fields']['WGE ID']['value'])
         print('WGE response', wge_response)
 
-        response['grna'] = patch_grna_event(data, wge_response)
+        response['grna'] = patch_grna_event(data)
         print('GRNA patched')
     except Exception as err:
         return str(err), 500
@@ -29,12 +29,14 @@ def handle_guide_event(data : dict) -> dict:
 
 
 def patch_grna_event(data : dict) -> dict:
-    wge_event = transform_wge_event(data)
-    response = patch_wge_data_to_service(wge_event)
+    if check_wge_id(data):
+        wge_event = transform_wge_event(data)
+        response = patch_wge_data_to_service(wge_event)
 
     return response
 
-def patch_wge_data_to_service(event_data : dict, wge_data: dict) -> dict:
+def patch_wge_data_to_service(event_data : dict) -> dict:
+    wge_data = query_wge_by_id(event_data['wge_id'])
     grna_object = prepare_guide_rna_class(event_data, wge_data)
 
     response = patch_guide_rna(grna_object, event_data)
