@@ -5,7 +5,7 @@ from typing import Tuple
 def request_to_benchling(
     service_url : str,
     action : str ,
-    data: Tuple[dict, str]
+    data: Tuple[dict, str] = ''
 ) -> requests.Response:
     from src.benchling.connection import benchling_connection
     token = benchling_connection.token
