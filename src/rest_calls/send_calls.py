@@ -63,7 +63,7 @@ def request_to_service(
 ) -> requests.Response:
 
 
-    print('REQUEST TO SERVICE::::', service_url, token, action, data)
+    print('REQUEST TO SERVICE::::', service_url)
     api_caller = Caller(service_url)
     print('SERVICE URL:::::', api_caller.endpoint)
     response = api_caller.make_request(action, token, data)
