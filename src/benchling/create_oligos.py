@@ -1,15 +1,14 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple
-from src.utils.base_classes import BaseClass
 
+from src.utils.base_classes import BaseClass
 from src.utils.exceptions import OligoDirectionInvalid
 from src.biology.guideRNA import Oligo, GuideRNAOligos
-from src.benchling import benchling_schema_ids
-import sys
-from src.utils.base_classes import BaseClass
+from src.benchling import benchling_schema_ids, benchling_urls
 from src.benchling.utils.request_to_benchling import request_to_benchling_json_response
 
+import sys
 sys.path.append("..")
 
 
