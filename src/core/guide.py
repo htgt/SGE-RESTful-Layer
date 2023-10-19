@@ -12,12 +12,9 @@ def handle_guide_event(data : dict) -> dict:
     response = {}
     try:
         response['grna'] = patch_grna_event(data)
-        print('GRNA patched')
     except Exception as err:
         return str(err), 500
     try:
-        print('Try POST grna oligos')
-
         response['oligos'] = post_grna_oligos_event(data)
         return response, 201
     except Exception as err: 
@@ -41,7 +38,6 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
 
 
 def post_grna_oligos_event(data : dict) -> dict:
-    print('Start post_grna_oligos_event')
     oligos = transform_grna_oligos(data)
 
     print('Calculated Oligos:', oligos)

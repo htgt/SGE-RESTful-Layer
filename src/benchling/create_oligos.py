@@ -57,7 +57,7 @@ def prepare_oligo_json(oligo: BenchlingOligo) -> dict:
 
 
 def export_oligos_to_benchling(oligos: BenchlingOligosPair) -> Tuple[str, str]:
-    url = benchling_urls.guide_rna_url
+    url = benchling_urls.oligos_url
 
     oligo_forward_json = prepare_oligo_json(oligos.forward)
     oligo_reverse_json = prepare_oligo_json(oligos.reverse)
