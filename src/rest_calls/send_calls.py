@@ -25,15 +25,12 @@ class Caller:
         return methods[method](headers, data)
 
     def make_get(self, headers, data):
-        print('START MAKE GET', self.endpoint)
-        #url = urljoin(self.endpoint, data)
-        url = urljoin('https://mave-sanger-test.benchling.com/api/v2/dna-sequences/', data)
+        url = urljoin(self.endpoint, data)
 
-        print('MAKE GET::::', url)
         res = requests.get(url, headers=headers)
         self._response_handler(res)
 
-        return res.text
+        return res
 
     def make_post(self, headers, data):
         res = requests.post(self.endpoint, json=data, headers=headers)
@@ -63,10 +60,7 @@ def request_to_service(
     data: Tuple[dict, str] # str for get, json_dict for everything else.
 ) -> requests.Response:
 
-
-    print('REQUEST TO SERVICE::::', service_url)
     api_caller = Caller(service_url)
-    print('SERVICE URL:::::', api_caller.endpoint)
     response = api_caller.make_request(action, token, data)
 
     return response

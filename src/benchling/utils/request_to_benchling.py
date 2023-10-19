@@ -10,6 +10,7 @@ def request_to_benchling(
     from src.benchling.connection import benchling_connection
     token = benchling_connection.token
     response = request_to_service(service_url, token, action, data)
+
     if response.status_code in [400, 401, 403] and not response.ok:
         print("Regenerating token...")
         benchling_connection.get_store_token()
