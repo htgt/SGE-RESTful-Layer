@@ -168,13 +168,12 @@ class TestCreateOligo(unittest.TestCase):
     def test_export_oligos_to_benchling(self, mocked_request_benchling):
         # Arrange
         example_oligos = self.example_benchling_oligos_pair
-        example_url = 'test.test.test'
         expected_response = (
             {'bases': self.example_seq_forward, 'fields': {'Targeton': {'value': self.example_targeton_id}, 'Strand': {'value': self.example_sense_id}, 'Guide RNA': {'value': self.example_grna_schema_id}}, 'isCircular': False, 'folderId': self.example_folder_id, 'name': 'Guide RNA Oligo', 'schemaId': self.example_oligo_schema_id},
             {'bases': self.example_seq_reverse, 'fields': {'Targeton': {'value': self.example_targeton_id}, 'Strand': {'value': self.example_antisense_id}, 'Guide RNA': {'value': self.example_grna_schema_id}}, 'isCircular': False, 'folderId': self.example_folder_id, 'name': 'Guide RNA Oligo', 'schemaId': self.example_oligo_schema_id}
             )
         # Act
-        actual_response = export_oligos_to_benchling(example_oligos, example_url)
+        actual_response = export_oligos_to_benchling(example_oligos)
         # Assert
         self.assertCountEqual(actual_response, expected_response)
         mocked_request_benchling.assert_called()

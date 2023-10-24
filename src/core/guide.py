@@ -26,7 +26,7 @@ def patch_grna_event(data : dict) -> dict:
         wge_event = transform_wge_event(data)
         response = patch_wge_data_to_service(wge_event)
 
-    return response
+        return response
 
 def patch_wge_data_to_service(event_data : dict) -> dict:
     wge_data = query_wge_by_id(event_data['wge_id'])
@@ -40,8 +40,6 @@ def patch_wge_data_to_service(event_data : dict) -> dict:
 def post_grna_oligos_event(data : dict) -> dict:
     oligos = transform_grna_oligos(data)
 
-    print('Calculated Oligos:', oligos)
-
     export_response = export_oligos_to_benchling(oligos)
 
     return export_response
@@ -49,17 +47,14 @@ def post_grna_oligos_event(data : dict) -> dict:
 
 
 def transform_grna_oligos(data : dict) -> dict:
-    print('Start transform_grna_oligos')
-
     benchling_ids = benchling_schema_ids.ids
 
     guide_data = transform_event_input_data(data, benchling_ids)
     guide_data["seq"] = get_sequence(guide_data["id"])
-    print('SEQUENCE RETRIEVED::::', guide_data["seq"] )
 
-    oligos = GuideRNAOligos(guide_data["seq"])
+    oligos_pair = GuideRNAOligos(guide_data["seq"])
 
-    oligos = setup_oligo_pair_class(oligos, guide_data)
+    oligos = setup_oligo_pair_class(oligos_pair, guide_data)
     
     return oligos
 

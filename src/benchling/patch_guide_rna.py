@@ -7,10 +7,6 @@ def patch_guide_rna(guide: GuideRNA, event_data: dict) -> str:
     url = benchling_urls.guide_rna_url
     benchling_body = as_benchling_req_body(guide, event_data)
     patch_url = url + '/' + event_data["entity_id"]
-
-    print('PATCH Guide RNA')
-    print(url)
-    print(benchling_body)
     
     response = request_to_benchling_json_response(
         patch_url,
